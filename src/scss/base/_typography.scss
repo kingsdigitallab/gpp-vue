@@ -1,0 +1,44 @@
+.breadcrumbs {
+	margin-bottom: 27px;
+	display: flex;
+	li:not(:last-of-type) {
+		.breadcrumbs__link {
+			&::after {
+				content: '>';
+				display: block;
+				position: absolute;
+				right: 10px;
+				top: -2px;
+			}
+		}
+	}
+}
+
+.breadcrumbs__link {
+	text-transform: uppercase;
+	font-size: 20px;
+	color: $black;
+	position: relative;
+	padding-right: 30px;
+	// display: inline-block;
+	@media only screen and (max-width: 768px) {
+		font-size: 14px;
+	}
+}
+
+.page-title {
+	text-transform: uppercase;
+	font-size: 28px;
+	padding-bottom: 10px;
+	border-bottom: 2px solid $gray;
+	margin-bottom: 100px;
+	@media only screen and (max-width: 768px) {
+		margin-bottom: 50px;
+		font-size: 25px;
+	}
+}
+
+.page-title--single {
+	text-transform: inherit;
+	margin-bottom: 15px;
+}

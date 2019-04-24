@@ -1,0 +1,45 @@
+.people-corp {
+	padding-top: 62px;
+	padding-left: 20px;
+	padding-right: 20px;
+	@media only screen and (max-width: 768px) {
+		padding-left: 0;
+		padding-right: 0;
+	}
+}
+
+.people__select {
+	display: block;
+	float: right;
+	// height: 30px;
+	width: 120px;
+	margin-top: -60px;
+	text-transform: uppercase;
+	color: $gray;
+	border-color: $gray;
+	padding: 8px;
+	option {
+		color: $black;
+	}
+}
+
+.people, .corporate {
+	@media only screen and (max-width: 768px) {
+		.list-row {
+			display: flex;
+			flex-direction: column;
+			border: 1px solid $gray;
+			margin-bottom: 15px;
+			padding: 20px;
+			padding-bottom: 0;
+			&:first-of-type {
+				border: none;
+				margin-bottom: 0;
+				padding: 0;
+			}
+		}
+		.list-head:not(.list-head--hidden) {
+			display: none;
+		}
+	}
+}

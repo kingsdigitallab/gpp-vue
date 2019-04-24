@@ -1,0 +1,37 @@
+.btn {
+	border: 1px solid $gray;
+	width: 190px;
+	padding: 8px 15px;
+	color: $black;
+	background-color: $white;
+	font-size: 20px;
+	outline: none;
+	transition: $dur $ease;
+	&:hover, &--active {
+		background-color: $maroon;
+		color: $white;
+	}
+	@media only screen and (max-width: 768px) {
+		width: 50%;
+		border-bottom: 0;
+		font-size: 16px;
+		padding: 8px 5px;
+	}
+}
+
+.btn--active {
+	background-color: $maroon;
+	color: $white;
+}
+
+.btn-load {
+	margin-left: 50%;
+	transform: translateX(-50%);
+	margin-bottom: 70px;
+	transition: $dur $ease;
+	text-transform: uppercase;
+	font-size: 18px;
+	@media only screen and (max-width: 768px) {
+		border-bottom: 1px solid $gray;
+	}
+}
