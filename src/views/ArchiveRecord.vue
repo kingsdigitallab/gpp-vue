@@ -19,7 +19,7 @@ export default {
 	},
 	data: function() {
 		return {
-			breadcrumbs: [{text:'Home',url: '/'}]
+			breadcrumbs: [{ text: 'Home', url: '/' },{ text: 'Archival Records', url: '/archival-records' }]
 		}
 	}
 }

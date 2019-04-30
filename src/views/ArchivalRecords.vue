@@ -25,7 +25,7 @@ export default {
 	data: function() {
 		return {
 			title: 'Archival Records',
-			breadcrumbs: [{ text: 'Home', url: '/' },{ text: 'Archival Records', url: '/archival-records' }]
+			breadcrumbs: [{ text: 'Home', url: '/' }]
 		}
 	}
 }
