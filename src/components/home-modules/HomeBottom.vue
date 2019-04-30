@@ -18,7 +18,7 @@
 				<div class="home__latest">
 					<span class="home__latest-title">{{latestTitle}}<router-link to="/people-and-corporate-bodies" class="home__more">More &gt;</router-link></span>
 					<div class="home__latest-cards">
-						<a href="javascript:;" :key="index" v-for="(card, index) in latestCards" class="home__card js-card">
+						<router-link :to="'/people-and-corporate-bodies/'+(index+1)" :key="index" v-for="(card, index) in latestCards" class="home__card js-card">
 							<div class="home__card-icon">
 								<img src="../../assets/images/organisation-icon.png" alt="organisation icon" class="home__card-icon">
 								<span class="home__card-category">{{card.category}}</span>
@@ -26,7 +26,7 @@
 							<span class="home__card-date">{{card.date}}</span>
 							<p class="home__card-text">{{card.text}}</p>
 							<span class="home__card-author">{{card.author}}</span>
-						</a>
+						</router-link>
 					</div>
 				</div>
 			</div>

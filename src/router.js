@@ -4,6 +4,7 @@ import Home from './views/Home.vue'
 import ArchivalRecords from './views/ArchivalRecords.vue'
 import ArchiveRecord from './views/ArchiveRecord.vue'
 import PeopleAndCorporate from './views/PeopleAndCorporate.vue'
+import PersonAndCorporateBody from './views/PersonAndCorporateBody.vue'
 
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ export default new Router({
       path: '/people-and-corporate-bodies',
       name: 'People and Corporate Bodies',
       component: PeopleAndCorporate
+    },
+    {
+      path: '/people-and-corporate-bodies/:id',
+      name: 'Person and Corporate Body',
+      component: PersonAndCorporateBody
     },
     {
       path: '/about',

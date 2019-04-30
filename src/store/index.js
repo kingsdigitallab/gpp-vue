@@ -4,6 +4,7 @@ import about from './modules/about';
 import archivalRecords from './modules/archivalRecords';
 import archiveSingle from './modules/archiveSingle';
 import authorityEntities from './modules/authorityEntities';
+import authoritySingle from './modules/authoritySingle';
 
 
 Vue.use(Vuex);
@@ -13,6 +14,7 @@ export default new Vuex.Store({
         about,
         archivalRecords,
         archiveSingle,
-        authorityEntities
+        authorityEntities,
+        authoritySingle
     }
 })
