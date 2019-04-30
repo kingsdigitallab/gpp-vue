@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const TOKEN = "d517931f5c95d8510369814a805bd6028cbd0180";
+export const TOKEN = process.env.VUE_APP_API_TOKEN;
 const API_URL = "https://autharch-stg.kdl.kcl.ac.uk/api";
 
 async function getUrl(url) {
