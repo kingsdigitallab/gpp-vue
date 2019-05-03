@@ -30,9 +30,14 @@
 			<section class="arch-single__meta">
 				<h2 class="arch-single__meta-title">Metadata</h2>
 				<ul class="arch-single__list">
-					<li :key="index" v-for="(data, index) in metadata" class="arch-single__item">
+					<li :key="index" v-for="(data, index) in getArchive.metadata" class="arch-single__item">
 						<span v-bind:class="{'arch-single__item-name': true, 'before': data.hasClass}">{{data.name}}</span>
-						<span class="arch-single__item-content">{{data.content}}</span>
+						<span v-if="!Array.isArray(data.content)" class="arch-single__item-content" v-html="data.content"></span>
+						<span v-if="Array.isArray(data.content)" class="arch-single__item-content">
+							<span :key="index" v-for="(data, index) in data.content">
+								{{data}},
+							</span>
+						</span>
 					</li>
 				</ul>
 			</section>
@@ -119,37 +124,6 @@ export default {
 				transcript: true,
 				imgNum: '+8',
 				loading: true,
-				metadata: [
-					{
-						name: 'Title',
-						content: 'Letter from William Cole to Charles Bicknell concerning the outstanding payment owed to Jonathan Taylor.'
-					},
-					{
-						name: 'Calm id',
-						content: 'R136855543f6d19-7028-4cd5-8466-3efc3cf5f66'
-					},
-					{
-						name: 'Repository',
-						content: 'd'
-					},
-					{
-						name: 'Level',
-						content: 'Royal Archives'
-					},
-					{
-						name: 'Fonds',
-						content: 'Item',
-						hasClass: true
-					},
-					{
-						name: 'Reference',
-						content: 'George IV\'s Bills PRIV'
-					},
-					{
-						name: 'Security code',
-						content: 'GEO/MAIN/25493-25494 GIVBILLS/207/33'
-					}
-				]
 		}
 	},
 	methods: {
