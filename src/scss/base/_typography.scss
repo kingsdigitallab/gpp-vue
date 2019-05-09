@@ -44,7 +44,7 @@
 }
 
 p a {
-	color: $link-color;
+	color: lighten($maroon, 20%);
 	display: inline-block;
 	position: relative;
 	&::before {
@@ -55,7 +55,7 @@ p a {
 		left: 0;
 		height: 1px;
 		width: 0;
-		background-color: $link-color;
+		background-color: lighten($maroon, 20%);
 		transition: $dur $ease;
 	}
 	&:hover {

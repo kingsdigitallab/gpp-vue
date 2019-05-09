@@ -24,6 +24,13 @@
 }
 
 .people, .corporate {
+	.list-row {
+		color: $black;
+		transition: $dur $ease;
+		&:hover {
+			color: lighten($maroon, 20%);
+		}
+	}
 	@media only screen and (max-width: 768px) {
 		.list-row {
 			display: flex;
