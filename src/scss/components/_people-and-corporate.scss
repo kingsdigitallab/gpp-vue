@@ -24,7 +24,7 @@
 }
 
 .people, .corporate {
-	.list-row {
+	a.list-row {
 		color: $black;
 		transition: $dur $ease;
 		&:hover {
