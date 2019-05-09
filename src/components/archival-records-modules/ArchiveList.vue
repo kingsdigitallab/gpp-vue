@@ -7,6 +7,7 @@
 					<span class="list-head">{{title}}</span>
 					<span class="list-head">{{date}}</span>
 					<span class="list-head">{{writer}}</span>
+					<span class="list-head"></span>
 				</div>
 			</li>
 			<li :key="index" v-for="(item, index) in getArchivalRecords" v-on:click="openDropdown" class="list-item">
@@ -25,6 +26,7 @@
 						v-for="creator in item.creators"
 						class="list-data">{{creator.display_name}}</span>
 					<span class="list-data" v-show="item.creators == null">--</span>
+					<span class="list-data"><router-link class="btn" :to="'/archival-records/'+(item.id)">Read more</router-link></span>
 				</div>
 				<ul v-if="item.series_set" class="list list--serie js-list-serie">
 					<li :key="index" v-for="(serie, index) in item.series_set" v-on:click="openDropdown" class="list-item list-item--serie">
@@ -39,6 +41,7 @@
 							<span class="list-data">{{serie.creation_dates}}</span>
 							<span v-if="serie.writer" class="list-head list-head--hidden">{{writer}}</span>
 							<span class="list-data">{{serie.writer}}</span>
+							<span class="list-data"><router-link class="btn" :to="'/archival-records/'+(serie.id)">Read more</router-link></span>
 						</div>
 						<ul v-if="serie.subSeries" class="list list--serie js-list-serie">
 							<li :key="index" v-for="(subSerie, index) in serie.subSeries" v-on:click="openDropdown" class="list-item list-item--serie">
@@ -53,6 +56,7 @@
 									<span class="list-data">{{subSerie.date}}</span>
 									<span v-if="subSerie.writer" class="list-head list-head--hidden">{{writer}}</span>
 									<span class="list-data">{{subSerie.writer}}</span>
+									<span class="list-data"><router-link class="btn" :to="'/archival-records/'+(subSerie.id)">Read more</router-link></span>
 								</div>
 								<ul v-if="subSerie.items" class="list list--serie js-list-serie">
 									<li :key="index" v-for="(item,index) in subSerie.items" v-on:click="openDropdown" class="list-item list-item--serie">
@@ -67,6 +71,7 @@
 											<span class="list-data">{{item.date}}</span>
 											<span v-if="item.writer" class="list-head list-head--hidden">{{writer}}</span>
 											<span class="list-data">{{item.writer}}</span>
+											<span class="list-data"><router-link class="btn" :to="'/archival-records/'+(item.id)">Read more</router-link></span>
 										</div>
 									</li>
 								</ul>
