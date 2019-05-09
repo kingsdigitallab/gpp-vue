@@ -7,8 +7,8 @@
 				<span class="list-head">{{gender}}</span>
 				<span class="list-head">{{bio}}</span>
 			</li>
-			<li :key="index" v-for="(item, index) in getPeople">
-				<router-link :to="'/people-and-corporate-bodies/'+item.id" class="list-item list-row">
+			<li :key="index" v-for="(item, index) in getPeople" class="list-item">
+				<router-link :to="'/people-and-corporate-bodies/'+item.id" class="list-row">
 					<span class="list-head list-head--hidden">{{name}}</span>
 					<span class="list-data">{{item.display_name}}</span>
 					<span class="list-head list-head--hidden">{{date}}</span>

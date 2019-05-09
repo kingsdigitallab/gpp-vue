@@ -31,6 +31,12 @@
 			color: lighten($maroon, 20%);
 		}
 	}
+	.list-item {
+		border-bottom: 1px solid $gray;
+		&:first-of-type {
+			border: none;
+		}
+	}
 	@media only screen and (max-width: 768px) {
 		.list-row {
 			display: flex;
@@ -39,8 +45,10 @@
 			margin-bottom: 15px;
 			padding: 20px;
 			padding-bottom: 0;
+		}
+		.list-item {
 			&:first-of-type {
-				border: none;
+				// border: none;
 				margin-bottom: 0;
 				padding: 0;
 			}

@@ -27,6 +27,14 @@
 	@media only screen and (max-width: 768px) {
 		padding-top: 30px;
 	}
+
+	.list-row a {
+		color: $black;
+		transition: $dur $ease;
+		&:hover {
+			color: lighten($maroon, 20%);
+		}
+	}
 }
 
 .archive__select {
