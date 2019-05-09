@@ -8,14 +8,16 @@
 				<span class="list-head">{{bio}}</span>
 			</li>
 			<li :key="index" v-for="(item, index) in getPeople" class="list-item list-row">
-				<span class="list-head list-head--hidden">{{name}}</span>
-				<span class="list-data">{{item.display_name}}</span>
-				<span class="list-head list-head--hidden">{{date}}</span>
-				<span class="list-data">{{item.date}}</span>
-				<span class="list-head list-head--hidden">{{gender}}</span>
-				<span class="list-data">{{item.gender}}</span>
-				<span v-if="item.bio" class="list-head list-head--hidden">{{bio}}</span>
-				<span v-if="item.bio" class="list-data">{{item.bio}}</span>
+				<router-link :to="'/people-and-corporate-bodies/'+item.id">
+					<span class="list-head list-head--hidden">{{name}}</span>
+					<span class="list-data">{{item.display_name}}</span>
+					<span class="list-head list-head--hidden">{{date}}</span>
+					<span class="list-data">{{item.identities[0].date_from}} - {{item.identities[0].date_to}}</span>
+					<span class="list-head list-head--hidden">{{gender}}</span>
+					<span class="list-data">Male</span>
+					<span class="list-head list-head--hidden">{{bio}}</span>
+					<span class="list-data">Biography</span>
+				</router-link>
 			</li>
 		</ul>
 		<div v-if="getPeople.length === 0" class="loader"></div>
