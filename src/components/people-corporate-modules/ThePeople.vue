@@ -16,7 +16,13 @@
 					<span class="list-head list-head--hidden">{{gender}}</span>
 					<span class="list-data">Male</span>
 					<span class="list-head list-head--hidden">{{bio}}</span>
-					<span class="list-data">Biography</span>
+					<span class="list-data" v-if="Array.isArray(item.descriptions)">
+						<span 
+							:key="description.index" 
+							v-for="description in item.descriptions" 
+							v-html="description.biography_history.abstract.substring(0,120).concat('...')">
+						</span>
+					</span>
 				</router-link>
 			</li>
 		</ul>
