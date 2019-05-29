@@ -13,20 +13,56 @@
 
 			<section class="arch-single__meta">
 				<h2 class="arch-single__meta-title">About</h2>
-				<ul v-if="Array.isArray(getAuthority.identities)" class="arch-single__list">
-					<li class="arch-single__item">
-						<span class="arch-single__item-name">Born</span>
-						<span class="arch-single__item-content">{{getAuthority.identities[0].date_from || null}}</span>
-					</li>
-					<li class="arch-single__item">
-						<span class="arch-single__item-name">Died</span>
-						<span class="arch-single__item-content">{{getAuthority.identities[0].date_to || null}}</span>
-					</li>
-					<li class="arch-single__item">
-						<span class="arch-single__item-name"> Titles </span>
-						<p class="arch-single__item-content">
-							<span :key="index" v-for="(data, index) in getAuthority.identities[0].name_entries"> {{data.display_name}} <br/> </span>
-						</p>
+				<ul v-if="Array.isArray(getAuthority.metadata)" class="arch-single__list">
+					<li class="arch-single__item" :key="index2" v-for="(item, index2) in getAuthority.metadata">
+						<span class="arch-single__item-name">{{item.name}}</span>
+						<ul v-if="Array.isArray(item.content)" class="arch-single__item-content">
+							<li :key="index3" v-for="(subItem, index3) in item.content">
+								<div v-if="!Array.isArray(subItem)">
+									<div v-if="!Array.isArray(subItem.content)">
+										<h4>{{subItem.name}}:</h4>
+										<div v-html="subItem.content"></div>
+									</div>
+									
+									<div v-if="Array.isArray(subItem.content)">
+										<h4>{{subItem.name}}:</h4>
+										<ul v-if="Array.isArray(subItem.content)">
+											<li :key="index7" v-for="(subItemContentItem, index7) in subItem.content">
+												<ul v-if="Array.isArray(subItemContentItem)">
+													<li :key="index8" v-for="(subItemContentItem2, index8) in subItemContentItem" style="padding-left: 24px;">
+														<h4 v-if="subItemContentItem2.content">{{subItemContentItem2.name}}:</h4>
+														<div v-html="subItemContentItem2.content"></div>
+													</li>
+													<hr>
+												</ul>
+											</li>
+										</ul>
+									</div>
+								</div>
+								<div v-if="Array.isArray(subItem)">
+									<div :key="index4" v-for="(sublistItem, index4) in subItem">
+										<h4> {{sublistItem.name}}: </h4>
+										<div v-if="!Array.isArray(sublistItem.content)" v-html="sublistItem.content">
+										</div>
+										<ul v-if="Array.isArray(sublistItem.content)">
+											<li :key="index5" v-for="(contentItem, index5) in sublistItem.content">
+												<ul v-if="Array.isArray(contentItem)">
+													<li :key="index6" v-for="(contentItemChild, index6) in contentItem" style="padding-left: 24px;">
+														<h4 v-if="contentItemChild.content">{{contentItemChild.name}}:</h4>
+														<div v-html="contentItemChild.content"></div>
+													</li>
+												</ul>
+												<div v-if="!Array.isArray(contentItem) && contentItem.content" style="padding-left: 24px;">
+													<h4>{{contentItem.name}}:</h4>
+													<div v-html="contentItem.content"></div>
+												</div>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</li>
+						</ul>
+						<div v-if="!Array.isArray(item.content)" v-html="item.content" class="arch-single__item-content"></div>
 					</li>
 				</ul>
 			</section>
@@ -45,39 +81,7 @@ export default {
 	computed: mapGetters(['getAuthority']),
 	data: function() {
 		return {
-				description: 'Description',
-				loading: true,
-				metadata: [
-					{
-						name: 'Title',
-						content: 'Letter from William Cole to Charles Bicknell concerning the outstanding payment owed to Jonathan Taylor.'
-					},
-					{
-						name: 'Calm id',
-						content: 'R136855543f6d19-7028-4cd5-8466-3efc3cf5f66'
-					},
-					{
-						name: 'Repository',
-						content: 'd'
-					},
-					{
-						name: 'Level',
-						content: 'Royal Archives'
-					},
-					{
-						name: 'Fonds',
-						content: 'Item',
-						hasClass: true
-					},
-					{
-						name: 'Reference',
-						content: 'George IV\'s Bills PRIV'
-					},
-					{
-						name: 'Security code',
-						content: 'GEO/MAIN/25493-25494 GIVBILLS/207/33'
-					}
-				]
+			loading: true,
 		}
 	},
 	methods: {
