@@ -2,7 +2,7 @@
 	<header class="header">
 		<div class="container">
 			<a href="/"><img src="../assets/images/site-logo.png" alt="site-logo" class="header__logo"></a>
-			<span v-on:click="toggleMenu" class="header__menu-btn">Menu</span>
+			<span v-on:click="toggleMenu" class="header__menu-btn">Menu <FontAwesomeIcon icon="bars" /></span>
 			<nav v-on:click="closeMenu" v-on:keyup.esc="closeMenu" class="header__nav js-nav">
 				<ul class="header__nav-list">
 					<li class="header__nav-item">
@@ -29,9 +29,11 @@
 <script>
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import { faBars } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faSearch)
+library.add(faSearch);
+library.add(faBars);
 
 export default {
   name: 'TheHeader',

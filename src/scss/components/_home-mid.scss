@@ -69,7 +69,7 @@
 	background-color: $white;
 	color: $gray;
 	max-width: 260px;
-	height: 500px;
+	min-height: 470px;
 	display: block;
 	text-align: center;
 	position: relative;
@@ -81,7 +81,7 @@
 		max-width: 96%;
 		width: 96%;
 		display: flex;
-		height: auto;
+		min-height: auto;
 		margin-bottom: 20px;
 	}
 	@media only screen and (max-width: 425px) {

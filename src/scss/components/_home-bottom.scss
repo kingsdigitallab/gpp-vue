@@ -36,7 +36,7 @@
 	.home__card {
 		text-align: left;
 		border: 1px solid $gray;
-		height: 200px;
+		min-height: 200px;
 		min-height: 0;
 		@media only screen and (max-width: 1200px) {
 			flex-direction: column;
