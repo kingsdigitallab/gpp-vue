@@ -2,21 +2,21 @@
 	background-color: $maroon;
 	max-width: 1050px;
 	margin: 0 auto;
-	padding: 20px 50px;
+	padding: 10px 50px;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	@media only screen and (max-width: 768px) {
-		flex-direction: column;
+		padding: 10px 20px;
 	}
 }
 
 .footer__img {
-	@media only screen and (max-width: 1200px) {
-		transform: scale(0.7);
-	}
+	max-width: 150px;
 	@media only screen and (max-width: 768px) {
-		margin-bottom: 10px;
+		max-width: 100px;
 	}
-
+	@media only screen and (max-width: 650px) {
+		max-width: 50px;
+	}
 }

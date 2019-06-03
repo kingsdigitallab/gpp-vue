@@ -15,7 +15,7 @@
 		<div class="home__article">
 			<span class="home__article-title">{{articleTitle}}</span>
 			<div class="home__article-content">
-				<div class="container-wide">
+				<div class="container">
 					<p :key="index" v-for="(paragraph, index) in articleParagraphs" class="home__article-para">{{paragraph}}</p>
 					<router-link to="/about" class="home__article-read">Read more &gt;</router-link>
 				</div>
