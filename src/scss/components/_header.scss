@@ -134,8 +134,7 @@
 	border-radius: 5px;
 	transition: $dur $ease;
 	&:hover {
-		color: $white;
-		background-color: $maroon;
+		color: $gray;
 	}
 	@media only screen and (max-width: 1200px) {
 		display: block;

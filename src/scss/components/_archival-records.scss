@@ -41,6 +41,7 @@
 	display: block;
 	float: right;
 	// height: 30px;
+	border-radius: none;
 	width: 120px;
 	margin-top: -60px;
 	text-transform: uppercase;
@@ -62,9 +63,10 @@
 .arch-single__date {
 	color: $white;
 	display: inline-block;
-	background-color: $maroon-light;
-	padding: 10px 15px;
+	background-color: $gray;
+	padding: 5px 10px;
 	margin-bottom: 60px;
+	font-size: 14px;
 	@media only screen and (max-width: 768px) {
 		margin-bottom: 40px;
 	}
@@ -91,7 +93,7 @@
 	background-color: $maroon;
 	color: $white;
 	text-transform: uppercase;
-	font-size: 33px;
+	font-size: 20px;
 	text-align: center;
 	padding-top: 5px;
 	padding-bottom: 5px;

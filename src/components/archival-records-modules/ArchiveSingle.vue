@@ -22,9 +22,9 @@
 				</div>
 			</section>
 
-			<section class="arch-single__desc">
+			<section class="arch-single__desc" v-if="getArchive.description">
 				<h2 class="arch-single__desc-title">{{description}}</h2>
-				<p class="arch-single__desc-text">{{getArchive.description || "--"}}</p>
+				<p class="arch-single__desc-text" v-html="getArchive.description"></p>
 			</section>
 
 			<section class="arch-single__meta">
