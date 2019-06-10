@@ -41,7 +41,7 @@
 	display: block;
 	float: right;
 	// height: 30px;
-	border-radius: none;
+	border-radius: 0;
 	width: 120px;
 	margin-top: -60px;
 	text-transform: uppercase;
@@ -256,10 +256,11 @@
 }
 
 .arch-single__img-download, .arch-single__img-print {
-	color: $gray;
+	color: $white;
 	position: absolute;
 	z-index: 10;
 	right: 20px;
+	font-size: 20px;
 	top: 5px;
 	transition: $dur $ease;
 	cursor: pointer;
@@ -270,6 +271,22 @@
 
 .arch-single__img-download {
 	right: 50px;
+}
+
+.arch-single__zoom-in, 
+.arch-single__zoom-out, 
+.arch-single__expand,
+.arch-single__previous,
+.arch-single__next {
+	color: $white;
+	font-size: 25px;
+	margin-right: 10px;
+	margin-left: 5px;
+	transition: $dur $ease;
+	cursor: pointer;
+	&:hover {
+		color: $maroon-light;
+	}
 }
 
 .arch-single__num {

@@ -9,6 +9,11 @@
 				<h1 class="arch-single__img-title">{{imgTitle}}</h1>
 				<div class="arch-single__img-wrap">
 					<div id="openseadragon1" v-if="image" class="arch-single__img-plugin">
+						<span class="arch-single__zoom-in" id="zoom-in"><FontAwesomeIcon icon="plus-circle"/></span>
+						<span class="arch-single__zoom-out" id="zoom-out"><FontAwesomeIcon icon="minus-circle"/></span>
+						<span class="arch-single__expand" id="expand"><FontAwesomeIcon icon="expand"/></span>
+						<span class="arch-single__previous" id="previous"><FontAwesomeIcon icon="arrow-circle-left"/></span>
+						<span class="arch-single__next" id="next"><FontAwesomeIcon icon="arrow-circle-right"/></span>
 						<span @click="pdfDoc.save()" class="arch-single__img-download" title="Download" download><FontAwesomeIcon icon="download"/></span>
 						<span @click="printPreview()" class="arch-single__img-print" title="Print"><FontAwesomeIcon icon="print"/></span>
 						<span class="arch-single__num">{{imgNum}}</span>
@@ -48,13 +53,18 @@
 <script>
 import OpenSeadragon from 'openseadragon';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faDownload } from '@fortawesome/free-solid-svg-icons';
-import { faPrint } from '@fortawesome/free-solid-svg-icons';
+import { faDownload, faPrint, faPlusCircle, faMinusCircle, faExpand, faArrowCircleLeft, faArrowCircleRight } from '@fortawesome/free-solid-svg-icons';
+// import { faPrint } from '@fortawesome/free-solid-svg-icons';
+// import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+// import { faMinusCircle } from '@fortawesome/free-solid-svg-icons';
+// import { faExpand } from '@fortawesome/free-solid-svg-icons';
+// import { faArrowCircleLeft } from '@fortawesome/free-solid-svg-icons';
+// import { faArrowCircleRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import jsPDF from 'jspdf';
 import { mapGetters, mapActions } from 'vuex';
 
-library.add(faDownload, faPrint);
+library.add(faDownload, faPrint, faPlusCircle, faMinusCircle, faExpand, faArrowCircleLeft, faArrowCircleRight);
 let IMG_SRC = '';
 
 function openSeaDragon(images) {
@@ -64,7 +74,12 @@ function openSeaDragon(images) {
 		tileSources: images,
 		autoHideControls: false,
 		sequenceMode: true,
-		showReferenceStrip: true
+		showReferenceStrip: true,
+		zoomInButton: "zoom-in",
+		zoomOutButton: "zoom-out",
+		fullPageButton: "expand",
+		previousButton: "previous",
+		nextButton: "next"
 	});
 	this.imgNum = viewer.tileSources.length;
 
