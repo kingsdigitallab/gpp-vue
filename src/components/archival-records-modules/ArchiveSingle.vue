@@ -54,12 +54,6 @@
 import OpenSeadragon from 'openseadragon';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faDownload, faPrint, faPlusCircle, faMinusCircle, faExpand, faArrowCircleLeft, faArrowCircleRight } from '@fortawesome/free-solid-svg-icons';
-// import { faPrint } from '@fortawesome/free-solid-svg-icons';
-// import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
-// import { faMinusCircle } from '@fortawesome/free-solid-svg-icons';
-// import { faExpand } from '@fortawesome/free-solid-svg-icons';
-// import { faArrowCircleLeft } from '@fortawesome/free-solid-svg-icons';
-// import { faArrowCircleRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import jsPDF from 'jspdf';
 import { mapGetters, mapActions } from 'vuex';
