@@ -9,13 +9,15 @@
 				<h1 class="arch-single__img-title">{{imgTitle}}</h1>
 				<div class="arch-single__img-wrap">
 					<div id="openseadragon1" v-if="image" class="arch-single__img-plugin">
-						<span class="arch-single__zoom-in" id="zoom-in"><FontAwesomeIcon icon="plus-circle"/></span>
-						<span class="arch-single__zoom-out" id="zoom-out"><FontAwesomeIcon icon="minus-circle"/></span>
-						<span class="arch-single__expand" id="expand"><FontAwesomeIcon icon="expand"/></span>
-						<span class="arch-single__previous" id="previous"><FontAwesomeIcon icon="arrow-circle-left"/></span>
-						<span class="arch-single__next" id="next"><FontAwesomeIcon icon="arrow-circle-right"/></span>
-						<span @click="pdfDoc.save()" class="arch-single__img-download" title="Download" download><FontAwesomeIcon icon="download"/></span>
-						<span @click="printPreview()" class="arch-single__img-print" title="Print"><FontAwesomeIcon icon="print"/></span>
+						<div class="arch-single__navbar">
+							<span class="arch-single__zoom-in" id="zoom-in"><FontAwesomeIcon icon="plus-circle"/></span>
+							<span class="arch-single__zoom-out" id="zoom-out"><FontAwesomeIcon icon="minus-circle"/></span>
+							<span class="arch-single__expand" id="expand"><FontAwesomeIcon icon="expand"/></span>
+							<span class="arch-single__previous" id="previous"><FontAwesomeIcon icon="arrow-circle-left"/></span>
+							<span class="arch-single__next" id="next"><FontAwesomeIcon icon="arrow-circle-right"/></span>
+							<span @click="pdfDoc.save()" class="arch-single__img-download" title="Download" download><FontAwesomeIcon icon="download"/></span>
+							<span @click="printPreview()" class="arch-single__img-print" title="Print"><FontAwesomeIcon icon="print"/></span>
+						</div>
 						<span class="arch-single__num">{{imgNum}}</span>
 					</div>
 					<section v-if="transcript" class="arch-single__img-text">

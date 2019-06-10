@@ -255,6 +255,13 @@
 	margin-bottom: 20px;
 }
 
+.arch-single__navbar {
+	position: absolute;
+    width: 100%;
+    background-color: $black;
+    z-index: 1;
+}
+
 .arch-single__img-download, .arch-single__img-print {
 	color: $white;
 	position: absolute;
