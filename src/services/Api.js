@@ -2,6 +2,7 @@ import axios from 'axios';
 
 export const TOKEN = process.env.VUE_APP_API_TOKEN;
 const API_URL = "https://autharch-stg.kdl.kcl.ac.uk/api";
+const PROJECT_PARAM = "?project=gpp";
 
 async function getUrl(url) {
     return axios.get(url, { 
@@ -10,13 +11,13 @@ async function getUrl(url) {
 }
 
 async function get(action) {
-    return axios.get(`${API_URL}${action}`, {
+    return axios.get(`${API_URL}${action}${PROJECT_PARAM}`, {
         headers: getHeaders()
     });
 }
 
 async function getSingle(action, id) {
-    return axios.get(`${API_URL}${action}/${id}`, {
+    return axios.get(`${API_URL}${action}/${id}${PROJECT_PARAM}`, {
         headers: getHeaders()
     });
 }
