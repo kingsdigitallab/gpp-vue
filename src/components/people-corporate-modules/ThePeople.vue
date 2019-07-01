@@ -14,12 +14,18 @@
 					<span class="list-head list-head--hidden">{{date}}</span>
 					<span class="list-data">{{formatDate(item.identities[0].date_from)}} {{item.identities[0].date_to ? '-' : null}} {{ formatDate(item.identities[0].date_to) || null}}</span>
 					<span class="list-head list-head--hidden">{{gender}}</span>
-					<span class="list-data">Male</span>
-					<span class="list-head list-head--hidden">{{bio}}</span>
-					<span class="list-data" v-if="Array.isArray(item.descriptions)">
+					<span class="list-data" v-if="Array.isArray(item.identities[0].descriptions)">
 						<span 
 							:key="description.index" 
-							v-for="description in item.descriptions" 
+							v-for="description in item.identities[0].descriptions" 
+							v-html="description.local_descriptions[0].gender">
+						</span>
+					</span>
+					<span class="list-head list-head--hidden">{{bio}}</span>
+					<span class="list-data" v-if="Array.isArray(item.identities[0].descriptions)">
+						<span 
+							:key="description.index" 
+							v-for="description in item.identities[0].descriptions" 
 							v-html="description.biography_history.abstract.substring(0,120).concat('...')">
 						</span>
 					</span>

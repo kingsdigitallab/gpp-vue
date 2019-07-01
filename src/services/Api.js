@@ -22,6 +22,12 @@ async function getSingle(action, id) {
     });
 }
 
+async function getFilteredData(action, filters) {
+    return axios.get(`${API_URL}${action}${PROJECT_PARAM}&${filters}`, {
+        headers: getHeaders()
+    });
+}
+
 function getHeaders() {
     return {
         Authorization: `Token ${TOKEN}`,
@@ -31,6 +37,7 @@ function getHeaders() {
 const Api = {
     getUrl,
     get,
-    getSingle
+    getSingle,
+    getFilteredData
 };
 export default Api;

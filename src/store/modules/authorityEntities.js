@@ -24,14 +24,14 @@ const actions = {
         commit('setTotal', response.data.count);
     },
     async fetchCorporate({ commit }) {
-        const response = await Api.get('/authority/entities?entity_type__title=Corporation');
+        const response = await Api.getFilteredData('/authority/entities','entity_type__title=Corporation');
 
         commit('setCorporate', response.data.results);
         commit('setLoadMoreUrl', response.data.next);
         commit('setTotal', response.data.count);
     },
     async fetchPeople({ commit }) {
-        const response = await Api.get('/authority/entities?entity_type__title=Person');
+        const response = await Api.getFilteredData('/authority/entities','entity_type__title=Person');
 
         commit('setPeople', response.data.results);
         commit('setLoadMoreUrl', response.data.next);
