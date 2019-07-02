@@ -6,16 +6,16 @@
 			<nav v-on:click="closeMenu" v-on:keyup.esc="closeMenu" class="header__nav js-nav">
 				<ul class="header__nav-list">
 					<li class="header__nav-item">
-						<router-link to="/" class="header__link">Home</router-link>
+						<router-link to="/" class="header__link js-header-link">Home</router-link>
 					</li>
 					<li>
-						<router-link to="/archival-records" class="header__link">Archival Records</router-link>
+						<router-link to="/archival-records" class="header__link js-header-link js-archive-link">Archival Records</router-link>
 					</li>
 					<li>
-						<router-link to="/people-and-corporate-bodies" class="header__link">People and corporate bodies</router-link>
+						<router-link to="/people-and-corporate-bodies" class="header__link js-header-link js-people-link">People and corporate bodies</router-link>
 					</li>
 					<li class="header__nav-item">
-						<router-link to="/about" class="header__link">About</router-link>
+						<router-link to="/about" class="header__link js-header-link">About</router-link>
 					</li>
 					<li class="header__nav-item header__nav-item--search">
 						<div class="header__search"><input type="text" placeholder="Search" class="header__search-input"><button type="button" class="header__search-btn"><FontAwesomeIcon icon="search" /></button></div>
@@ -31,6 +31,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { setTimeout } from 'timers';
 
 library.add(faSearch);
 library.add(faBars);
@@ -75,10 +76,31 @@ export default {
 					body.classList.remove('overflow');
 				}
 			})
-		},
+		}
 	},
 	mounted() {
 		this.closeMenuEcs();
+	},
+	watch: {
+		$route(to, from) {
+			switch(to.name) {
+				case 'Archive Record':
+					setTimeout(function() {
+					document.querySelector('.js-archive-link').classList.add('router-link-exact-active');
+					}, 100);
+					break;
+				case 'People and Corporate Bodies':
+					setTimeout(function() {
+					document.querySelector('.js-people-link').classList.add('router-link-exact-active');
+					}, 100);
+					break;
+				case 'Person and Corporate Body':
+					setTimeout(function() {
+					document.querySelector('.js-people-link').classList.add('router-link-exact-active');
+					}, 100);
+					break;
+			}
+		}
 	}
 }
 </script>
