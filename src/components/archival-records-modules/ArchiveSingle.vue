@@ -184,10 +184,10 @@ export default {
 	},
 	mounted() {
 		this.fetchArchive(this.$route.params.id);
-		this.loading = false;
 	},
 	watch: {
 		getArchive(newValue) {
+			this.loading = false;
 			this.openSeaDragon(newValue.media);
 			this.pdfDoc = this.createPDFwithMoreImages(newValue.media);
 			this.image = !(newValue.media.length == 0);
