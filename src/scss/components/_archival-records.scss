@@ -40,7 +40,6 @@
 .archive__select {
 	display: block;
 	float: right;
-	// height: 30px;
 	border-radius: 0;
 	width: 120px;
 	margin-top: -60px;
@@ -50,6 +49,10 @@
 	padding: 8px;
 	option {
 		color: $black;
+	}
+	@media only screen and (max-width: 768px) {
+		margin-top: -35px;
+
 	}
 }
 
