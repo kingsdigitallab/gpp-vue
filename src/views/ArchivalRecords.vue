@@ -27,6 +27,17 @@ export default {
 			title: 'Archival Records',
 			breadcrumbs: [{ text: 'Home', url: '/' }]
 		}
+	}, 
+	methods: {
+		contentHeight() {
+			let windowHeight = window.innerHeight;
+			let headerHeight = document.querySelector('.header').clientHeight;
+			let footerHeight = document.querySelector('.footer').clientHeight;
+			document.querySelector('.arch-records').style.minHeight = windowHeight - (headerHeight + footerHeight) + 'px';
+		}
+	},
+	mounted() {
+		this.contentHeight();
 	}
 }
 </script>

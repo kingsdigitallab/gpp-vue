@@ -53,7 +53,16 @@ export default {
 				}
 			}
 			event.target.classList.add('btn--active');
+		},
+		contentHeight() {
+			let windowHeight = window.innerHeight;
+			let headerHeight = document.querySelector('.header').clientHeight;
+			let footerHeight = document.querySelector('.footer').clientHeight;
+			document.querySelector('.people-corp').style.minHeight = windowHeight - (headerHeight + footerHeight) + 'px';
 		}
+	},
+	mounted() {
+		this.contentHeight();
 	}
 }
 </script>
