@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const TOKEN = process.env.VUE_APP_API_TOKEN;
-const API_URL = "https://autharch-stg.kdl.kcl.ac.uk/api";
+const API_URL = "https://gpp-autharch-stg.kdl.kcl.ac.uk/api";
 const PROJECT_PARAM = "?project=gpp";
 
 async function getUrl(url) {
@@ -30,7 +30,7 @@ async function getFilteredData(action, filters) {
 
 function getHeaders() {
     return {
-        Authorization: `Token ${TOKEN}`,
+        Bearer: `Token ${TOKEN}`,
     }
 }
 
