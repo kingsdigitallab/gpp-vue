@@ -1,8 +1,9 @@
 <template>
 	<header class="header">
 		<div class="container">
+			<a href="#main-content" class="skip-link">Skip to main content</a>
 			<a href="/"><img src="../assets/images/site-logo.png" alt="site-logo" class="header__logo"></a>
-			<span v-on:click="toggleMenu" class="header__menu-btn">Menu <FontAwesomeIcon icon="bars" /></span>
+			<span v-on:click="toggleMenu" class="header__menu-btn">Menu <FontAwesomeIcon icon="bars" aria-label="menu"/></span>
 			<nav v-on:click="closeMenu" v-on:keyup.esc="closeMenu" class="header__nav js-nav">
 				<ul class="header__nav-list">
 					<li class="header__nav-item">
@@ -18,7 +19,7 @@
 						<router-link to="/about" class="header__link js-header-link">About</router-link>
 					</li>
 					<li class="header__nav-item header__nav-item--search">
-						<div class="header__search"><input type="text" placeholder="Search" class="header__search-input"><button type="button" class="header__search-btn"><FontAwesomeIcon icon="search" /></button></div>
+						<div class="header__search"><input type="text" placeholder="Search" class="header__search-input" aria-label="search bar"><button type="button" class="header__search-btn"><FontAwesomeIcon icon="search" aria-label="search icon"/></button></div>
 					</li>
 				</ul>
 			</nav>

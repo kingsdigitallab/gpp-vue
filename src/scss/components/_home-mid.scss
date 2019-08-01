@@ -24,6 +24,11 @@
 		justify-content: space-between;
 		padding-left: 5%;
 		padding-right: 5%;
+		a {
+			&:focus {
+				text-decoration: underline;
+			}
+		}
 		@media only screen and (max-width: 1450px) {
 			max-width: 100%;
 			// padding-left: 30px;
@@ -37,6 +42,11 @@
 
 .home__featured {
 	width: 20%;
+	a {
+		&:focus {
+			border: 1px solid gray;
+		}
+	}
 	@media only screen and (max-width: 1200px) {
 		width: 100%;
 		margin-bottom: 50px;
@@ -60,6 +70,7 @@
 
 .home__more {
 	text-transform: capitalize;
+	text-decoration: underline;
 	color: $black;
 
 }
@@ -176,12 +187,18 @@
 	font-size: 14px;
 	padding: 3px 10px;
 	color: $white;
-	background-color: $maroon-light;
+	background-color: darken($maroon-light, 7%);
 	text-align: center;
 }
 
 .home__latest {
 	width: 76%;
+	.home__latest-title a:focus {
+		color: lighten(black, 10%);
+	}
+	.home__card {
+		color: darken($gray, 20%);
+	}
 	@media only screen and (max-width: 1200px) {
 		width: 100%;
 	}
@@ -190,6 +207,11 @@
 .home__latest-cards {
 	display: flex;
 	justify-content: space-between;
+	a {
+		&:focus {
+			border: 1px solid gray;
+		}
+	}
 	@media only screen and (max-width: 1200px) {
 		flex-direction: column;
 	}

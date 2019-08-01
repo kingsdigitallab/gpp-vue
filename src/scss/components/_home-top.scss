@@ -36,7 +36,7 @@
 
 .home__stats-num {
 	display: block;
-	color: $maroon-light;
+	color: darken($maroon-light, 20%);
 	font-size: 45px;
 	line-height: 45px;
 	@media only screen and (max-width: 768px) {
@@ -46,7 +46,7 @@
 
 .home__stats-text {
 	display: block;
-	color: $gray;
+	color: darken($gray, 20%);
 	font-size: 14px;
 	text-transform: uppercase;
 	font-family: $font-second;
@@ -58,7 +58,7 @@
 
 .home__stats-year {
 	display: block;
-	color: $maroon-light;
+	color: darken($maroon-light, 20%);
 	font-size: 20px;
 }
 
@@ -110,7 +110,7 @@
 
 .home__article-para {
 	font-family: $font-second;
-	color: $gray;
+	color: darken($gray, 20%);
 	font-size: 16px;
 	line-height: 23px;
 	margin-bottom: 27px;
@@ -124,4 +124,7 @@
 	font-size: 20px;
 	font-family: $font-second;
 	position: relative;
+	&:focus {
+		text-decoration: underline;
+	}
 }

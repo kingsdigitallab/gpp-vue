@@ -3,7 +3,7 @@
 		<div class="container">
 			<the-breadcrumbs :breadcrumbs="breadcrumbs" />
 			<h1 class="page-title">{{title}}</h1>
-			<select class="archive__select" name="archive-select">
+			<select class="archive__select" name="archive-select" aria-label="sort">
 				<option value="newest">Newest</option>
 				<option value="oldest">Oldest</option>
 			</select>

@@ -20,9 +20,9 @@
 					</a>
 				</div>
 				<div class="home__latest">
-					<span class="home__latest-title">{{latestTitle}}<router-link to="/archival-records" class="home__more">More &gt;</router-link></span>
+					<span class="home__latest-title">{{latestTitle}}<router-link to="/archival-records" class="home__more" aria-label="More about archival records">More &gt;</router-link></span>
 					<div class="home__latest-cards">
-						<router-link :to="'/archival-records/'+(index+1)" :key="index" v-for="(card, index) in latestCards" class="home__card">
+						<router-link :to="'/archival-records/'+(index+1)" :aria-label="'Read more about'+(index)" :key="index" v-for="(card, index) in latestCards" class="home__card">
 							<div class="home__card-img">
 								<img src="../../assets/images/document.png" alt="document photo" class="home__card-photo">
 								<span class="home__card-num">{{card.num}}</span>

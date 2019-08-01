@@ -9,10 +9,19 @@
 		padding-top: 10px;
 		padding-bottom: 10px;
 	}
+	a {
+		&:focus {
+			color: inherit;
+		}
+	}
 	.container {
 		display: flex;
 		align-items: flex-end;
 		justify-content: space-between;
+		.skip-link {
+			font-size: 1px;
+			position: absolute;
+		}
 		@media only screen and (max-width: 1200px) {
 			align-items: center;
 		}
@@ -185,7 +194,7 @@
 	padding-right: 10px;
 	outline: none;
 	transition: $dur $ease;
-	&:hover {
+	&:hover, &:focus{
 		background-color: $maroon-light;
 	}
 	@media only screen and (max-width: 1200px) {

@@ -13,7 +13,7 @@
 			</div>
 		</div>
 		<div class="home__article">
-			<span class="home__article-title">{{articleTitle}}</span>
+			<h1 class="home__article-title">{{articleTitle}}</h1>
 			<div class="home__article-content">
 				<div class="container">
 					<p :key="index" v-for="(paragraph, index) in articleParagraphs" class="home__article-para">{{paragraph}}</p>
@@ -52,7 +52,7 @@ export default {
 			articleTitle: 'About georgian papers online',
 			articleParagraphs: [
 				'Georgian Papers Online is the catalogue of the Georgian Papers Programme, a five-year project to transform access to the extensive collection od Georgian papers held in the Royal Archives ans Royal Library at Windsor. The Georgian Papers Programme is a partnership between the Royal Archives and Royal Library with King\'s College London. The Omohundro Institute of Early American History and Culture and William & Mary share in this as primary partners for the USA.',
-				'The Georgian Papers Programme will make avilable online the historic manuscripts, both official and private, relating to the Georgian monarchy held in the Royal Archives and Royal Library, in addition to relevant collections held by King\'s College LOndon, by the year 2021. Most of these papers relate to George III and to a lesser extent, George IV, althought papers from the reigns of George I, George II and William IV will also be included, as will those relating to other members of the Royal Family from the Georgian period.'
+				'The Georgian Papers Programme will make avilable online the historic manuscripts, both official and private, relating to the Georgian monarchy held in the Royal Archives and Royal Library, in addition to relevant collections held by King\'s College London, by the year 2021. Most of these papers relate to George III and to a lesser extent, George IV, althought papers from the reigns of George I, George II and William IV will also be included, as will those relating to other members of the Royal Family from the Georgian period.'
 			]
 		}
 	}

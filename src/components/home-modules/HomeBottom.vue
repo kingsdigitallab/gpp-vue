@@ -16,7 +16,7 @@
 					</a>
 				</div>
 				<div class="home__latest">
-					<span class="home__latest-title">{{latestTitle}}<router-link to="/people-and-corporate-bodies" class="home__more">More &gt;</router-link></span>
+					<span class="home__latest-title">{{latestTitle}}<router-link to="/people-and-corporate-bodies" class="home__more" aria-label="More about people and corporate bodies">More &gt;</router-link></span>
 					<div class="home__latest-cards">
 						<router-link :to="'/people-and-corporate-bodies/'+(index+1)" :key="index" v-for="(card, index) in latestCards" class="home__card js-card">
 							<div class="home__card-icon">
