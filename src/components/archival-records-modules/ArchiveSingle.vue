@@ -5,7 +5,7 @@
 			<h1 class="page-title page-title--single">{{getArchive.title}}</h1>
 		<time class="arch-single__date">{{getArchive.creation_dates}}</time>
 
-		<section class="arch-single__img" v-if="image || transcript">
+		<section class="arch-single__img" v-if="image || transcript" aria-label="image">
 			<h1 class="arch-single__img-title">{{imgTitle}}</h1>
 			<div class="arch-single__img-wrap">
 				<div id="openseadragon1" v-if="image" class="arch-single__img-plugin">
@@ -20,21 +20,21 @@
 						</div>
 					<span class="arch-single__num">{{imgNum}}</span>
 				</div>
-				<section v-if="transcript" class="arch-single__img-text">
+				<section v-if="transcript" class="arch-single__img-text" aria-label="trasncript">
 					<h2 class="arch-single__img-text-title">Transcription</h2>
 					<div class="arch-single__img-text-content">
 						<p class="arch-single__img-text-para">{{getArchive.administrative_history}}</p>
 					</div>
-				</section>
+				</section> 
 			</div>
 		</section>
 
-			<section class="arch-single__desc" v-if="getArchive.description">
-				<h2 class="arch-single__desc-title">{{description}}</h2>
-				<p class="arch-single__desc-text" v-html="getArchive.description"></p>
-			</section>
+		<section class="arch-single__desc" v-if="getArchive.description" aria-label="description">
+			<h2 class="arch-single__desc-title">{{description}}</h2>
+			<p class="arch-single__desc-text" v-html="getArchive.description"></p>
+		</section>
 
-		<section class="arch-single__meta">
+		<section class="arch-single__meta" aria-label="metadata">
 			<h2 class="arch-single__meta-title">Metadata</h2>
 			<ul class="arch-single__list">
 					<li :key="index" v-for="(data, index) in getArchive.metadata" class="arch-single__item">

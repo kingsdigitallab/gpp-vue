@@ -12,6 +12,9 @@
 			}
 		}
 	}
+	.breadcrumbs__link:focus {
+		text-decoration: underline;
+	}
 }
 
 .breadcrumbs__link {

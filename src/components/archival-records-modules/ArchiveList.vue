@@ -17,7 +17,7 @@
 					</span>
 					<span class="list-head list-head--hidden">{{title}}</span>
 					<span class="list-data">
-						<router-link :to="'/archival-records/'+(item.id)" >{{item.title}}</router-link>
+						<router-link :to="'/archival-records/'+(item.id)">{{item.title}}</router-link>
 					</span>
 					<span class="list-head list-head--hidden">{{date}}</span>
 					<span class="list-data">{{item.creation_dates}}</span>

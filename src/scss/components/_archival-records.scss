@@ -12,6 +12,9 @@
 		&:nth-child(4) {
 			flex: 2;
 		}
+		a:focus {
+			color: darken($gray, 10%);
+		}
 	}
 	.list-head {
 		&:not(:nth-child(1), :nth-child(2)) {
@@ -50,6 +53,9 @@
 	option {
 		color: $black;
 	}
+	&:focus {
+		background-color: lighten($gray, 10%);
+	}
 	@media only screen and (max-width: 768px) {
 		margin-top: -35px;
 
@@ -66,7 +72,7 @@
 .arch-single__date {
 	color: $white;
 	display: inline-block;
-	background-color: $gray;
+	background-color: darken($gray,10%);
 	padding: 5px 10px;
 	margin-bottom: 60px;
 	font-size: 14px;
@@ -131,6 +137,12 @@
 
 .arch-single__item-content {
 	font-size: 18px;
+	a {
+		text-decoration: underline;
+	}
+	a:focus {
+		color: darken($gray, 20%);
+	}
 }
 
 .before {

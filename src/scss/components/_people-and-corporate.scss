@@ -20,6 +20,9 @@
 	option {
 		color: $black;
 	}
+	&:focus {
+		background-color: lighten($gray, 10%);
+	}
 	@media only screen and (max-width: 768px) {
 		margin-top: -45px;
 
@@ -30,7 +33,7 @@
 	a.list-row {
 		color: $black;
 		transition: $dur $ease;
-		&:hover {
+		&:hover, &:focus {
 			color: lighten($maroon, 20%);
 		}
 	}

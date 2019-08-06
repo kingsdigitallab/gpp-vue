@@ -11,6 +11,9 @@
 		background-color: $maroon;
 		color: $white;
 	}
+	&:focus {
+		border: 1px solid darken($gray, 10%);
+	}
 	@media only screen and (max-width: 768px) {
 		width: 50%;
 		border-bottom: 0;
@@ -31,6 +34,9 @@
 	transition: $dur $ease;
 	text-transform: uppercase;
 	font-size: 18px;
+	&:focus {
+		background-color: darken(white, 20%);
+	}
 	@media only screen and (max-width: 768px) {
 		border-bottom: 1px solid $gray;
 	}
