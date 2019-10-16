@@ -1,11 +1,29 @@
 .footer {
 	background-color: $maroon;
-	max-width: 1050px;
-	margin: 0 auto;
-	padding: 10px 50px;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+	padding: 30px 50px;
+	text-align: center;
+	div {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 40px !important;
+	}
+	div, a {
+		max-width: 1050px;
+		margin: 0 auto;
+	}
+	p {
+		color: white;
+		font-family: $font-second;
+		font-size: 14px;
+		a {
+			text-decoration: underline;
+			color: white;
+		}
+		.delimiter {
+			margin: 0px 10px;
+		}
+	}
 	@media only screen and (max-width: 768px) {
 		padding: 10px 20px;
 	}
