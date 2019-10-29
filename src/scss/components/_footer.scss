@@ -17,6 +17,10 @@
 		font-family: $font-second;
 		font-size: 14px;
 		a {
+			&:before {
+				content: "";
+				background: none !important;
+			}
 			text-decoration: underline;
 			color: white;
 		}

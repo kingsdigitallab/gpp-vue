@@ -1,4 +1,4 @@
-.rte p {
+.rte p, .rte ul {
 	font-family: "Lucida";
 	color: $gray-dark;
 	font-size: 16px;
@@ -10,11 +10,19 @@
 	font-family: "Lucida";
 }
 
-.rte li {
-	font-family: "Lucida";
-	color: #95989a;
-	font-size: 16px;
+.rte ul {
+	margin-top: -20px;
+	li {
+		list-style-type: circle;
+		margin-left: 20px;
+	}
 }
+
+// .rte li {
+// 	font-family: "Lucida";
+// 	color: #95989a;
+// 	font-size: 16px;
+// }
 
 .rte span {
 	font-family: "Lucida";
