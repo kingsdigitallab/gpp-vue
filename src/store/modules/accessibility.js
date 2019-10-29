@@ -1,11 +1,11 @@
 import Api from '../../services/Api';
 
 const state = {
-    page: {},
+    accessibility: {},
 };
 
 const getters = {
-    getAccessibilityPage: (state) => state.page
+    getAccessibilityPage: (state) => state.accessibility
 };
 
 const actions = {
@@ -17,7 +17,7 @@ const actions = {
 };
 
 const mutations = {
-    setPage: (state, page) => (state.page = page)
+    setPage: (state, accessibility) => (state.accessibility = accessibility)
 };
 
 export default {
