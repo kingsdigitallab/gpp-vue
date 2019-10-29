@@ -9,7 +9,7 @@ const getters = {
 };
 
 const actions = {
-    async fetchPage({ commit }) {
+    async fetchAccessibilityPage({ commit }) {
         const response = await Api.getSingle('/wagtail/pages/',5);
 
         commit('setPage', response.data);

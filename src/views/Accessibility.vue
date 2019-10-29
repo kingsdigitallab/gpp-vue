@@ -2,8 +2,8 @@
   <section class="about" aria-label="about">
     <div class="container">
       <the-breadcrumbs :breadcrumbs="getBreadcrumbs" />
-      <h1 class="page-title">{{getPage.title}}</h1>
-      <section class="rte" v-html="getPage.body" aria-label="description"></section>
+      <h1 class="page-title">{{getAccessibilityPage.title}}</h1>
+      <section class="rte" v-html="getAccessibilityPage.body" aria-label="description"></section>
     </div>
   </section>
 
@@ -28,14 +28,14 @@ export default {
     TheBreadcrumbs,
   },
   computed: {
-    ...mapGetters(['getPage']),
+    ...mapGetters(['getAccessibilityPage']),
     getBreadcrumbs,
   },
   methods: {
-		...mapActions(['fetchPage'])
+		...mapActions(['fetchAccessibilityPage'])
 	},
 	created() {
-		this.fetchPage();
+		this.fetchAccessibilityPage();
 	}
 }
 </script>
