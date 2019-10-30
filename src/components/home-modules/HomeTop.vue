@@ -31,24 +31,24 @@ export default {
 		return {
 			stats: [
 				{
-					num: 54,
+					num: 123,
 					text: 'years',
-					year: '1817-1879'
+					year: '1714-1837'
 				},
 				{
-					num: 1440,
+					num: '14,120',
 					text: 'archival records'
 				},
 				{
-					num: 13694,
+					num: 151,
 					text: 'people and corporate bodies'
 				},
 				{
-					num: 165454,
+					num: '125,558',
 					text: 'images'
 				}
 			],
-			updated: 'Last updated 5 Jan 2019',
+			updated: 'Last updated 30 Oct 2019',
 			articleTitle: 'About georgian papers online',
 			articleParagraphs: [
 				'Georgian Papers Online is the catalogue of the Georgian Papers Programme, a five-year project to transform access to the extensive collection od Georgian papers held in the Royal Archives ans Royal Library at Windsor. The Georgian Papers Programme is a partnership between the Royal Archives and Royal Library with King\'s College London. The Omohundro Institute of Early American History and Culture and William & Mary share in this as primary partners for the USA.',
