@@ -17,12 +17,12 @@
 		font-family: $font-second;
 		font-size: 14px;
 		a {
-			&:before {
-				content: "";
-				background: none !important;
-			}
 			text-decoration: underline;
 			color: white;
+			&:hover, &:focus {
+				color: lighen($gray, 10%);
+				text-decoration: none;
+			}
 		}
 		.delimiter {
 			margin: 0px 10px;

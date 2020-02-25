@@ -2,7 +2,7 @@
 	<header class="header">
 		<div class="container">
 			<a href="#main-content" class="skip-link">Skip to main content</a>
-			<a href="/"><img src="../assets/images/site-logo.png" alt="site-logo" class="header__logo"></a>
+			<a href="/" class="header__logo"><img src="../assets/images/site-logo.png" alt="site-logo"></a>
 			<span v-on:click="toggleMenu" class="header__menu-btn">Menu <FontAwesomeIcon icon="bars" aria-label="menu"/></span>
 			<nav v-on:click="closeMenu" v-on:keyup.esc="closeMenu" class="header__nav js-nav">
 				<ul class="header__nav-list">

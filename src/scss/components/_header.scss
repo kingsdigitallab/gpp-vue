@@ -9,18 +9,17 @@
 		padding-top: 10px;
 		padding-bottom: 10px;
 	}
-	a {
-		&:focus {
-			color: inherit;
-		}
-	}
 	.container {
 		display: flex;
 		align-items: flex-end;
 		justify-content: space-between;
 		.skip-link {
-			font-size: 1px;
+			visibility: hidden;
 			position: absolute;
+			height: 0;
+			&:focus{
+				text-decoration: underline;
+			}
 		}
 		@media only screen and (max-width: 1200px) {
 			align-items: center;
@@ -29,9 +28,16 @@
 }
 
 .header__logo {
-	width: 200px;
+	&:focus {
+		background-color: $gray;
+	}
+	img {
+		width: 200px;
+	}
 	@media only screen and (max-width: 768px) {
-		width: 150px;
+		img {
+			width: 150px;
+		}
 	}
 }
 
@@ -103,7 +109,8 @@
 		background-color: $maroon;
 		transition: $dur $ease;
 	}
-	&:hover {
+	&:hover, &:focus {
+		color: darken($gray-dark, 10%);
 		&::before {
 			width: 100%;
 		}
@@ -117,8 +124,8 @@
 		color: $white;
 		display: block;
 		margin-bottom: 10px;
-		&:hover {
-			color: $gray;
+		&:hover, &:focus {
+			color: darken($white, 10%);
 			&::before {
 				content: none;
 			}
