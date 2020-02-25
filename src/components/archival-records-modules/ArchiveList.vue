@@ -17,7 +17,7 @@
 					</span>
 					<span class="list-head list-head--hidden">{{title}}</span>
 					<span class="list-data">
-						<router-link :to="'/archival-records/'+(item.id)">{{item.title}}</router-link>
+						<router-link :to="'/archival-records/'+(item.id)" :aria-label="'document from '+(item.metadata[1].content)">{{item.title}}</router-link>
 					</span>
 					<span class="list-head list-head--hidden">{{date}}</span>
 					<span class="list-data">{{item.creation_dates}}</span>
@@ -36,7 +36,7 @@
 								<span class="list-count">{{serie.count}}</span>
 							</span>
 							<span class="list-head list-head--hidden">{{title}}</span>
-							<span class="list-data"><router-link :to="`/archival-records/${item.id}`" >{{serie.title}}</router-link></span>
+							<span class="list-data"><router-link :to="`/archival-records/${serie.id}`" :aria-label="'document from '+(serie.metadata[1].content)">{{serie.title}}</router-link></span>
 							<span class="list-head list-head--hidden">{{date}}</span>
 							<span class="list-data">{{serie.creation_dates}}</span>
 							<span v-if="serie.writer" class="list-head list-head--hidden">{{writer}}</span>
@@ -51,7 +51,7 @@
 									</span>
 									<span class="list-head list-head--hidden">{{title}}</span>
 									<span class="list-data">
-										<router-link :to="'/archival-records/'+(item.id)" >{{subSerie.title}}</router-link>
+										<router-link :to="'/archival-records/'+(item.id)" :aria-label="'document from '+(subSerie.metadata[1].content)">{{subSerie.title}}</router-link>
 									</span>
 									<span class="list-head list-head--hidden">{{date}}</span>
 									<span class="list-data">{{subSerie.date}}</span>
@@ -67,7 +67,7 @@
 											</span>
 											<span class="list-head list-head--hidden">{{title}}</span>
 											<span class="list-data">
-												<router-link :to="'/archival-records/'+(item.id)" >{{item.title}}</router-link>
+												<router-link :to="'/archival-records/'+(item.id)" :aria-label="'document from '+(item.metadata[1].content)">{{item.title}}</router-link>
 											</span>
 											<span class="list-head list-head--hidden">{{date}}</span>
 											<span class="list-data">{{item.date}}</span>
