@@ -19,22 +19,22 @@ export default new Router({
     },
     {
       path: '/archival-records',
-      name: 'Archival Records',
+      name: 'archival-records',
       component: ArchivalRecords
     },
     {
       path: '/archival-records/:id',
-      name: 'Archive Record',
+      name: 'archival-record',
       component: ArchiveRecord
     },
     {
       path: '/people-and-corporate-bodies',
-      name: 'People and Corporate Bodies',
+      name: 'entities',
       component: PeopleAndCorporate
     },
     {
       path: '/people-and-corporate-bodies/:id',
-      name: 'Person and Corporate Body',
+      name: 'entity',
       component: PersonAndCorporateBody
     },
     {

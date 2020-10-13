@@ -1,0 +1,184 @@
+.home {
+	background-image: url('./assets/images/home-background.png');
+	background-repeat: no-repeat;
+	padding: 11em 0em 3em 0em;
+	.home-top {
+		padding-bottom: 10em;
+		.home-stats {
+			display: flex;
+			margin-bottom: 3em;
+			.home-stats-group {
+				&:not(:last-of-type) {
+					margin-right: 4em;
+				}
+				p {
+					margin: 0;
+				}
+				.home-stats-num {
+					font-family: $font-secondary;
+					font-size: 1.5em;
+					color: $red-primary;
+					margin-bottom: 0.2em;
+				}
+			}
+		}
+		.home-search {
+			width: 80%;
+			max-width: 850px;
+			.search-field {
+				width: 100%;
+				position: relative;
+				box-shadow: 1px 2px 3px lighten($grey-light, 20%);
+				margin-bottom: 0.5em;
+				input[type=search] {
+					width: 100%;
+					border: 1px solid lighten($grey-light, 30%);
+					padding: 0.7em 2.3em 0.7em 0.7em;
+				}
+				.search-button {
+					position: absolute;
+					right: 7px;
+					top: 7px;
+					border: 0;
+					color: $red-dark;
+					font-family: $fontawesome;
+					font-weight: 600;
+					font-size: 18px;
+					background: white;
+					padding: 5px;
+					&:hover, &:focus {
+						background-color: white;
+					}
+				  }
+			}
+			button.button-link {
+				display: block;
+				margin-left: auto;
+				margin-right: 0px;
+			}
+		}
+	}
+	.home-timeline {
+		.timeline-group {
+			padding: 2em 0em 3em 3em;
+			margin-left: 10px;
+			border-left: 2px dashed $red-primary;
+			position: relative;
+			h2:before {
+				content:'';
+				border: 3px solid $grey-primary;
+				border-radius: 50%;
+				background-color: white;
+				width: 13px;
+				height: 13px;
+				position: absolute;
+				top: 2.45em;
+				left: -11px;
+				transition: 0.2s ease;
+			}
+			h2:hover, h2:focus{
+				&:before {
+					background-color: $red-dark;
+					border: 3px solid $red-dark;
+				}
+			}
+			.featured-collections-series {
+				display: flex;
+				flex-wrap: wrap;
+				margin-top: 2em;
+				margin-bottom: 1.5em;
+			}
+			.featured-files-items {
+				position: relative;
+				margin-bottom: 3em;
+				h3 {
+					display: block;
+				}
+				.featured-card {
+					width: 95%;
+					display: grid;
+					grid-template-columns: 47% 53%;
+					height: 340px;
+					box-shadow: 0px 2px 4px lighten($grey-light, 30%);
+					.featured-card-image {
+						height: inherit;
+						img {
+							height: inherit;
+							object-fit: cover;
+							width: auto;
+						}
+					}
+					.featured-card-description {
+						background-color: $grey-background-light;
+						padding: 2em;
+						display: flex;
+						flex-direction: column;
+						justify-content: space-between;
+						transition: 0.3s ease;
+					}
+					&:hover, &:focus {
+						box-shadow: 0px 2px 4px lighten($grey-light, 20%);
+						.featured-card-description {
+							background-color: darken($grey-background-dark, 1%);
+						}
+					}
+				}
+			}
+			.featured-people-corporate-bodies {
+				margin-top: 1.5em;
+			}
+		}
+	}
+}
+
+// .home__article-title {
+// 	display: block;
+// 	text-transform: uppercase;
+// 	color: $maroon;
+// 	font-size: 24px;
+// 	text-align: center;
+// 	margin-bottom: 10px;
+// 	@media only screen and (max-width: 768px) {
+// 		font-size: 22px;
+// 		margin-bottom: 20px;
+// 	}
+// }
+
+// .home__article-content {
+// 	background-color: $white;
+// 	border-top: 1px solid $gray;
+// 	border-bottom: 1px solid $gray;
+// 	padding-top: 38px;
+// 	padding-bottom: 25px;
+// 	@media only screen and (max-width: 768px) {
+// 		margin-right: 20px;
+// 		margin-left: 20px;
+// 		border-left: 1px solid $gray;
+// 		border-right: 1px solid $gray;
+// 		padding-top: 25px;
+// 	}
+// }
+
+// .home__article-para {
+// 	font-family: $font-secondary;
+// 	color: darken($gray, 20%);
+// 	font-size: 16px;
+// 	line-height: 23px;
+// 	margin-bottom: 27px;
+// 	a {
+// 		text-decoration: underline;
+// 	}
+// }
+
+// .home__article-read {
+// 	display: block;
+// 	// text-transform: uppercase;
+// 	color: $black;
+// 	text-align: center;
+// 	font-size: 18px;
+// 	font-family: $font-secondary;
+// 	position: relative;
+// 	&:focus {
+// 		text-decoration: underline;
+// 	}
+// }

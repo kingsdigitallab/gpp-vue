@@ -15,11 +15,26 @@ export default {
   components: {
     TheHeader,
 		TheFooter
+  },
+  created () {
+    window.addEventListener('scroll', this.handleScroll);
+  },
+  destroyed () {
+    window.removeEventListener('scroll', this.handleScroll);
+  },
+  methods: {
+    handleScroll () {
+      if (window.scrollY || window.pageYOffset || document.body.scrollTop) {
+        document.querySelector('.header').classList.add('fixed');
+      } else {
+        document.querySelector('.header').classList.remove('fixed');
+      }
+    }
   }
 }
 </script>
 
 <style lang="scss">
 @import './scss/style.scss';
-
+@import './scss/all.min.css';
 </style>

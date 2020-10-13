@@ -1,3 +1,147 @@
+button {
+	font-family: $font-primary;
+	transition: 0.2s ease;
+	border: 0;
+	&.button-link {
+		background-color: transparent;
+		margin: 0;
+		padding: 0;
+		color: $red-primary;
+	}
+	
+	&.slider-arrow {
+		background-color: white;
+		border-radius: 50%;
+		font-size: 2.5em;
+        transition: 0.3s ease;
+		font-family: $fontawesome;
+		font-weight: 300;
+		&.next, &.prev {
+			position: absolute;
+			transition: 0.2s ease;
+			color: $red-secondary;
+			top: 48%;
+		}
+		&.next {
+			right: 0.2em;
+			padding: 0.1em 0.37em 0.1em 0.42em;
+		}
+		&.prev {
+			left: -0.6em;
+			padding: 0.1em 0.442em 0.1em 0.37em;
+		}
+		&:hover, &:focus {
+			background-color: $red-dark;
+			&.next, &.prev {
+				color: white;
+				outline: none;
+			}
+		}
+	}
+	&.slick-arrow {
+		z-index: 8;
+		&.slick-prev:before, &.slick-next:before {
+			position: absolute;
+			transition: 0.2s ease;
+			color: $red-secondary;
+			top: -0.3em;
+			background-color: white;
+			border-radius: 50%;
+			font-family: $fontawesome;
+			font-weight: 300;
+			font-size: 45px;
+			opacity: 1;
+		}
+		&.slick-prev:before {
+			content: '\f104';
+			right: -0.6em;
+			padding: 0.01em 0.35em 0.01em 0.27em;
+		}
+		&.slick-next:before {
+			content: '\f105';
+			left: -0.6em;
+			padding: 0.01em 0.27em 0.01em 0.35em;
+		}
+		&:hover, &:focus {
+			&.slick-prev:before, &.slick-next:before {
+				color: white;
+				background-color: $red-dark;
+				outline: none;
+			}
+		}
+	}
+}
+
+button.small, a.small {
+	padding: 0.3em 1em 0.4em 1em;
+	font-size: 1em;
+}
+
+.dotted-underline {
+	border-bottom: 1px dotted $grey-light !important;
+	&:hover, &:focus {
+		border-bottom: 1px dotted $red-primary !important;
+	}
+}
+
+a {
+	color: $red-secondary;
+	border-bottom: 1px dotted $grey-light;
+	text-decoration: none;
+	transition: 0.2s ease;
+	&:hover, &:focus {
+		background-color: $grey-background-dark;
+		border-bottom: 1px dotted $red-primary;
+	}
+	.arrow:after {
+		content: '\f105';
+		font-family: $fontawesome;
+		color: inherit;
+		font-size: inherit;
+		vertical-align: middle;
+		padding-left: 0.4em;
+	}
+	&.hidden-anchor {
+		color: black;
+		border-bottom: 0;
+		&:hover, &:focus {
+			border-bottom: 0;
+		}
+	}
+	&.link-button-default {
+		background-color: $red-primary;
+		color: white;
+		text-decoration: none;
+		border-radius: 0.2em;
+		border-bottom: 0;
+		margin-bottom: 1em;
+		&:not(:last-of-type) {
+			margin-right: 1em;
+		}
+		&:hover, &:focus {
+			background-color: $red-dark;
+			border-bottom: 0;
+		}
+	}
+	&.link-button-grey {
+		background-color: $grey-background-dark;
+		color: $red-secondary;
+		text-decoration: none;
+		border-radius: 0.2em;
+		border-bottom: 0;
+		padding: 0.3em 1em 0.5em 1em;
+		margin-bottom: 1em;
+		font-weight: 500;
+		&:not(:last-of-type) {
+			margin-right: 1em;
+		}
+		&:hover, &:focus {
+			border-bottom: 0;
+			background-color: darken($grey-background-dark, 3%);
+		}
+	}
+}
+
 .btn {
 	border: 1px solid $gray;
 	width: 190px;

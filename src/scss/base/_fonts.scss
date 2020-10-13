@@ -1,15 +1,22 @@
 //----------  fonts
 //------------------------------------------------------------------------------
 @font-face {
-	font-family: 'Lucida';
-	src: url('./assets/fonts/LucidaSans.ttf') format('truetype');
-	font-weight: 100;
+	font-family: 'PT Sans';
+	src: url('./assets/fonts/PTSans-Regular.ttf') format('truetype');
+	font-weight: 500;
 	font-style: normal;
 }
 
 @font-face {
-	font-family: 'Lucida';
-	src: url('./assets/fonts/LucidaSansRegular.ttf') format('truetype');
-	font-weight: 300;
+	font-family: 'PT Sans';
+	src: url('./assets/fonts/PTSans-Bold.ttf') format('truetype');
+	font-weight: 600;
+	font-style: bold;
+}
+
+@font-face {
+	font-family: 'PT Serif';
+	src: url('./assets/fonts/PTSerif-Regular.ttf') format('truetype');
+	font-weight: 500;
 	font-style: normal;
 }

@@ -2,19 +2,33 @@
 //------------------------------------------------------------------------------
 
 // Fonts
-$font-default: 'Times New Roman';
-$font-second: 'Lucida';
-
+$font-primary: 'PT Sans';
+$font-secondary: 'PT Serif';
+$fontawesome: 'Font Awesome 5 Pro';
 
 // Colors
 $white: #fff;
 $black: #000;
-$maroon: #490101;
-$maroon-light: #7e5959;
-$gray: #666;
-$gray-dark: #383838;
-$gray-light: #f4f4f4;
-$link-color: #0091F2;
+$red-primary: #6A0606;
+$red-dark: #490101;
+$red-secondary: #860A0A;
+$grey-background-light: #F7F7F7;
+$grey-background-dark: rgb(241, 241, 241);
+$grey-primary: #494949;
+$grey-light: #939393;
+
+// $maroon: #490101;
+// $maroon-light: #7e5959;
+// $link-color: #0091F2;
+// $gray: #666;
+// $gray-dark: #666;
+// $gray-light: #f4f4f4;
+$maroon: rgb(1, 136, 30);
+$maroon-light: rgb(1, 136, 30);
+$link-color: rgb(1, 136, 30);
+$gray: rgb(1, 136, 30);
+$gray-dark: rgb(1, 136, 30);
+$gray-light: rgb(1, 136, 30);
 
 // Transition
 

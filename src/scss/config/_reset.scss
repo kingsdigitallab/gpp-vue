@@ -1,53 +1,53 @@
 //----------  reset
 //------------------------------------------------------------------------------
-body,
-div,
-dl,
-dt,
-dd,
-ul,
-ol,
-li,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-pre,
-form,
-fieldset,
-input,
-textarea,
-p,
-blockquote,
-th,
-td {
-	margin: 0;
-	padding: 0;
-}
+// body,
+// div,
+// dl,
+// dt,
+// dd,
+// ul,
+// ol,
+// li,
+// h1,
+// h2,
+// h3,
+// h4,
+// h5,
+// h6,
+// pre,
+// form,
+// fieldset,
+// input,
+// textarea,
+// p,
+// blockquote,
+// th,
+// td {
+// 	margin: 0;
+// 	padding: 0;
+// }
 
-article,
-aside,
-details,
-figcaption,
-figure,
-footer,
-header,
-hgroup,
-nav,
-section,
-main {
-	display: block;
-}
+// article,
+// aside,
+// details,
+// figcaption,
+// figure,
+// footer,
+// header,
+// hgroup,
+// nav,
+// section,
+// main {
+// 	display: block;
+// }
 
-audio:not([controls]) {
-	display: none;
-}
+// audio:not([controls]) {
+// 	display: none;
+// }
 
-[hidden] {
-	display: none;
-}
+// [hidden] {
+// 	display: none;
+// }
 
 //----------  base reset
 //------------------------------------------------------------------------------
@@ -58,8 +58,6 @@ html {
 }
 
 body {
-	font-size: 1em;
-	line-height: 1.35;
 	-moz-osx-font-smoothing: grayscale;
 	-webkit-font-smoothing: antialiased;
 }
@@ -79,14 +77,12 @@ body {
 //----------  links
 //------------------------------------------------------------------------------
 a {
-	text-decoration: none;
-	outline: none;
+	transition: 0.2s ease-in;
 }
 
 a:focus,
 a:hover,
 a:active {
-	outline: none;
 }
 
 //----------  typography
@@ -271,7 +267,6 @@ textarea:invalid {
 input,
 textarea,
 select {
-	outline: none;
 }
 
 //----------  tables
