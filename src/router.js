@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
+import Timeline from './views/Timeline.vue'
 import ArchivalRecords from './views/ArchivalRecords.vue'
 import ArchiveRecord from './views/ArchiveRecord.vue'
 import PeopleAndCorporate from './views/PeopleAndCorporate.vue'
@@ -18,6 +19,11 @@ export default new Router({
       component: Home
     },
     {
+      path: '/timeline/:id',
+      name: 'timeline',
+      component: Timeline
+    },
+    {
       path: '/archival-records',
       name: 'archival-records',
       component: ArchivalRecords
@@ -29,12 +35,12 @@ export default new Router({
     },
     {
       path: '/people-and-corporate-bodies',
-      name: 'entities',
+      name: 'people-and-corporate-bodies',
       component: PeopleAndCorporate
     },
     {
       path: '/people-and-corporate-bodies/:id',
-      name: 'entity',
+      name: 'people-and-corporate-body',
       component: PersonAndCorporateBody
     },
     {

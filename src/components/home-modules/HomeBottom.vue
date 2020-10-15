@@ -1,50 +1,39 @@
 <template>
-	<div class="home__bottom">
-		<div class="home__article">
-			<!-- <h1 class="home__article-title">{{articleTitle}}</h1> -->
-			<h1 class="home__article-title">About the Collaborative Workspace</h1>
-			<div class="home__article-content">
-				<div class="container">
-					<!-- <p :key="index" v-for="(paragraph, index) in articleParagraphs" class="home__article-para">{{paragraph}}</p> -->
-					<p class="home__article-para">
-						The Collaborative Workspace is a digital platform, developed by <a href="https://www.kdl.kcl.ac.uk/">King’s Digital Lab</a>, that holds material digitised by the <a href="https://gpp.rct.uk/">Royal Archives</a> as part of the Georgian Papers Programme. It is the one platform on which all datastreams for the Georgian papers, images, metadata and completed transcriptions, are offered; and will allow scholarly users to edit and augment these according to their own knowledge and close reading of the material.
-					</p>
-					<p class="home__article-para">
-						The Collaborative Workspace is built to solicited requirements from both academics and information professionals and brings the rigour required by archivists through the implementation of archival standards (<a href="https://www.loc.gov/ead/EAD3taglib/index.html">EAD3</a> and <a href="https://eac.staatsbibliothek-berlin.de/schema/taglibrary/cpfTagLibrary2019_EN.html">EAC-CPF</a>) while offering flexibility to scholars in allowing them to correct and augment almost all data surfaced in the Workspace. Editing is moderated to ensure fidelity.
-					</p>
-					<router-link to="/about" class="home__article-read">About the Georgian Papers Programme &gt;</router-link>
+	<div class="home-bottom">
+		<div class="container two-column-section">
+			<div class="card">
+				<div class="card-image">
+					<img src="@/assets/images/archival-record-banner.png" alt="Banner for the DBrowse archival records section depicting an archival record"/>
+				</div>
+				<div class="card-description">
+					<h2>Browse archival records</h2>
+					<p>Hierarchically organised, our archival records include: diaries, writings, maps, correspondence, wills, commonplace books, financial records, and more!</p>
+				</div>
+				<div class="card-button">
+					<router-link to="/archival-records" class="link-button-default large">See all archival records <span class="arrow"></span></router-link>
+				</div>
+			</div>
+			<div class="card">
+				<div class="card-image">
+					<img src="@/assets/images/Masked-Ball-Louis-XV-court.jpg" alt="Banner for the Discover people and corporate bodies section depicting Masked Ball Louis XV court"/>
+				</div>
+				<div class="card-description">
+					<h2>Discover people &amp; corporate bodies</h2>
+					<p>Our database contains information about over 1,500 people and corporate bodies from the Georgian era.</p>
+				</div>
+				<div class="card-button">
+					<router-link to="/people-and-corporate-bodies" class="link-button-default large">See all people &amp; corporate bodies <span class="arrow"></span></router-link>
 				</div>
 			</div>
 		</div>
-		<h2 class="home__bottom-title">{{title}}</h2>
-		<div class="home__bottom-content">
-			<div class="container-wide">
-				<div class="home__featured">
-					<span class="home__featured-title">{{featuredTitle}}</span>
-					<a href="javascript:;" class="home__card home__card--black js-card">
-						<div class="home__card-icon">
-							<img src="../../assets/images/organisation-icon.png" alt="organisation icon" class="home__card-icon">
-							<span class="home__card-category">{{featuredCard.category}}</span>
-						</div>
-						<span class="home__card-date">{{featuredCard.date}}</span>
-						<p class="home__card-text">{{featuredCard.text}}</p>
-						<span class="home__card-author">{{featuredCard.author}}</span>
-					</a>
-				</div>
-				<div class="home__latest">
-					<span class="home__latest-title">{{latestTitle}}<router-link to="/people-and-corporate-bodies" class="home__more" aria-label="More about people and corporate bodies">More &gt;</router-link></span>
-					<div class="home__latest-cards">
-						<router-link :to="'/people-and-corporate-bodies/'+(index+1)" :key="index" v-for="(card, index) in latestCards" class="home__card js-card">
-							<div class="home__card-icon">
-								<img src="../../assets/images/organisation-icon.png" alt="organisation icon" class="home__card-icon">
-								<span class="home__card-category">{{card.category}}</span>
-							</div>
-							<span class="home__card-date">{{card.date}}</span>
-							<p class="home__card-text">{{card.text}}</p>
-							<span class="home__card-author">{{card.author}}</span>
-						</router-link>
-					</div>
-				</div>
+		<div class="container two-column-section">
+			<div class="about">
+				<h2>About</h2>
+				<p>The Collaborative Workspace is a digital platform, developed by <a href="https://www.kdl.kcl.ac.uk/" class="dotted-underline">King’s Digital Lab</a>, that holds material digitised by the <a href="https://gpp.rct.uk/" class="dotted-underline">Royal Archives</a> as part of the <a href="https://georgianpapers.com/" class="dotted-underline">Georgian Papers Programme</a>. It is the one platform on which all datastreams for the Georgian papers, images, metadata and completed transcriptions, are offered; and will allow scholarly users to edit and augment these according to their own knowledge and close reading of the material.</p>
+				<p>The platform is built to solicited requirements from both academics and information professionals and brings the rigour required by archivists through the implementation of archival standards (<a href="https://www.loc.gov/ead/EAD3taglib/index.html" class="dotted-underline">EAD3</a> and <a href="https://eac.staatsbibliothek-berlin.de/schema/taglibrary/cpfTagLibrary2019_EN.html" class="dotted-underline">EAC-CPF</a>) while offering flexibility to scholars in allowing them to correct and augment almost all data surfaced in the Workspace. Editing is moderated to ensure fidelity.</p>
+			</div>
+			<div>
+				<img src="@/assets/images/Charlotte_children_brothers.jpg" alt="Queen Charlotte with her Children and Brothers" class="image-fill"/>
 			</div>
 		</div>
 	</div>
@@ -55,46 +44,7 @@ export default {
 	name: 'HomeBottom',
 	data: function() {
 		return {
-			title: 'People and corporate bodies',
-			featuredTitle: 'Featured',
-			latestTitle: 'Latest',
-			featuredCard: {
-				img: '../../assets/images/organisation-icon.png',
-				category: 'Corporate Bodies',
-				text: 'Letter from Christopher Bancks to Charles Bicknell concerning the gasometers his company nad supplied for use at brighton Pavilion.',
-				author: 'Bancks, Christopher',
-				date: '1 November 1817'
-			},
-			latestCards: [
-				{
-					img: '../../assets/images/organisation-icon.png',
-					category: 'Corporate Bodies',
-					text: 'Letter from J Pedder concerning gaslighting apparatus.',
-					author: 'Pedder, John; Secretary to the Gas Llight and Coke Company',
-					date: '6 October 1816'
-				},
-				{
-					img: '../../assets/images/people-icon.png',
-					category: 'People',
-					text: 'Letter from Christopher Bancks to Charles Bicknell concerning the gasometers his company nad supplied for use at brighton Pavilion.',
-					author: 'Bancks, Christopher',
-					date: '1 November 1817'
-				},
-				{
-					img: '../../assets/images/people-icon.png',
-					category: 'People',
-					text: 'Bill issued bu Christopher Bancks for the supply of gasometers at Brighton, with a note explaining that he has been asked by Charles Bicknell to send the bill to Sir Benjamin Bloomfield.',
-					author: 'Bancks, Christopher',
-					date: 'January 1806 - 23 September 1817'
-				},
-				{
-					img: '../../assets/images/people-icon.png',
-					category: 'People',
-					text: 'Letter from J Pedder concerning gaslighting apparatus.',
-					author: 'Pedder, John; Secretary to the Gas Llight and Coke Company',
-					date: '6 October 1816'
-				}
-			]
+			
 		}
 	}
 }

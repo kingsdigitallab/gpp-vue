@@ -77,6 +77,11 @@ button.small, a.small {
 	font-size: 1em;
 }
 
+button.large, a.large {
+	padding: 0.8em 1.3em;
+	box-shadow: 0px 0px 4px lighten($grey-light, 20%);
+}
+
 .dotted-underline {
 	border-bottom: 1px dotted $grey-light !important;
 	&:hover, &:focus {
@@ -100,13 +105,7 @@ a {
 		font-size: inherit;
 		vertical-align: middle;
 		padding-left: 0.4em;
-	}
-	&.hidden-anchor {
-		color: black;
-		border-bottom: 0;
-		&:hover, &:focus {
-			border-bottom: 0;
-		}
+		font-weight: 200;
 	}
 	&.link-button-default {
 		background-color: $red-primary;

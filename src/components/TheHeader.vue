@@ -9,6 +9,9 @@
 						<router-link to="/" class="header__link js-home">Home</router-link>
 					</li>
 					<li class="header__nav-item" v-on:click="toggleMenu">
+						<router-link to="/timeline/1" class="header__link js-home">Timeline</router-link>
+					</li>
+					<li class="header__nav-item" v-on:click="toggleMenu">
 						<router-link to="/archival-records" class="header__link js-archive-link">Archival records</router-link>
 					</li>
 					<li class="header__nav-item" v-on:click="toggleMenu">
@@ -30,6 +33,7 @@
 					</label>
 					<input type="submit" class="search-button" aria-label="Search button" value=""/>
 				</form>
+				<button v-on:click="search()" class="button-link dotted-underline">Advanced search</button>
 			</div>
 			<div class="mobile__nav" role="button" v-on:click="toggleMenu">
 				<div class="line1"></div>
@@ -44,13 +48,13 @@
 import { setTimeout } from 'timers';
 
 export default {
-  	name: 'TheHeader',
+	name: 'TheHeader',
 	methods: {
 		toggleMenu: function() {
-		const mobileNav = document.querySelector('.mobile__nav')
-		const nav = document.querySelector('.header__nav')
-		mobileNav.classList.toggle('toggle')
-		nav.classList.toggle('nav-active')
+			const mobileNav = document.querySelector('.mobile__nav')
+			const nav = document.querySelector('.header__nav')
+			mobileNav.classList.toggle('toggle')
+			nav.classList.toggle('nav-active')
 		}
 	},
 	watch: {
