@@ -1,6 +1,6 @@
 <template>
 	<div class="home-bottom">
-		<div class="container two-column-section">
+		<div class="container two-column-50-50">
 			<div class="card">
 				<div class="card-image">
 					<img src="@/assets/images/archival-record-banner.png" alt="Banner for the DBrowse archival records section depicting an archival record"/>
@@ -26,7 +26,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="container two-column-section">
+		<div class="container two-column-50-50">
 			<div class="about">
 				<h2>About</h2>
 				<p>The Collaborative Workspace is a digital platform, developed by <a href="https://www.kdl.kcl.ac.uk/" class="dotted-underline">King’s Digital Lab</a>, that holds material digitised by the <a href="https://gpp.rct.uk/" class="dotted-underline">Royal Archives</a> as part of the <a href="https://georgianpapers.com/" class="dotted-underline">Georgian Papers Programme</a>. It is the one platform on which all datastreams for the Georgian papers, images, metadata and completed transcriptions, are offered; and will allow scholarly users to edit and augment these according to their own knowledge and close reading of the material.</p>

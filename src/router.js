@@ -19,7 +19,12 @@ export default new Router({
       component: Home
     },
     {
-      path: '/timeline/:id',
+      path: '/timeline',
+      name: 'timelines',
+      redirect: {name: 'timeline', params: {subpage: 'early-georgians'}},
+    },
+    {
+      path: '/timeline/:subpage',
       name: 'timeline',
       component: Timeline
     },
@@ -40,7 +45,7 @@ export default new Router({
     },
     {
       path: '/people-and-corporate-bodies/:id',
-      name: 'people-and-corporate-body',
+      name: 'person-and-corporate-body',
       component: PersonAndCorporateBody
     },
     {

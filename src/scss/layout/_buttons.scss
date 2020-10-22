@@ -7,8 +7,30 @@ button {
 		margin: 0;
 		padding: 0;
 		color: $red-primary;
+		&:hover, &:focus {
+			font-weight: 600;
+		}
+		&.active {
+			font-weight: 600;
+			border-bottom: 1px dashed $red-primary !important;		
+		}
 	}
-	
+	&.button-default {
+		background-color: $red-primary;
+		color: white;
+		text-decoration: none;
+		border-radius: 0.2em;
+		border-bottom: 0;
+		margin-bottom: 1em;
+		white-space: nowrap;
+		&:not(:last-of-type) {
+			margin-right: 1em;
+		}
+		&:hover, &:focus {
+			background-color: $red-dark;
+			border-bottom: 0;
+		}
+	}
 	&.slider-arrow {
 		background-color: white;
 		border-radius: 50%;
@@ -114,6 +136,7 @@ a {
 		border-radius: 0.2em;
 		border-bottom: 0;
 		margin-bottom: 1em;
+		white-space: nowrap;
 		&:not(:last-of-type) {
 			margin-right: 1em;
 		}
@@ -131,6 +154,7 @@ a {
 		padding: 0.3em 1em 0.5em 1em;
 		margin-bottom: 1em;
 		font-weight: 500;
+		white-space: nowrap;
 		&:not(:last-of-type) {
 			margin-right: 1em;
 		}
@@ -141,46 +165,46 @@ a {
 	}
 }
 
-.btn {
-	border: 1px solid $gray;
-	width: 190px;
-	padding: 8px 15px;
-	color: $black;
-	background-color: $white;
-	font-size: 20px;
-	outline: none;
-	transition: $dur $ease;
-	&:hover, &--active {
-		background-color: $maroon;
-		color: $white;
-	}
-	&:focus {
-		border: 1px solid darken($gray, 10%);
-	}
-	@media only screen and (max-width: 768px) {
-		width: 50%;
-		border-bottom: 0;
-		font-size: 16px;
-		padding: 8px 5px;
-	}
-}
+// .btn {
+// 	border: 1px solid $gray;
+// 	width: 190px;
+// 	padding: 8px 15px;
+// 	color: $black;
+// 	background-color: $white;
+// 	font-size: 20px;
+// 	outline: none;
+// 	transition: $dur $ease;
+// 	&:hover, &--active {
+// 		background-color: $maroon;
+// 		color: $white;
+// 	}
+// 	&:focus {
+// 		border: 1px solid darken($gray, 10%);
+// 	}
+// 	@media only screen and (max-width: 768px) {
+// 		width: 50%;
+// 		border-bottom: 0;
+// 		font-size: 16px;
+// 		padding: 8px 5px;
+// 	}
+// }
 
-.btn--active {
-	background-color: $maroon;
-	color: $white;
-}
+// .btn--active {
+// 	background-color: $maroon;
+// 	color: $white;
+// }
 
-.btn-load {
-	margin-left: 50%;
-	transform: translateX(-50%);
-	margin-bottom: 70px;
-	transition: $dur $ease;
-	text-transform: uppercase;
-	font-size: 18px;
-	&:focus {
-		background-color: darken(white, 20%);
-	}
-	@media only screen and (max-width: 768px) {
-		border-bottom: 1px solid $gray;
-	}
-}
+// .btn-load {
+// 	margin-left: 50%;
+// 	transform: translateX(-50%);
+// 	margin-bottom: 70px;
+// 	transition: $dur $ease;
+// 	text-transform: uppercase;
+// 	font-size: 18px;
+// 	&:focus {
+// 		background-color: darken(white, 20%);
+// 	}
+// 	@media only screen and (max-width: 768px) {
+// 		border-bottom: 1px solid $gray;
+// 	}
+// }

@@ -43,7 +43,7 @@
 						color: $grey-primary;
 						font-family: $font-secondary;
 						font-size: 1.2em;
-						&.router-link-exact-active {
+						&.router-link-exact-active, &.router-link-active {
 							color: $red-dark;
 							border-bottom: 1px solid $red-dark;
 						}
@@ -163,7 +163,7 @@
 	}
 	&.fixed {
 		background-color: white;
-		box-shadow: 0px 1px 3px lighten($grey-light, 10%);
+		box-shadow: 0px 1px 3px lighten($grey-light, 20%);
 		padding: 0.3em 1em;
 		.header__search {
 			input[type=checkbox]:checked + label.search-label {

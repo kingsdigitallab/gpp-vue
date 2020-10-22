@@ -2,14 +2,14 @@
 	<header class="header">
 		<div class="container">
 			<a href="#main-content" class="skip-link">Skip to main content</a>
-			<a href="/" class="header__logo"><img src="../assets/images/site-logo.png" alt="Georgian Papers Programme logo"></a>
+			<a href="/" class="header__logo"><img src="@/assets/images/site-logo.png" alt="Georgian Papers Programme logo"></a>
 			<nav class="header__nav">
 				<ul class="header__nav-list">
 					<li class="header__nav-item" v-on:click="toggleMenu">
-						<router-link to="/" class="header__link js-home">Home</router-link>
+						<router-link to="/" class="header__link js-home" exact>Home</router-link>
 					</li>
 					<li class="header__nav-item" v-on:click="toggleMenu">
-						<router-link to="/timeline/1" class="header__link js-home">Timeline</router-link>
+						<router-link to="/timeline" class="header__link js-timeline">Timeline</router-link>
 					</li>
 					<li class="header__nav-item" v-on:click="toggleMenu">
 						<router-link to="/archival-records" class="header__link js-archive-link">Archival records</router-link>
@@ -60,21 +60,40 @@ export default {
 	watch: {
 		$route(to, from) {
 			switch(to.name) {
-				case 'Archive Record':
+				case 'timeline':
+					setTimeout(function() {
+						document.querySelector('.js-timeline').classList.add('router-link-exact-active');
+					}, 100);
+					break;
+				case 'archival-records':
 					setTimeout(function() {
 						document.querySelector('.js-archive-link').classList.add('router-link-exact-active');
 					}, 100);
 					break;
-				case 'Person and Corporate Body':
+				case 'archival-record':
+					setTimeout(function() {
+						document.querySelector('.js-archive-link').classList.add('router-link-exact-active');
+					}, 100);
+					break;
+				case 'people-and-corporate-bodies':
 					setTimeout(function() {
 						document.querySelector('.js-people-link').classList.add('router-link-exact-active');
 					}, 100);
 					break;
-				case 'About':
+				case 'person-and-corporate-body':
+					setTimeout(function() {
+						document.querySelector('.js-people-link').classList.add('router-link-exact-active');
+					}, 100);
+					break;
+				case 'about':
 					setTimeout(function() {
 						document.querySelector('.js-about').classList.add('router-link-exact-active');
 					}, 100);
 					break;
+				default:
+					setTimeout(function() {
+						document.querySelector('.js-home').classList.add('router-link-exact-active');
+					}, 100);
 			}
 		}
 	}

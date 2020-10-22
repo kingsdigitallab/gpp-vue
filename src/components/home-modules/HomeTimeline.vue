@@ -2,40 +2,21 @@
 	<div class="home-timeline">
 		<div class="container">
 			<div v-for="(group, i) in timelineGroup" v-bind:key="i" class="timeline-group">
-				<h2><router-link :to="{}">{{group.title}} <span class="arrow"></span></router-link></h2>
+				<h2><router-link :to="{name:'timeline', params: {id: group.id}}">{{group.title}} <span class="arrow"></span></router-link></h2>
 				<p>{{group.description}}</p>
 				<div class="featured-collections-series">
 					<router-link :to="{name: 'archival-record', params: {id: collection.id}}" class="link-button-default small" v-for="(collection, i) in group.collections" v-bind:key="i">{{collection.title}}</router-link>
 				</div>
 				<div class="featured-files-items" v-if="group.featuredRecords.length">
 					<h3>Featured files and items</h3>
-					<VueSlickCarousel ref="carousel" class="slider-featured-records-block" v-bind="sliderOptions">
-						<div v-for='(record, index) in group.featuredRecords' v-bind:key="index">
-							<div class="featured-card">
-								<div class="featured-card-image">
-									<img v-bind:src="record.src" v-bind:alt="'image for ' + record.title"/>
-								</div>
-								<div class="featured-card-description">
-									<p>
-										<span class="highlight">{{record.date}}</span>
-										<br><br>
-										<!-- set word limit -->
-										{{record.title}}
-										<br>
-										<router-link :to="{name:'archival-record', params:{id: record.id}}" class="dotted-underline">See record<span class="arrow"></span></router-link>
-									</p>
-									<p>in <router-link :to="{name:'archival-record', params:{id: record.collection.id}}" class="dotted-underline">{{record.collection.title}}</router-link></p>
-								</div>
-							</div>
-						</div>
-					</VueSlickCarousel>
+					<carousel-template v-bind:featuredRecords="group.featuredRecords"></carousel-template>
 					<!-- <template v-if="group.featuredRecords.length > 1">
 						<button class="slider-arrow prev" aria-label="previous slide" @click="showPrev">&#xf104;</button>
 						<button class="slider-arrow next" aria-label="next slide" @click="showNext">&#xf105;</button>
 					</template> -->
 				</div>
 				<div class="featured-people-corporate-bodies">
-					<router-link :to="{name: 'people-and-corporate-body', params: {id: entity.id}}" class="link-button-grey small" v-for="(entity, i) in group.entities" v-bind:key="i"><span class="dotted-underline">{{entity.title}}</span></router-link>
+					<router-link :to="{name: 'person-and-corporate-body', params: {id: entity.id}}" class="link-button-grey small" v-for="(entity, i) in group.entities" v-bind:key="i"><span class="dotted-underline">{{entity.title}}</span></router-link>
 				</div>
 			</div>
 		</div>
@@ -43,12 +24,11 @@
 </template>
 
 <script>
-import VueSlickCarousel from 'vue-slick-carousel'
-import 'vue-slick-carousel/dist/vue-slick-carousel.css'
-import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
+import CarouselTemplate from '../templates/CarouselTemplate.vue';
+
 export default {
 	name: 'HomeTimeline',
-	components: {VueSlickCarousel},
+	components: {CarouselTemplate},
 	data: function() {
 		return {
 			timelineGroup: [
@@ -89,6 +69,13 @@ export default {
 							date: '7 January 1766', 
 							title: 'Letter from George III to Sir Joseph Yorke on the possibility of the Hereditary Prince of Brunswick [Charles William Ferdinand, Duke of Brunswick-Wolfenbüttel] being put into the service of the Prince of Orange [William V]', 
 							collection: {id: 211, title: 'Collection'}
+						},
+						{
+							id: 22, 
+							src: require("@/assets/images/record-placeholder.png"), 
+							date: '1746-1805', 
+							title: 'Essay on government', 
+							collection: {id: 212, title: 'George III Essays'}
 						},
 						{
 							id: 22, 
@@ -162,13 +149,7 @@ export default {
 						{id: 51, title: 'William IV, King'},
 					],
 				},
-			],
-			currentSlide: 0,
-			sliderOptions: {
-				"arrows": true,
-				"dots": false,
-				"slidesToShow": 2,
-			},
+			]
 		}
 	},
 	methods: {

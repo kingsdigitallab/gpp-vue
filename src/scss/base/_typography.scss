@@ -5,15 +5,17 @@ body {
 
 h1 {
 	font-family: $font-secondary;
-	font-size: 2.3em;
+	font-size: 1.8em;
 	color: $red-primary;
 	font-weight: 300;
+	&.page-title {
+		margin-top: 1em;
+	}
 }
 
 h2 {
 	font-family: $font-secondary;
-	font-size: 1.8em;
-	color: $red-primary;
+	font-size: 1.5em;
 	font-weight: 300;
 	margin-bottom: 0.5em;
 	display: inline-block;
@@ -30,7 +32,7 @@ h2 {
 h3 {
 	font-family: $font-primary;
 	font-size: 1.2em;
-	font-weight: 300;
+	font-weight: 600;
 }
 
 p {
@@ -41,6 +43,10 @@ p {
 
 .highlight {
 	font-weight: 600;
+}
+
+.red-highlight {
+	color: $red-primary;
 }
 
 input {
@@ -77,21 +83,4 @@ input {
 	@media only screen and (max-width: 768px) {
 		font-size: 14px;
 	}
-}
-
-.page-title {
-	text-transform: uppercase;
-	font-size: 25px;
-	padding-bottom: 10px;
-	border-bottom: 2px solid $gray;
-	margin-bottom: 100px;
-	@media only screen and (max-width: 768px) {
-		margin-bottom: 50px;
-		font-size: 25px;
-	}
-}
-
-.page-title--single {
-	text-transform: inherit;
-	margin-bottom: 15px;
 }
