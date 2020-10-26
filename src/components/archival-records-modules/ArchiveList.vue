@@ -3,108 +3,124 @@
 		<div class="two-column-20-80">
 			<div class="filters">
 				<button class="display-mobile filter-button" v-on:click="toggleFilters" aria-label="filter objects">Hide filters</button>
-				<div>
-				<form action=".">
-					<fieldset class="range">
+				<fieldset class="range">
 					<legend>Creation year</legend>
-					<span hidden>Creation year range</span>
 					<!-- change min and max to min and max creation years from the database [date of creation] -->
 					<div id="creation-year-slider" ref="creationSlider"></div>
 					<br>
 					<input type="number" name="creation_start_year" aria-label="creation year start" class="range-year" :min="creationSlider.min" :max="creationSlider.max" v-model="minCreationRange" v-on:change="updateCreationSlider()" />
 					-
 					<input type="number" name="creation_end_year" aria-label="creation year end" class="range-year" :min="creationSlider.min" :max="creationSlider.max" v-model="maxCreationRange" v-on:change="updateCreationSlider()" />
-					<input type="submit" class="default" value="Filter" disabled/>
-					</fieldset>
-				</form>
-				<fieldset>
-					<legend>Play <span class="count">({{facets.plays.length}})</span></legend>
-					<input type="text" aria-label="Search plays" placeholder="Search plays" onfocus="this.placeholder=''" v-on:click="playsCheckbox = true" v-model="searchPlays" onblur="this.placeholder='Search plays'" name=""/>
-					<div class="facets" v-bind:class="{active: playsCheckbox}">
-					<label v-for="(play, index) in filteredData(facets.plays, searchPlays)" v-bind:key="index" class="facet">
-						<!-- <router-link :to="{name: 'objects'}" class="checkbox-anchor"> -->
-							<input type="checkbox" v-bind:name="play.display_name" v-bind:aria-label="play.display_name" :value="play" v-model="selectedFilters"/> {{play.display_name | capitalize}} <span class="count">({{play.count}})</span>
-						<!-- </router-link> -->
-					</label>
-					</div>
-					<input type="checkbox" id="show-all-plays" class="show-checkbox" v-model="playsCheckbox">
-					<label class="show-all" for="show-all-plays" v-if="facets.plays.length > 5 && !searchPlays"> plays</label>
+					<button type="button" class="button-outline" v-on:click="filterByYear()">Filter</button>
 				</fieldset>
-				<!-- TODO: add Show more -->
 				<fieldset>
-					<legend>Shakespeare connection</legend>
-					<div class="facets">
-					<label v-for="(connection, index) in sortedData(facets.connection_a)" v-bind:key="index" class="facet">
-						<!-- <router-link :to="{name: 'objects'}" class="checkbox-anchor"> -->
-						<input type="checkbox" v-bind:name="connection.display_name" v-bind:aria-label="connection.display_name" :value="connection" v-model="selectedFilters"/> {{connection.display_name | capitalize}} <span class="count">({{connection.count}})</span>
-						<!-- </router-link> -->
-					</label>
+					<legend>Document level</legend>
+					<input type="checkbox" id="document-level-toggle" class="toggle-checkbox" checked />
+					<label for="document-level-toggle" class="toggle-label"><span hidden>Expand/collapse document level</span></label>
+					<div class="toggle-section">
+						<div class="facets">
+							<label v-for="(level, index) in facets.levels" v-bind:key="index" class="facet">
+								<!-- <router-link :to="{name: 'objects'}" class="checkbox-anchor"> -->
+									<input type="checkbox" v-bind:name="level.display_name" v-bind:aria-label="level.display_name" :value="level" v-model="selectedFilters"/> {{level.display_name}} <span class="count">({{level.count}})</span>
+								<!-- </router-link> -->
+							</label>
+						</div>
 					</div>
 				</fieldset>
 				<fieldset class="filter-collapse">
-					<legend>Relation to objects <span class="count">({{facets.connection_b.length}})</span></legend>
-					<input v-if="facets.connection_b.length > 5" type="text" aria-label="Search relation" placeholder="Search relation" onfocus="this.placeholder=''" v-on:click="relationsCheckbox = true" v-model="searchRelations" onblur="this.placeholder='Search relation'" name=""/>
-					<div class="facets" v-bind:class="{active: relationsCheckbox}">
-					<label v-for="(relation, index) in filteredData(facets.connection_b, searchRelations)" v-bind:key="index" class="facet">
-						<!-- <router-link :to="{name: 'objects'}" class="checkbox-anchor"> -->
-						<input type="checkbox" v-bind:name="relation.display_name" v-bind:aria-label="relation.display_name" :value="relation" v-model="selectedFilters"/> {{relation.display_name | capitalize}} <span class="count">({{relation.count}})</span>
-						<!-- </router-link> -->
-					</label>
+					<legend>Record type</legend>
+					<input type="checkbox" id="record-type-toggle" class="toggle-checkbox" />
+					<label for="record-type-toggle" class="toggle-label"><span hidden>Expand/collapse record type</span></label>
+					<div class="toggle-section">
+						<input v-if="facets.recordTypes.length > 5" type="text" aria-label="Search record type" placeholder="Search record type" onfocus="this.placeholder=''" v-on:click="recordTypeCheckbox = true" v-model="searchRecordTypes" onblur="this.placeholder='Search record type'" name=""/>
+						<div class="facets" v-bind:class="{active: recordTypeCheckbox}">
+							<label v-for="(type, index) in filteredData(facets.recordTypes, searchRecordTypes, 'count')" v-bind:key="index" class="facet">
+								<!-- <router-link :to="{name: 'objects'}" class="checkbox-anchor"> -->
+								<input type="checkbox" v-bind:name="type.display_name" v-bind:aria-label="type.display_name" :value="type" v-model="selectedFilters"/> {{type.display_name}} <span class="count">({{type.count}})</span>
+								<!-- </router-link> -->
+							</label>
+						</div>
+						<input type="checkbox" id="show-all-record-types" class="show-checkbox" v-model="recordTypeCheckbox">
+						<label class="show-all dotted-underline" for="show-all-record-types" v-if="facets.recordTypes.length > 5 && !searchRecordTypes"> record types</label>
 					</div>
-					<input type="checkbox" id="show-all-relations" class="show-checkbox" v-model="relationsCheckbox">
-					<label class="show-all" for="show-all-relations" v-if="facets.connection_b.length > 5 && !searchRelations"> relations</label>
 				</fieldset>
-				<form action=".">
-					<fieldset class="range">
-					<legend>Acquisition year</legend>
-					<span hidden>Acquisition year range</span>
-					<!-- change min and max to min and max creation years from the database [date of creation] -->
-					<div id="acquisition-year-slider" ref="acquisitionSlider"></div>
-					<br>
-					<input type="number" name="acquisition_start_year" aria-label="acquisition year start" class="range-year" :min="acquisitionSlider.min" :max="acquisitionSlider.max" v-model="minAcquisitionRange" v-on:change="updateAcquisitionSlider()" />
-					-
-					<input type="number" name="acquisition_end_year" aria-label="acquisition year end" class="range-year" :min="acquisitionSlider.min" :max="acquisitionSlider.max" v-model="maxAcquisitionRange" v-on:change="updateAcquisitionSlider()" />
-					<input type="submit" class="default" value="Filter" disabled/>
-					</fieldset>
-				</form>
 				<fieldset class="filter-collapse">
 					<!-- acquirers only -->
-					<legend>Acquirer <span class="count">({{facets.related_acquirers.length}})</span></legend>
-					<input v-if="facets.related_acquirers.length > 5" type="text" aria-label="Search acquirers" placeholder="Search acquirers" onfocus="this.placeholder=''" v-on:click="relatedAcquirersCheckbox = true" v-model="searchRelatedAcquirers" onblur="this.placeholder='Search acquirers'" name=""/>
-					<div class="facets" v-bind:class="{active: relatedAcquirersCheckbox}">
-					<label v-for="(related_acquirer, index) in filteredData(facets.related_acquirers, searchRelatedAcquirers)" v-bind:key="index" class="facet">
-						<!-- <router-link :to="{name: 'objects'}" class="checkbox-anchor"> -->
-						<input type="checkbox" v-bind:name="related_acquirer.display_name" v-bind:aria-label="related_acquirer.display_name" :value="related_acquirer" v-model="selectedFilters"/> {{related_acquirer.display_name | capitalize}} <span class="count">({{related_acquirer.count}})</span>
-						<!-- </router-link> -->
-					</label>
+					<legend>Writer</legend>
+					<input type="checkbox" id="writer-toggle" class="toggle-checkbox" />
+					<label for="writer-toggle" class="toggle-label"><span hidden>Expand/collapse writer</span></label>
+					<div class="toggle-section">
+						<input v-if="facets.writers.length > 5" type="text" aria-label="Search writer" placeholder="Search writer" onfocus="this.placeholder=''" v-on:click="writersCheckbox = true" v-model="searchWriters" onblur="this.placeholder='Search writer'" name=""/>
+						<div class="facets" v-bind:class="{active: writersCheckbox}">
+						<label v-for="(writer, index) in filteredData(facets.writers, searchWriters, 'alphabetical')" v-bind:key="index" class="facet">
+							<!-- <router-link :to="{name: 'objects'}" class="checkbox-anchor"> -->
+							<input type="checkbox" v-bind:name="writer.display_name" v-bind:aria-label="writer.display_name" :value="writer" v-model="selectedFilters"/> {{writer.display_name}} <span class="count">({{writer.count}})</span>
+							<!-- </router-link> -->
+						</label>
+						</div>
+						<input type="checkbox" id="show-all-writers" class="show-checkbox" v-model="writersCheckbox">
+						<label class="show-all dotted-underline" for="show-all-writers" v-if="facets.writers.length > 10 && !searchWriters"> writers</label>
 					</div>
-					<input type="checkbox" id="show-all-related-acquirers" class="show-checkbox" v-model="relatedAcquirersCheckbox">
-					<label class="show-all" for="show-all-related-acquirers" v-if="facets.related_acquirers.length > 5 && !searchRelatedAcquirers"> acquirers</label>
 				</fieldset>
 				<fieldset>
-					<legend>Category <span class="count">({{facets.category.length}})</span></legend>
-					<input v-if="facets.category.length > 5" type="text" aria-label="Search category" placeholder="Search category" onfocus="this.placeholder=''" v-on:click="categoriesCheckbox = true" v-model="searchCategories" onblur="this.placeholder='Search category'" name=""/>
-					<div class="facets" v-bind:class="{active: categoriesCheckbox}">
-					<label v-for="(category, index) in filteredData(facets.category, searchCategories)" v-bind:key="index" class="facet">
-						<!-- <router-link :to="{name: 'objects'}" class="checkbox-anchor"> -->
-						<input type="checkbox" v-bind:name="category.display_name" :value="category" v-bind:aria-label="category.display_name" v-model="selectedFilters"/> {{category.display_name | capitalize}} <span class="count">({{category.count}})</span>
-						<!-- </router-link> -->
-					</label>
+					<legend>Addressee</legend>
+					<input type="checkbox" id="addressee-toggle" class="toggle-checkbox" />
+					<label for="addressee-toggle" class="toggle-label"><span hidden>Expand/collapse addressee</span></label>
+					<div class="toggle-section">
+						<input v-if="facets.addressees.length > 5" type="text" aria-label="Search addressee" placeholder="Search addressee" onfocus="this.placeholder=''" v-on:click="addresseesCheckbox = true" v-model="searchAddressees" onblur="this.placeholder='Search addressee'" name=""/>
+						<div class="facets" v-bind:class="{active: addresseesCheckbox}">
+						<label v-for="(addressee, index) in filteredData(facets.addressees, searchAddressees, 'alphabetical')" v-bind:key="index" class="facet">
+							<!-- <router-link :to="{name: 'objects'}" class="checkbox-anchor"> -->
+							<input type="checkbox" v-bind:name="addressee.display_name" :value="addressee" v-bind:aria-label="addressee.display_name" v-model="selectedFilters"/> {{addressee.display_name}} <span class="count">({{addressee.count}})</span>
+							<!-- </router-link> -->
+						</label>
+						</div>
+						<input type="checkbox" id="show-all-addressees" class="show-checkbox" v-model="addresseesCheckbox">
+						<label class="show-all dotted-underline" for="show-all-addressees" v-if="facets.addressees.length > 10 && !searchAddressees"> addressees</label>
 					</div>
-					<input type="checkbox" id="show-all-categories" class="show-checkbox" v-model="categoriesCheckbox">
-					<label class="show-all" for="show-all-categories" v-if="facets.category.length > 5 && !searchCategories"> categories</label>
 				</fieldset>
-				</div>
+				<fieldset>
+					<legend>Language</legend>
+					<input type="checkbox" id="language-toggle" class="toggle-checkbox" />
+					<label for="language-toggle" class="toggle-label"><span hidden>Expand/collapse language</span></label>
+					<div class="toggle-section">
+						<input v-if="facets.languages.length > 5" type="text" aria-label="Search language" placeholder="Search language" onfocus="this.placeholder=''" v-on:click="languagesCheckbox = true" v-model="searchLanguages" onblur="this.placeholder='Search language'" name=""/>
+						<div class="facets" v-bind:class="{active: languagesCheckbox}">
+						<label v-for="(language, index) in filteredData(facets.languages, searchLanguages, 'count')" v-bind:key="index" class="facet">
+							<!-- <router-link :to="{name: 'objects'}" class="checkbox-anchor"> -->
+							<input type="checkbox" v-bind:name="language.display_name" :value="language" v-bind:aria-label="language.display_name" v-model="selectedFilters"/> {{language.display_name}} <span class="count">({{language.count}})</span>
+							<!-- </router-link> -->
+						</label>
+						</div>
+						<input type="checkbox" id="show-all-languages" class="show-checkbox" v-model="languagesCheckbox">
+						<label class="show-all dotted-underline" for="show-all-languages" v-if="facets.languages.length > 5 && !searchLanguages"> languages</label>
+					</div>
+				</fieldset>
+				<label><input type="checkbox" name="Records with transcriptions" value="Records with transcriptions" aria-label="Records with transcriptions" v-model="selectedFilters"/>Show only records with transcriptions</label>
 			</div>
 			<div>
-				<!-- TODO: selected filters -->
+				<fieldset v-if="selectedFilters.length" class="selected-facets">
+					<legend hidden>Selected filters</legend>
+					<label v-for="(selectedFilter, i) in selectedFilters" v-bind:key="i" class="facet">
+						<!-- <router-link :to="{name: 'objects'}" class="checkbox-anchor"> -->
+						<input type="checkbox" v-bind:name="selectedFilter.display_name" v-bind:aria-label="selectedFilter.display_name" v-on:click="removeFacet(i)" checked/> 
+						<span v-if="selectedFilter.display_name">{{selectedFilter.display_name}} ({{selectedFilter.count}})</span>
+						<span v-else>{{selectedFilter}}</span>
+						<!-- </router-link> -->
+					</label>
+					<!-- check if filters are selected -->
+						<!-- <router-link :to="{name: 'objects'}" class="clear"> -->
+						<button class="button-link dotted-underline" v-on:click="selectedFilters = []">Clear all filters</button>
+						<!-- </router-link> -->
+					<!-- TODO: add date range -->
+				</fieldset>
 				<div class="index">
-					<button v-for="(letter, i) in letterIndex" v-bind:key="i" v-bind:class="['button-link', {'active': active == letter.name}, {'missing': letter.missing}]">{{letter.name}}</button>
+					<button v-for="(letter, i) in letterIndex" v-bind:key="i" v-bind:class="['button-link', {'active': active == letter.name}, {'missing': letter.missing}]" v-on:click="filterByLetter(letter.name)">{{letter.name}}</button>
 				</div>
 				<div class="list grey-column">
 					<div class="list-header">
 						<h2 v-if="active == this.letterIndex[0].name">All archival records ({{count}})</h2>
-						<h2 v-else></h2>
+						<h2 v-else>{{active}}</h2>
 						<span>Level</span>
 						<span>Writer</span>
 						<span>Creation dates</span>
@@ -112,7 +128,7 @@
 					<div v-if="getArchivalRecords.length == 0" class="loader"></div>
 					<div v-for="(item, i) in getArchivalRecords" v-bind:key="i" class="list-row">
 						<span>
-							<router-link :to="'/archival-records/'+(item.id)" :aria-label="'document from '+(item.metadata[1].content)">{{item.title}}</router-link>
+							<router-link :to="item.metadata[1].content.toLowerCase() == 'collection' || item.metadata[1].content.toLowerCase() == 'series' ? '/archival-records/collections-series/'+(item.id) : '/archival-records/files-items/'+(item.id)" :aria-label="'document from '+(item.metadata[1].content)">{{item.title}}</router-link>
 						</span>
 						<!-- TODO: normalise metadata -> item.hierarchy_level -->
 						<span>{{item.metadata[1].content}}</span>
@@ -260,70 +276,68 @@ export default {
 				}
 			],
 			facets: {
-				plays: [
-				{id: 0, display_name: "Hamlet", count: 239},
-				{id: 1, display_name: "Macbeth", count: 173},
-				{id: 2, display_name: "Henry VIII", count: 171},
-				{id: 3, display_name: "Richard II", count: 78},
-				{id: 4, display_name: "The Tempest", count: 43},
-				{id: 5, display_name: "Romeo and Juliet", count: 30},
-				{id: 6, display_name: "Henry V", count: 96},
-				{id: 7, display_name: "The Winter's Tale", count: 73},
-				{id: 8, display_name: "The Merry Wives of Windsor", count: 30},
-				{id: 9, display_name: "Richard III", count: 150},
+				levels: [
+					{id: 0, display_name: "Collection", count: 19},
+					{id: 1, display_name: "Series", count: 84},
+					{id: 2, display_name: "File", count: 349},
+					{id: 3, display_name: "Item", count: 452},
 				],
-				connection_a: [
-				{id: 0, display_name: "Works", count: 143},
-				{id: 1, display_name: "Individual", count: 78}
+				recordTypes: [
+					{id: 1, display_name: "Writings (documents)", count: 5},
+					{id: 2, display_name: "Correspondence", count: 4},
+					{id: 3, display_name: "Diaries", count: 2},
+					{id: 0, display_name: "Financial records", count: 9},
+					{id: 4, display_name: "Legal documents", count: 2},
+					{id: 5, display_name: "Registers (lists)", count: 2},
+					{id: 6, display_name: "Wills", count: 5},
+					{id: 7, display_name: "Commonplace books", count: 1},
 				],
-				connection_b: [
-				{id: 0, display_name: "Performance", count: 40},
-				{id: 1, display_name: "Character", count: 21},
-				{id: 2, display_name: "Portrait", count: 64},
-				{id: 3, display_name: "Actor", count: 90},
+				writers: [
+					{id: 0, display_name: "George III, 1738-1820, King of Great Britain and Ireland", count: 541},
+					{id: 1, display_name: "Grafton, 3rd Duke of", count: 81},
+					{id: 2, display_name: "North, Frederick, Lord", count: 75},
+					{id: 3, display_name: "William, Prince (1765-1837)", count: 69},
+					{id: 4, display_name: "Conway, Henry Seymour (1721-1795)", count: 41},
+					{id: 5, display_name: "Rockingham, 2nd Marquess of", count: 38},
+					{id: 6, display_name: "Charlotte, Queen Consort to George III", count: 37},
+					{id: 7, display_name: "Baillie, Matthew (1761-1823)", count: 34},
+					{id: 9, display_name: "Chatham, 1st Earl of", count: 26},
+					{id: 9, display_name: "Rochford, 4th Earl of", count: 24},
+					{id: 10, display_name: "Basnett, William", count: 19},
+					{id: 11, display_name: "Parker and Perry; Glass Manufacturers", count: 18},
+					{id: 0, display_name: "George III, 1738-1820, King of Great Britain and Ireland", count: 541},
+					{id: 1, display_name: "Grafton, 3rd Duke of", count: 81},
+					{id: 2, display_name: "North, Frederick, Lord", count: 75},
+					{id: 3, display_name: "William, Prince (1765-1837)", count: 69},
+					{id: 4, display_name: "Conway, Henry Seymour (1721-1795)", count: 41},
+					{id: 5, display_name: "Rockingham, 2nd Marquess of", count: 38},
+					{id: 6, display_name: "Charlotte, Queen Consort to George III", count: 37},
+					{id: 7, display_name: "Baillie, Matthew (1761-1823)", count: 34},
+					{id: 9, display_name: "Chatham, 1st Earl of", count: 26},
+					{id: 9, display_name: "Rochford, 4th Earl of", count: 24},
+					{id: 10, display_name: "Basnett, William", count: 19},
+					{id: 11, display_name: "Parker and Perry; Glass Manufacturers", count: 18}
 				],
-				related_acquirers: [
-				{id: 0, display_name: "Queen Victoria (1819-1901), Queen of Great Britain and Ireland", count: 1},
-				{id: 1, display_name: "Queen Victoria (1819-1901)", count: 8},
-				{id: 2, display_name: "Prince Albert (1819-61)", count: 1},
-				{id: 3, display_name: "Queen Mary (1867-1953)", count: 5},
-				{id: 4, display_name: "Prince Edward, Prince of Wales (1841-1910)", count: 1},
-				{id: 5, display_name: "Prince George, Prince of Wales (1762-1830)", count: 6},
-				{id: 6, display_name: "George IV (1762-1830)", count: 4},
-				{id: 6, display_name: "George III (1738-1820)", count: 6},
-				{id: 7, display_name: "King Edward VII (1841-1910)", count: 1},
-				{id: 8, display_name: "Elizabeth II (1926-)", count: 1},
-				{id: 9, display_name: "Queen Charlotte (1744-1818)", count: 53},
-				{id: 10, display_name: "George, Prince Regent (1762-1830)", count: 2},
-				{id: 11, display_name: "George, Prince of Wales (1762-1830)", count: 3}
+				addressees: [
+					{id: 0, display_name: "George III, 1738-1820, King of Great Britain and Ireland", count: 541},
+					{id: 1, display_name: "Grafton, 3rd Duke of", count: 81},
+					{id: 2, display_name: "North, Frederick, Lord", count: 75},
+					{id: 3, display_name: "William, Prince (1765-1837)", count: 69},
+					{id: 4, display_name: "Conway, Henry Seymour (1721-1795)", count: 41},
+					{id: 5, display_name: "Rockingham, 2nd Marquess of", count: 38},
+					{id: 6, display_name: "Charlotte, Queen Consort to George III", count: 37},
+					{id: 7, display_name: "Baillie, Matthew (1761-1823)", count: 34},
+					{id: 9, display_name: "Chatham, 1st Earl of", count: 26},
+					{id: 9, display_name: "Rochford, 4th Earl of", count: 24},
+					{id: 10, display_name: "Basnett, William", count: 19},
+					{id: 11, display_name: "Parker and Perry; Glass Manufacturers", count: 18}
 				],
-				category: [
-				{id: 0, display_name: "Accounts", count: 6},
-				{id: 1, display_name: "Album", count: 4},
-				{id: 2, display_name: "Banknote", count: 1},
-				{id: 3, display_name: "Book", count: 416},
-				{id: 4, display_name: "Book of prints", count: 3},
-				{id: 5, display_name: "Box of books", count: 6},
-				{id: 6, display_name: "CD", count: 1},
-				{id: 7, display_name: "Coin", count: 4},
-				{id: 8, display_name: "Decorative arts", count: 23},
-				{id: 9, display_name: "Drawing", count: 44},
-				{id: 10, display_name: "Letter", count: 40},
-				{id: 11, display_name: "Medals", count: 4},
-				{id: 12, display_name: "Miniature", count: 1},
-				{id: 13, display_name: "Miniature book", count: 41},
-				{id: 14, display_name: "Painting", count: 59},
-				{id: 15, display_name: "Photo montage", count: 1},
-				{id: 16, display_name: "Photograph", count: 119},
-				{id: 17, display_name: "Photograph album", count: 1},
-				{id: 18, display_name: "Photograph album (page)", count: 1},
-				{id: 19, display_name: "Photographic negative", count: 13},
-				{id: 20, display_name: "Postcard", count: 1},
-				{id: 21, display_name: "Print", count: 596},
-				{id: 22, display_name: "Print series", count: 1},
-				{id: 23, display_name: "slides (photographs)", count: 1},
-				{id: 24, display_name: "Tapestry", count: 1},
-				{id: 25, display_name: "Works of art", count: 2},
+				languages: [
+					{id: 0, display_name: "English", count: 2463},
+					{id: 1, display_name: "French", count: 124},
+					{id: 2, display_name: "German", count: 33},
+					{id: 3, display_name: "Italian", count: 8},
+					{id: 4, display_name: "Latin", count: 6}
 				]
 			},
 			minCreationRange: null,
@@ -333,44 +347,40 @@ export default {
 				startMax: 1900,
 				min: 1600,
 				max: 2020,
-				// start: 40,
 				step: 1
 			},
-			minAcquisitionRange: null,
-			maxAcquisitionRange: null,
-			acquisitionSlider: {
-				startMin: 1800,
-				startMax: 2000,
-				min: 1700,
-				max: 2020,
-				step: 1
-			},
-			playsCheckbox: false,
-			categoriesCheckbox: false,
-			relationsCheckbox: false,
-			relatedAcquirersCheckbox: false,
+			addresseesCheckbox: false,
+			languagesCheckbox: false,
+			recordTypeCheckbox: false,
+			writersCheckbox: false,
 			selectedFilters: [],
-			searchPlays: '',
-			searchCategories: '',
-			searchRelations: '',
-			searchRelatedAcquirers: '',
+			searchAddressees: '',
+			searchRecordTypes: '',
+			searchWriters: '',
+			searchLanguages: '',
 			loading: false,
 			active: ''
 		}
 	},
 	methods: {
-		filteredData (list, query) {
+		filteredData (list, query, sortingOrder) {
 			query = query.toLowerCase();
 			var filteredList = list.slice().filter(function (item) {
 				var name = item.display_name.toLowerCase();
 				return name.match(query);
 			})
-			return filteredList.sort((a, b) => a.count < b.count);
-			},
-			sortedData (list) {
+			if (sortingOrder == 'alphabetical')  {
+				return filteredList.sort((a, b) => a.display_name.localeCompare(b.display_name));
+			} else if (sortingOrder == 'count') {
+				return filteredList.sort((a, b) => b.count - a.count);
+			} else {
+				return filteredList;
+			}
+		},
+		sortedData (list) {
 			return list.slice().sort((a, b) => a.count < b.count);
-			},
-			sortedList (records, sortBy) {
+		},
+		sortedList (records, sortBy) {
 			switch (sortBy) {
 				case '--': 
 				return records
@@ -379,22 +389,24 @@ export default {
 				// case 'Creation year': 
 				//   return records.slice().sort((a, b) => a.creation_dates.localeCompare(a.creation_dates));
 			}
-			},
-			sortAscDesc(sortBy) {
-			// true = A-Z/0-9, false = Z-A/9-0
-			this.sortAscDescVal = !this.sortAscDescVal;
-			// return list.slice().sort((a, b) => b.count < a.count);
-			},
-			updateCreationSlider() {
+		},
+		filterByLetter(letter) {
+			// TODO - Filter list by letter
+            this.active = letter;
+		},
+		filterByYear(){
+ 			console.log(this.minExistenceRange, this.maxExistenceRange);
+		},
+		updateCreationSlider() {
 			this.$refs.creationSlider.noUiSlider.set([this.minCreationRange, this.maxCreationRange]);
-			},
-			updateAcquisitionSlider() {
-			this.$refs.acquisitionSlider.noUiSlider.set([this.minAcquisitionRange, this.maxAcquisitionRange]);
-			},
-			toggleFilters() {
+		},
+		toggleFilters() {
 			const filters = document.querySelector('.filters');
 			filters.classList.toggle('active');
-			},
+		},
+		removeFacet(facetIndex) {
+			this.selectedFilters.splice(facetIndex,1);
+		},
 		...mapActions(['fetchArchivalRecords','loadMoreArchivalRecords'])
 	},
 	created() {
@@ -413,19 +425,6 @@ export default {
 				
 		this.$refs.creationSlider.noUiSlider.on('update',(values, handle) => {
 			this[handle ? 'maxCreationRange' : 'minCreationRange'] = parseInt(values[handle]);
-		});
-
-		noUiSlider.create(this.$refs.acquisitionSlider, {
-			start: [this.acquisitionSlider.startMin, this.acquisitionSlider.startMax],
-			step: this.acquisitionSlider.step,
-			range: {
-				'min': this.acquisitionSlider.min,
-				'max': this.acquisitionSlider.max
-			}
-		}); 
-				
-		this.$refs.acquisitionSlider.noUiSlider.on('update',(values, handle) => {
-			this[handle ? 'maxAcquisitionRange' : 'minAcquisitionRange'] = parseInt(values[handle]);
 		});
 	}
 }

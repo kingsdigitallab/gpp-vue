@@ -1,4 +1,4 @@
-button {
+button, input[type=submit], input[type=button] {
 	font-family: $font-primary;
 	transition: 0.2s ease;
 	border: 0;
@@ -7,12 +7,21 @@ button {
 		margin: 0;
 		padding: 0;
 		color: $red-primary;
-		&:hover, &:focus {
-			font-weight: 600;
-		}
 		&.active {
 			font-weight: 600;
 			border-bottom: 1px dashed $red-primary !important;		
+		}
+	}
+	&.button-outline {
+		border: 1px solid $red-primary;
+		background-color: transparent;
+		margin: 0;
+		padding: 0.5em 1.2em;
+		color: $red-primary;
+		border-radius: 0.2em;
+		&:hover, &:focus {
+			background-color: $red-primary;	
+			color: white;
 		}
 	}
 	&.button-default {

@@ -26,7 +26,7 @@
                             </span>
                         </div>
                         <div class="parent-level">
-                            <hierarchy-template v-bind:current="this.hierarchy[0]"></hierarchy-template>
+                            <hierarchy-template v-bind:current="this.hierarchy"></hierarchy-template>
                         </div>
                     </div>
                 </div>
@@ -126,7 +126,7 @@ export default {
             collectionTitle: '',
             current: '',
             hierarchy: '',
-            hierarchy_PLACEHOLDER: [
+            hierarchy_PLACEHOLDER: 
                 {
                     id: 1,
                     is_selected: false,
@@ -200,7 +200,7 @@ export default {
                         }
                     ]
                 }
-            ]
+            
 		}
 	},
 	methods: {
@@ -209,6 +209,9 @@ export default {
             this.activeCollection = id;
             // this.fetchHierarchy(id);
             this.hierarchy = this.hierarchy_PLACEHOLDER;
+        },
+        updatePage(url) {
+            console.log(url);
         }
     },
     created: function(){
@@ -218,5 +221,10 @@ export default {
     mounted: function() {
         this.current = this.hierarchy[0];
     },
+    watch: {
+        $route() {
+            this.updatePage(this.$route.params.subpage)
+        }
+    }
 }
 </script>

@@ -75,7 +75,7 @@ import { mapGetters, mapActions } from 'vuex';
 
 
 export default {
-	name: 'AuthoritySingle',
+	name: 'EntitySingle',
 	components: {
 	},
 	computed: mapGetters(['getAuthority']),

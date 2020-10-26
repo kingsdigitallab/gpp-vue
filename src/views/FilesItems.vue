@@ -1,26 +1,21 @@
 <template>
-	<main class="arch-record">
+	<main class="single-record">
 		<div class="container">
             <the-breadcrumbs :breadcrumbs="breadcrumbs" />
-			<archive-single />
-			<collections-series />
-			<files-items />
+			<files-items-single />
 		</div>
 	</main>
 </template>
 
 <script>
-import ArchiveSingle from '../components/archival-records-modules/ArchiveSingle.vue'
 import TheBreadcrumbs from '../components/TheBreadcrumbs.vue'
+import FilesItemsSingle from '../components//archival-records-modules/FilesItemsSingle.vue'
 
 export default {
-	name: 'ArchiveRecord',
+	name: 'FilesItems',
 	components: {
-		ArchiveSingle,
-        TheBreadcrumbs
-	},
-	watch: {
-		
+		TheBreadcrumbs,
+		FilesItemsSingle
 	},
 	data: function() {
 		return {

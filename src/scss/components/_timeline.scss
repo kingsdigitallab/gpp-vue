@@ -1,0 +1,83 @@
+.timeline {
+    .timeline-top {
+        border-bottom: 2px dashed $grey-light;
+        margin-bottom: 4em;
+        .timestamps {
+            display: flex;
+            justify-content: space-between;
+            padding: 2em 0 1.3em 0;
+            .timestamp {
+                max-width: 200px;
+                text-align: center;
+                position: relative;
+                a {
+                    border-bottom: 0;
+                    &:after {
+                        content:'';
+                        border: 3px solid $grey-primary;
+                        border-radius: 50%;
+                        background-color: white;
+                        width: 10px;
+                        height: 10px;
+                        position: absolute;
+                        bottom: -1.9em;
+                        left: 43%;
+                        transition: 0.2s ease;
+                    }
+                    &:hover, &:focus {
+                        &:after {
+                            border: 3px solid $red-primary;
+                            background-color: $red-primary;
+                        }
+                    }
+                }
+                &.active {
+                    a {
+                        color: black;
+                        &:after {
+                            border: 3px solid $red-primary;
+                            background-color: $red-primary;
+                        }
+                    }
+                    
+                }
+            }
+        }
+    }
+    .timeline-group {
+        .related-collections, .related-files-items {
+            margin: 4em 0;
+        }
+        .related-people-corporate-bodies {
+            display: flex;
+            flex-wrap: wrap;
+            h3 {
+                width: 100%;
+            }
+        }
+        .related-collections {
+            .grey-column {
+                padding: 1.5em 0;
+                .collections {
+                    button.collection {
+                        width: 100%;
+                        padding: 0.75em 2em;
+                        text-align: left;
+                        background-color: transparent;
+                        &:hover, &:focus {
+                            background-color: lighten($grey-light, 30%);
+                        }
+                        &.active {
+                            background-color: $red-primary;
+                            color: white;
+                            .red-highlight {
+                                color: white;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+}

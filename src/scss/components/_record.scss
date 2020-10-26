@@ -1,0 +1,27 @@
+.record {
+    > div {
+        margin: 2em 0 6em 0;
+        p {
+            line-height: 1.6em;
+        }
+    }
+    .related-to {
+        &:before {
+            content: url('./assets/icons/timeline-relation.svg');
+            height: 40px;
+            margin: 0 0.5em 0 1em;
+        }
+        a {
+            margin-left: 0.5em;
+        }
+    }
+    .grey-column {
+        &.two-column-30-70 {
+            column-gap: 1em;
+            div > span {
+                display: block;
+                margin-bottom: 1em;
+            }
+        }
+    }
+}

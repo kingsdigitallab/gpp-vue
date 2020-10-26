@@ -2,6 +2,9 @@
 	background-image: url('./assets/images/home-background.png');
 	background-repeat: no-repeat;
 	padding: 11em 0em 3em 0em;
+	h2 {
+		color: $red-primary;
+	}
 	.home-top {
 		padding-bottom: 10em;
 		h1 {
@@ -71,12 +74,12 @@
 				margin-bottom: 0.5em;
 				color: $red-primary;
 				&:hover, &:focus{
-					&:before {
+					a:before {
 						background-color: $red-dark;
 						border: 3px solid $red-dark;
 					}
 				}
-				&:before {
+				a:before {
 					content:'';
 					border: 3px solid $grey-primary;
 					border-radius: 50%;
@@ -108,6 +111,9 @@
 		}
 	}
 	.home-bottom {
+		h2 {
+			font-size: 1.8em;
+		}
 		.two-column-50-50 {
 			padding-top: 5em;
 			.card {

@@ -75,12 +75,22 @@ export default {
 						document.querySelector('.js-archive-link').classList.add('router-link-exact-active');
 					}, 100);
 					break;
-				case 'people-and-corporate-bodies':
+				case 'collections-series':
+					setTimeout(function() {
+						document.querySelector('.js-archive-link').classList.add('router-link-exact-active');
+					}, 100);
+					break;
+				case 'files-items':
+					setTimeout(function() {
+						document.querySelector('.js-archive-link').classList.add('router-link-exact-active');
+					}, 100);
+					break;
+				case 'entities':
 					setTimeout(function() {
 						document.querySelector('.js-people-link').classList.add('router-link-exact-active');
 					}, 100);
 					break;
-				case 'person-and-corporate-body':
+				case 'entity':
 					setTimeout(function() {
 						document.querySelector('.js-people-link').classList.add('router-link-exact-active');
 					}, 100);

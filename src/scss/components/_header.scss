@@ -1,5 +1,5 @@
 .header {
-	padding: 1em;
+	padding: 1em 0em;
 	width: 100%;
 	box-sizing: border-box;
 	position: fixed;
@@ -164,7 +164,7 @@
 	&.fixed {
 		background-color: white;
 		box-shadow: 0px 1px 3px lighten($grey-light, 20%);
-		padding: 0.3em 1em;
+		padding: 0.3em 0em;
 		.header__search {
 			input[type=checkbox]:checked + label.search-label {
 				+.search-field {

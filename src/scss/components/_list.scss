@@ -1,99 +1,188 @@
-.archival-records {
-	.archival-list {
+.records {
+	.archival-list, .entity-list {
 		margin-top: 3em;
 		.filters {
-			width: 300px;
-			margin-right: 2em;
+			margin-top: 4em;
 			box-sizing: border-box;
 			&.active {
 			  -webkit-transform: translateX(0%);
 			  transform: translateX(0%);
 			}
-			> div {
-			  input[type=text] {
+			.show-checkbox {
+				display: none;
+			}
+			.show-all {
+				display: inline-block;
+				color: $red-primary;
+				text-decoration: none;
+				font-size: 0.9em;
+				margin: 0.5em 0 1em 0;
+				border-radius: 0.2em;
+				transition: 0.4s ease-in;
+				box-sizing: border-box;
+				cursor: pointer;
+				&:before {
+					content: 'Show all ';
+				}
+			}
+			.show-checkbox:checked + label.show-all {
+				&:before {
+					content: 'Show less ';
+				}
+			}
+			input[type=text] {
 				width: 100%;
 				margin: 0.5em 0em;
 				box-sizing: border-box;
-			  }
-			  .count {
+			}
+			.count {
 				color: $red-primary;
 				font-family: $font-primary;
-				font-weight: 600;
-			  }
-			  .facets {
-				max-height: 150px;
+			}
+			.facets {
+				max-height: 400px;
 				overflow: hidden;
 				margin-bottom: 0.5em;
 				.facet {
-				  display: block;
-				  margin: 5px 0px;
-				  color: black;
-				  font-size: 0.9em;
-				  .checkbox-anchor {
-					text-decoration: none;
+					display: block;
+					margin: 7px 0px;
 					color: black;
-				  }
+					font-size: 0.95em;
+					line-height: 1.4em;
+					.checkbox-anchor {
+						text-decoration: none;
+						color: black;
+					}
 				}
 				&.active {
-				  max-height: 100%;
+					max-height: 100%;
 				}
-			  }
-			  fieldset {
+			}
+			fieldset {
+				position: relative;
 				&:not(:first-of-type) {
-				  margin: 1.5em 0em 1em 0em;
+					margin: 1em 0em;
 				}
 				label {
-				  // display: block;
-				  margin: 0.5em 0;
-				  cursor: pointer;
+					// display: block;
+					margin: 0.5em 0;
+					cursor: pointer;
 				}
-			  }
-			  h5, legend {
-				text-transform: uppercase;
-				margin-bottom: 0.5em;
-			  }
-			  .range {
-				margin-bottom: 1.5em;
+				.toggle-checkbox {
+					display: none;
+				}
+				.toggle-label {
+					position: absolute;
+					right: 0;
+					top: 0;
+					margin: 0;
+					width: 100%;
+					text-align: right;
+					&:after {
+						content: '\f078';
+						font-family: $fontawesome;
+						font-weight: 600;
+						color: $grey-light;
+					}
+				}
+				.toggle-section {
+					display: none;
+				}
+				.toggle-checkbox:checked + .toggle-label {
+					&:after {
+						content: '\f077';
+						color: black;
+					}
+					+.toggle-section {
+						display: block;
+						
+					}
+				}
+				legend {
+					padding-bottom: 0.3em;
+					margin-bottom: 0.3em;
+					font-weight: 600;
+					border-bottom: 1px solid lighten($grey-light, 30%);
+					width: 100%;
+				}
+			}
+			>label {
+				&:first-of-type {
+					margin-top: 2em;
+				}
+				margin: 1em 0;
+				display: block;
+			}
+			.range {
+				margin-bottom: 2.5em;
+				legend {
+					border-bottom: 0;
+					padding: 0;
+					margin: 0;
+				}
 				.noUi-target {
-				  box-shadow: none;
+					box-shadow: none;
 				}
 				.noUi-horizontal {
-				  height: 10px;
-				  margin-top: 1em;
-				  .noUi-handle {
-					width: 30px;
-					height: 30px;
-					top: -10px;
-				  }
+					height: 10px;
+					margin-top: 1em;
+					.noUi-handle {
+						width: 30px;
+						height: 30px;
+						top: -10px;
+					}
 				}
 				.noUi-handle {
-				  border-radius: 50%;
-				  box-shadow: none;
-				  cursor: pointer;
-				  &:before {
-					left: 12px;
-					top: 9px;
-					height: 10px;
-					background: $red-primary;
-				  }
-				  &:after {
-					left: 15px;
-					height: 10px;
-					top: 9px;
-					background: $red-primary;
-				  }
-				  &:focus, &:hover {
-					border: 1px solid $red-primary;
-					outline: none;
-				  }
+					border-radius: 50%;
+					box-shadow: none;
+					cursor: pointer;
+					&:before {
+						left: 12px;
+						top: 9px;
+						height: 10px;
+						background: $red-primary;
+					}
+					&:after {
+						left: 15px;
+						height: 10px;
+						top: 9px;
+						background: $red-primary;
+					}
+					&:focus, &:hover {
+						border: 1px solid $red-primary;
+						outline: none;
+					}
+				}
+				.button-outline {
+					margin-left: 1em;
 				}
 				.range-year {
-				  width: 34px;
+					
 				}
-				.default {
-				  margin-left: 1.8em;
+			}
+		}
+		.selected-facets {
+			margin-bottom: 2em;
+			.facet {
+				background-color: $red-primary;
+				color: white;
+				padding: 0.3em 0.5em;
+				display: inline-block;
+				margin-right: 1em;
+				margin-bottom: 1em;
+				border-radius: 0.2em;
+				input[type=checkbox] {
+					display: none;
 				}
-			  }
+				&:before {
+					content: '\f00d';
+					font-weight: 300;
+					font-family: $fontawesome;
+					margin-right: 0.3em;
+				}
+				&:last-of-type {
+					margin-right: 2em;
+				}
 			}
 		}
 		.index {
@@ -103,6 +192,9 @@
 			button.button-link {
 				margin-bottom: 1em;
 				border-bottom: 1px dotted white;
+				&:hover, &:focus {
+					font-weight: 600;
+				}
 				&:first-of-type {
 					margin-right: 1em;
 				}
@@ -110,17 +202,22 @@
 		}
 		.list {
 			padding: 2em 3em;
+			a {
+				line-height: 1.4em;
+				border: 0;
+				&:hover, &:focus {
+					border-bottom: 1px dashed $red-primary;
+				}
+			}
 			.list-header {
 				margin-bottom: 1em;
 				display: grid;
-				grid-template-columns: 1fr 80px 150px 150px;
 				gap: 1.5em;
 				font-weight: 600;
 				align-items: center;
 			}
 			.list-row {
 				display: grid;
-				grid-template-columns: 1fr 80px 150px 150px;
 				gap: 1.5em;
 				margin-bottom: 2em;
 			}
@@ -129,7 +226,22 @@
 				margin: 4em auto 2em auto;
 			}
 		}
-		
+	}
+	.archival-list .list {
+		.list-header {
+			grid-template-columns: 1fr 80px 150px 150px;
+		}
+		.list-row {
+			grid-template-columns: 1fr 80px 150px 150px;
+		}
+	}
+	.entity-list .list {
+		.list-header {
+			grid-template-columns: 1fr 80px 180px;
+		}
+		.list-row {
+			grid-template-columns: 1fr 80px 180px;
+		}
 	}
 }
 

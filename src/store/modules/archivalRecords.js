@@ -18,7 +18,6 @@ const actions = {
         commit('setArchivalRecords', response.data.results);
     },
     async loadMoreArchivalRecords({ commit }) {
-        state.loading = true;
         const response = await Api.getUrl(state.loadMoreUrl);
 
         commit('setLoadMoreUrl', response.data.next);

@@ -2,19 +2,19 @@
 	<main class="arch-records">
 		<div class="container">
             <the-breadcrumbs :breadcrumbs="breadcrumbs" />
-			<authority-single />
+			<entity-single />
 		</div>
 	</main>
 </template>
 
 <script>
-import AuthoritySingle from '../components/people-corporate-modules/AuthoritySingle.vue'
+import EntitySingle from '../components/people-corporate-modules/EntitySingle.vue'
 import TheBreadcrumbs from '../components/TheBreadcrumbs.vue'
 
 export default {
-	name: 'PersonAndCorporateBody',
+	name: 'Entity',
 	components: {
-        AuthoritySingle,
+        EntitySingle,
         TheBreadcrumbs
 	},
 	data: function() {

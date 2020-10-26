@@ -43,6 +43,12 @@ const actions = {
         commit('setLoadMoreUrl', response.data.next);
         commit('setMorePeople', response.data.results);
         commit('setTotal', response.data.count);
+    },
+    async loadMoreAuthorityEntities({ commit }) {
+        const response = await Api.getUrl(state.loadMoreUrl);
+
+        commit('setLoadMoreUrl', response.data.next);
+        commit('setMoreAuthorityEntities', response.data.results);
     }
 };
 
@@ -52,7 +58,8 @@ const mutations = {
     setCorporate: (state, corporate) => (state.corporate = corporate),
     setLoadMoreUrl: (state, nextUrl) => (state.loadMoreUrl = nextUrl),
     setTotal: (state, count) => (state.total = count),
-    setMorePeople: (state, morePeople) => morePeople.forEach(element => state.people.push(element))
+    setMorePeople: (state, morePeople) => morePeople.forEach(element => state.people.push(element)),
+    setMoreAuthorityEntities: (state, moreAuthorityEntities) => moreAuthorityEntities.forEach(element => state.authorityEntities.push(element))
 };
 
 export default {

@@ -1,5 +1,5 @@
 <template>
-	<main class="archival-records">
+	<main class="records">
 		<div class="container">
 			<h1 class="page-title">{{title}}</h1>
 			<p>{{description}}</p>

@@ -55,32 +55,21 @@ input {
 }
 
 .breadcrumbs {
-	margin-bottom: 27px;
 	display: flex;
-	li:not(:last-of-type) {
-		.breadcrumbs__link {
-			&::after {
-				content: '>';
-				display: block;
-				position: absolute;
-				right: 10px;
-				top: -2px;
-			}
+	margin-top: 1em;
+	.breadcrumbs__link {
+		margin-right: 2em;
+		position: relative;
+		&:after {
+			content: '\f0da';
+			font-family: $fontawesome;
+			font-weight: 600;
+			color: lighten($grey-light, 20%);
+			position: absolute;
+			top: 0.10em;
+			right:-1.25em;
 		}
-	}
-	.breadcrumbs__link:focus {
-		text-decoration: underline;
 	}
 }
 
-.breadcrumbs__link {
-	text-transform: uppercase;
-	font-size: 14px;
-	color: $black;
-	position: relative;
-	padding-right: 30px;
-	// display: inline-block;
-	@media only screen and (max-width: 768px) {
-		font-size: 14px;
-	}
-}
+

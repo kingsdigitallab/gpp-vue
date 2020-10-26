@@ -1,0 +1,198 @@
+<template>
+	<div>
+		<div v-show="loading" class="loader"></div>
+		<article class="arch-single" v-show="!loading">		
+			<h1 class="page-title page-title--single">{{getArchive.title}}</h1>
+		<time class="arch-single__date">{{getArchive.creation_dates}}</time>
+
+		<section class="arch-single__img" v-if="image || transcript" aria-label="image">
+			<h1 class="arch-single__img-title">{{imgTitle}}</h1>
+			<div class="arch-single__img-wrap">
+				<div id="openseadragon1" v-if="image" class="arch-single__img-plugin">
+					<div class="arch-single__navbar">
+							<span class="arch-single__zoom-in" id="zoom-in"><FontAwesomeIcon icon="plus-circle"/></span>
+							<span class="arch-single__zoom-out" id="zoom-out"><FontAwesomeIcon icon="minus-circle"/></span>
+							<span class="arch-single__expand" id="expand"><FontAwesomeIcon icon="expand"/></span>
+							<span class="arch-single__previous" id="previous"><FontAwesomeIcon icon="arrow-circle-left"/></span>
+							<span class="arch-single__next" id="next"><FontAwesomeIcon icon="arrow-circle-right"/></span>
+							<span @click="pdfDoc.save()" class="arch-single__img-download" title="Download" download><FontAwesomeIcon icon="download"/></span>
+							<span @click="printPreview()" class="arch-single__img-print" title="Print"><FontAwesomeIcon icon="print"/></span>
+						</div>
+					<span class="arch-single__num">{{imgNum}}</span>
+				</div>
+				<section v-if="transcript" class="arch-single__img-text" aria-label="trasncript">
+					<h2 class="arch-single__img-text-title">Transcription</h2>
+					<div class="arch-single__img-text-content">
+						<p class="arch-single__img-text-para">{{getArchive.administrative_history}}</p>
+					</div>
+				</section> 
+			</div>
+		</section>
+
+		<section class="arch-single__desc" v-if="getArchive.description" aria-label="description">
+			<h2 class="arch-single__desc-title">{{description}}</h2>
+			<p class="arch-single__desc-text" v-html="getArchive.description"></p>
+		</section>
+
+		<section class="arch-single__meta" aria-label="metadata">
+			<h2 class="arch-single__meta-title">Metadata</h2>
+			<ul class="arch-single__list">
+					<li :key="index" v-for="(data, index) in getArchive.metadata" class="arch-single__item">
+						<span v-bind:class="{'arch-single__item-name': true, 'before': data.hasClass}">{{data.name}}</span>
+						<span v-if="!Array.isArray(data.content)" class="arch-single__item-content" v-html="data.content"></span>
+						<span v-if="Array.isArray(data.content)" class="arch-single__item-content">
+							<span :key="index" v-for="(data, index) in data.content">
+								{{data}},
+							</span>
+						</span>
+					</li>
+			</ul>
+		</section>
+  </article>
+  </div>
+</template>
+
+<script>
+import OpenSeadragon from 'openseadragon';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faDownload, faPrint, faPlusCircle, faMinusCircle, faExpand, faArrowCircleLeft, faArrowCircleRight } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import jsPDF from 'jspdf';
+import { mapGetters, mapActions } from 'vuex';
+
+library.add(faDownload, faPrint, faPlusCircle, faMinusCircle, faExpand, faArrowCircleLeft, faArrowCircleRight);
+let IMG_SRC = '';
+
+function openSeaDragon(images) {
+	let viewer = OpenSeadragon({
+		id: "openseadragon1",
+		prefixUrl: "//openseadragon.github.io/openseadragon/images/",
+		tileSources: images,
+		autoHideControls: false,
+		sequenceMode: true,
+		showReferenceStrip: true,
+		zoomInButton: "zoom-in",
+		zoomOutButton: "zoom-out",
+		fullPageButton: "expand",
+		previousButton: "previous",
+		nextButton: "next"
+	});
+	this.imgNum = viewer.tileSources.length;
+
+	viewer.addHandler('open', function() {
+		IMG_SRC = viewer.source.url;
+	});
+}
+
+function createPDF() {
+	let doc = new jsPDF();
+	let imgNew = new Image();
+
+	imgNew.src = IMG_SRC;
+
+	let width = doc.internal.pageSize.getWidth();
+	let height = doc.internal.pageSize.getHeight();
+	doc.addImage(imgNew,"JPEG",0,0,width,height);
+	return doc;
+}
+
+function createPDFwithMoreImages(images) {
+	let doc = new jsPDF();
+	images.forEach(image => {
+		let imgNew = new Image();
+
+		imgNew.src = image.url;
+		// imgNew.crossOrigin = "Anonymous";
+
+		let width = doc.internal.pageSize.getWidth();
+		// let height = doc.internal.pageSize.getHeight();
+		doc.addImage(imgNew,"JPEG",0,0,width,imgNew.height);
+		if(images[images.length-1]!==image){
+			doc.addPage();
+		}
+		
+	});
+	return doc;
+}
+
+function savePDF() {
+	createPDF().save('image.pdf');
+}
+
+function printPreview() {
+	window.open(this.pdfDoc.output('bloburl'), '_blank');
+}
+
+export default {
+	name: 'FilesItemsSingle',
+	components: {
+		FontAwesomeIcon
+	},
+	computed: mapGetters(['getArchive']),
+	data: function() {
+		return {
+				date: '1 November 1817',
+				imgTitle: 'Image',
+				description: 'Description',
+				text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+				image: true,
+				transcript: true,
+				imgNum: '+8',
+				loading: true,
+				metadata: [
+					{
+						name: 'Title',
+						content: 'Letter from William Cole to Charles Bicknell concerning the outstanding payment owed to Jonathan Taylor.'
+					},
+					{
+						name: 'Calm id',
+						content: 'R136855543f6d19-7028-4cd5-8466-3efc3cf5f66'
+					},
+					{
+						name: 'Repository',
+						content: 'd'
+					},
+					{
+						name: 'Level',
+						content: 'Royal Archives'
+					},
+					{
+						name: 'Fonds',
+						content: 'Item',
+						hasClass: true
+					},
+					{
+						name: 'Reference',
+						content: 'George IV\'s Bills PRIV'
+					},
+					{
+						name: 'Security code',
+						content: 'GEO/MAIN/25493-25494 GIVBILLS/207/33'
+					}
+				]
+		}
+	},
+	methods: {
+		openSeaDragon,
+		savePDF,
+		printPreview,
+		createPDFwithMoreImages,
+		...mapActions(['fetchArchive'])
+	},
+	created() {
+		this.loading = true;
+	},
+	mounted() {
+		this.fetchArchive(this.$route.params.id);
+		this.loading = false;
+	},
+	watch: {
+		getArchive(newValue) {
+			this.openSeaDragon(newValue.media);
+			this.pdfDoc = this.createPDFwithMoreImages(newValue.media);
+			this.image = !(newValue.media.length == 0);
+			this.transcript = !(newValue.administrative_history == null);
+		}
+	}
+}
+</script>

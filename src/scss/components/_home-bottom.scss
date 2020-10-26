@@ -1,68 +1,68 @@
-.home__bottom {
-	background-color: $white;
-	padding-bottom: 200px;
-	@media only screen and (max-width: 768px) {
-		display: none;
-	}
-}
+// .home__bottom {
+// 	background-color: $white;
+// 	padding-bottom: 200px;
+// 	@media only screen and (max-width: 768px) {
+// 		display: none;
+// 	}
+// }
 
-.home__bottom-title {
-	background-color: $maroon;
-	color: $white;
-	text-transform: uppercase;
-	font-size: 22px;
-	text-align: center;
-	padding-top: 5px;
-	padding-bottom: 5px;
-	font-weight: normal;
-}
+// .home__bottom-title {
+// 	background-color: $maroon;
+// 	color: $white;
+// 	text-transform: uppercase;
+// 	font-size: 22px;
+// 	text-align: center;
+// 	padding-top: 5px;
+// 	padding-bottom: 5px;
+// 	font-weight: normal;
+// }
 
-.home__bottom-content {
-	padding-top: 33px;
-	.container-wide {
-		display: flex;
-		justify-content: space-between;
-		padding-left: 5%;
-		padding-right: 5%;
-		@media only screen and (max-width: 1450px) {
-			max-width: 100%;
-			// padding-left: 30px;
-			// padding-right: 30px;
-		}
-		@media only screen and (max-width: 1200px) {
-			flex-direction: column;
-		}
-	}
-	.home__card {
-		text-align: left;
-		border: 1px solid $gray;
-		min-height: 200px;
-		min-height: 0;
-		@media only screen and (max-width: 1200px) {
-			flex-direction: column;
-			height: 170px;
-		}
-	}
-	.home__card-date {
-		margin-bottom: 15px;
-		max-width: 300px;
-	}
-	.home__card-text {
-		margin-bottom: 20px;
-	}
-	.home__card-author {
-		text-align: left;
-	}
-}
+// .home__bottom-content {
+// 	padding-top: 33px;
+// 	.container-wide {
+// 		display: flex;
+// 		justify-content: space-between;
+// 		padding-left: 5%;
+// 		padding-right: 5%;
+// 		@media only screen and (max-width: 1450px) {
+// 			max-width: 100%;
+// 			// padding-left: 30px;
+// 			// padding-right: 30px;
+// 		}
+// 		@media only screen and (max-width: 1200px) {
+// 			flex-direction: column;
+// 		}
+// 	}
+// 	.home__card {
+// 		text-align: left;
+// 		border: 1px solid $gray;
+// 		min-height: 200px;
+// 		min-height: 0;
+// 		@media only screen and (max-width: 1200px) {
+// 			flex-direction: column;
+// 			height: 170px;
+// 		}
+// 	}
+// 	.home__card-date {
+// 		margin-bottom: 15px;
+// 		max-width: 300px;
+// 	}
+// 	.home__card-text {
+// 		margin-bottom: 20px;
+// 	}
+// 	.home__card-author {
+// 		text-align: left;
+// 	}
+// }
 
-.home__card-icon {
-	margin-bottom: 5px;
-	display: flex;
-	position: relative;
-}
+// .home__card-icon {
+// 	margin-bottom: 5px;
+// 	display: flex;
+// 	position: relative;
+// }
 
-.home__card-icon {
-	margin-right: 10px;
-	position: relative;
-	top: -2px;
-}
+// .home__card-icon {
+// 	margin-right: 10px;
+// 	position: relative;
+// 	top: -2px;
+// }
