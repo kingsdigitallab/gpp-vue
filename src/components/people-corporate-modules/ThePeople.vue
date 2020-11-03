@@ -1,3 +1,4 @@
+<!--
 <template>
 	<div class="people">
 		<ul class="list">
@@ -144,3 +145,4 @@ export default {
 	}
 }
 </script>
+-->

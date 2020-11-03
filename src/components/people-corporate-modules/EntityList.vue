@@ -21,7 +21,7 @@
 						<div class="facets">
 							<label v-for="(entityType, i) in facets.entityTypes" v-bind:key="i" class="facet">
 								<!-- <router-link :to="{name: 'objects'}" class="checkbox-anchor"> -->
-									<input type="checkbox" v-bind:name="entityType.display_name" v-bind:aria-label="entityType.display_name" :value="entityType" v-model="selectedFilters"/> {{entityType.display_name}} <span class="count">({{entityType.count}})</span>
+									<input type="checkbox" v-bind:name="entityType.display_name" v-bind:aria-label="entityType.display_name" :value="entityType" v-model="selectedFilters" v-on:click="filter('entity_type', entityType.display_name)"/> {{entityType.display_name}} <span class="count">({{entityType.count}})</span>
 								<!-- </router-link> -->
 							</label>
 						</div>
@@ -36,7 +36,7 @@
 						<div class="facets">
 							<label v-for="(gender, index) in filteredData(facets.genders, searchGenders, 'count')" v-bind:key="index" class="facet">
 								<!-- <router-link :to="{name: 'objects'}" class="checkbox-anchor"> -->
-								<input type="checkbox" v-bind:name="gender.display_name" v-bind:aria-label="gender.display_name" :value="gender" v-model="selectedFilters"/> {{gender.display_name}} <span class="count">({{gender.count}})</span>
+								<input type="checkbox" v-bind:name="gender.display_name" v-bind:aria-label="gender.display_name" :value="gender" v-model="selectedFilters" v-on:click="filter('gender', gender.display_name)"/> {{gender.display_name}} <span class="count">({{gender.count}})</span>
 								<!-- </router-link> -->
 							</label>
 						</div>
@@ -51,9 +51,9 @@
 					<div class="toggle-section">
 						<input v-if="facets.languages.length > 5" type="text" aria-label="Search language used" placeholder="Search language used" onfocus="this.placeholder=''" v-on:click="languagesCheckbox = true" v-model="searchLanguages" onblur="this.placeholder='Search language used '" name=""/>
 						<div class="facets" v-bind:class="{active: languagesCheckbox}">
-						<label v-for="(language, index) in filteredData(facets.languages, searchLanguages, 'count')" v-bind:key="index" class="facet">
+						<label v-for="(language, index) in filteredData(facets.languages, searchLanguages, 'count', languagesCheckbox)" v-bind:key="index" class="facet">
 							<!-- <router-link :to="{name: 'objects'}" class="checkbox-anchor"> -->
-							<input type="checkbox" v-bind:name="language.display_name" :value="language" v-bind:aria-label="language.display_name" v-model="selectedFilters"/> {{language.display_name}} <span class="count">({{language.count}})</span>
+							<input type="checkbox" v-bind:name="language.display_name" :value="language" v-bind:aria-label="language.display_name" v-model="selectedFilters" v-on:click="filter('language', language.display_name)"/> {{language.display_name}} <span class="count">({{language.count}})</span>
 							<!-- </router-link> -->
 						</label>
 						</div>
@@ -69,9 +69,9 @@
 					<div class="toggle-section">
 						<input v-if="facets.relatedEntities.length > 5" type="text" aria-label="Search person or corporate body" placeholder="Search person or corporate body" onfocus="this.placeholder=''" v-on:click="relatedEntitiesCheckbox = true" v-model="searchRelatedEntities" onblur="this.placeholder='Search person or corporate body'" name=""/>
 						<div class="facets" v-bind:class="{active: relatedEntitiesCheckbox}">
-						<label v-for="(entity, index) in filteredData(facets.relatedEntities, searchRelatedEntities, 'alphabetical')" v-bind:key="index" class="facet">
+						<label v-for="(entity, index) in filteredData(facets.relatedEntities, searchRelatedEntities, 'alphabetical', relatedEntitiesCheckbox)" v-bind:key="index" class="facet">
 							<!-- <router-link :to="{name: 'objects'}" class="checkbox-anchor"> -->
-							<input type="checkbox" v-bind:name="entity.display_name" v-bind:aria-label="entity.display_name" :value="entity" v-model="selectedFilters"/> {{entity.display_name}} <span class="count">({{entity.count}})</span>
+							<input type="checkbox" v-bind:name="entity.display_name" v-bind:aria-label="entity.display_name" :value="entity" v-model="selectedFilters" v-on:click="filter('related_entity', entity.display_name)"/> {{entity.display_name}} <span class="count">({{entity.count}})</span>
 							<!-- </router-link> -->
 						</label>
 						</div>
@@ -86,9 +86,9 @@
 					<div class="toggle-section">
 						<input v-if="facets.relatedPlaces.length > 5" type="text" aria-label="Search place" placeholder="Search place" onfocus="this.placeholder=''" v-on:click="relatedPlacesCheckbox = true" v-model="searchRelatedPlaces" onblur="this.placeholder='Search place'" name=""/>
 						<div class="facets" v-bind:class="{active: relatedPlacesCheckbox}">
-						<label v-for="(place, index) in filteredData(facets.relatedPlaces, searchRelatedPlaces, 'alphabetical')" v-bind:key="index" class="facet">
+						<label v-for="(place, index) in filteredData(facets.relatedPlaces, searchRelatedPlaces, 'alphabetical', relatedPlacesCheckbox)" v-bind:key="index" class="facet">
 							<!-- <router-link :to="{name: 'objects'}" class="checkbox-anchor"> -->
-							<input type="checkbox" v-bind:name="place.display_name" :value="place" v-bind:aria-label="place.display_name" v-model="selectedFilters"/> {{place.display_name}} <span class="count">({{place.count}})</span>
+							<input type="checkbox" v-bind:name="place.display_name" :value="place" v-bind:aria-label="place.display_name" v-model="selectedFilters" v-on:click="filter('related_place', place.display_name)"/> {{place.display_name}} <span class="count">({{place.count}})</span>
 							<!-- </router-link> -->
 						</label>
 						</div>
@@ -96,27 +96,21 @@
 						<label class="show-all dotted-underline" for="show-all-places" v-if="facets.relatedPlaces.length > 5 && !searchRelatedPlaces"> places</label>
 					</div>
 				</fieldset>
-					<label><input type="checkbox" name="people-with-royal-names" value="People with royal names" aria-label="People with royal names" v-model="selectedFilters"/>Show only people with royal names</label>
+					<label><input type="checkbox" name="people-with-royal-names" value="People with royal names" aria-label="People with royal names" v-model="selectedFilters" v-on:click="filter('royal_names', 1)"/>Show only people with royal names</label>
 
-					<label><input type="checkbox" name="people-with-multiple-identities" value="People with multiple identities" aria-label="People with multiple identities" v-model="selectedFilters"/>Show only people with multiple identities</label>
+					<label><input type="checkbox" name="people-with-multiple-identities" value="People with multiple identities" aria-label="People with multiple identities" v-model="selectedFilters" v-on:click="filter('multiple_identities', 1)"/>Show only people with multiple identities</label>
 			
 			</div>
 			<div>
-				<fieldset v-if="selectedFilters.length" class="selected-facets">
+				<!-- <fieldset v-if="selectedFilters.length" class="selected-facets">
 					<legend hidden>Selected filters</legend>
 					<label v-for="(selectedFilter, i) in selectedFilters" v-bind:key="i" class="facet">
-						<!-- <router-link :to="{name: 'objects'}" class="checkbox-anchor"> -->
 						<input type="checkbox" v-bind:name="selectedFilter.display_name" v-bind:aria-label="selectedFilter.display_name" v-on:click="removeFacet(i)" checked/> 
 						<span v-if="selectedFilter.display_name">{{selectedFilter.display_name}} ({{selectedFilter.count}})</span>
 						<span v-else>{{selectedFilter}}</span>
-						<!-- </router-link> -->
 					</label>
-					<!-- check if filters are selected -->
-						<!-- <router-link :to="{name: 'objects'}" class="clear"> -->
-						<button class="button-link dotted-underline" v-on:click="selectedFilters = []">Clear all filters</button>
-						<!-- </router-link> -->
-					<!-- TODO: add date range -->
-				</fieldset>
+					<button class="button-link dotted-underline" v-on:click="selectedFilters = []">Clear all filters</button>
+				</fieldset> -->
 				<div class="index">
 					<button v-for="(letter, i) in letterIndex" v-bind:key="i" v-bind:class="['button-link', {'active': active == letter.name}, {'missing': letter.missing}]" v-on:click="filterByLetter(letter.name)">{{letter.name}}</button>
 				</div>
@@ -133,13 +127,15 @@
 							<router-link :to="'/people-and-corporate-bodies/'+(entity.id)" :aria-label="'entity type: '+(entity.entity_type.title)">{{entity.display_name}}</router-link>
 						</span>
 						<span>{{entity.entity_type.title}}</span>
-						<span>{{entity.identities[0].date_to}}-{{entity.identities[0].date_from}}</span>
+                        <!-- TODO add display date name used -->
+						<span>{{entity.display_date}}</span>
 					</div>
-					<button type="button" v-if="getAuthorityEntities.length != 0" class="button-default large" v-on:click="loadMoreAuthorityEntities">
-						<!-- TODO while waiting for a response -->
-						<span v-if="loading" class="loader"></span>
-						<span v-else>Show more entities</span>
-					</button>
+					<div v-if="loading" class="loader"></div>
+					<template v-else>
+						<button type="button" v-if="getAuthorityEntities.length != 0 && getAuthorityEntities.length < count" class="button-default large" v-on:click="moreRecords(pageNum)">
+							Show more entities
+						</button>
+					</template>
 				</div>
 			</div>
 		</div>
@@ -156,7 +152,7 @@ export default {
 	computed: mapGetters(['getAuthorityEntities', 'getTotal']),
 	data: function() {
 		return {
-			count: '2,994',
+			count: 85,
 			letterIndex: [
 				{
 					name: 'All',
@@ -277,14 +273,8 @@ export default {
 					{id: 1, display_name: "Corporate body", count: 31}
 				],
 				genders: [
-					{id: 0, display_name: "Financial records", count: 9},
-					{id: 1, display_name: "Writings (documents)", count: 5},
-					{id: 2, display_name: "Correspondence", count: 4},
-					{id: 3, display_name: "Diaries", count: 2},
-					{id: 4, display_name: "Legal documents", count: 2},
-					{id: 5, display_name: "Registers (lists)", count: 2},
-					{id: 6, display_name: "Wills", count: 5},
-					{id: 7, display_name: "Commonplace books", count: 1},
+					{id: 0, display_name: "Women", count: 34},
+					{id: 1, display_name: "Men", count: 45}
 				],
 				languages: [
 					{id: 0, display_name: "English", count: 2463},
@@ -341,24 +331,27 @@ export default {
 			searchRelatedEntities: '',
 			searchLanguages: '',
 			loading: false,
-			active: ''
+            active: '',
+            pageNum: 1
 		}
 	},
 	methods: {
-		filteredData (list, query, sortingOrder) {
+		filteredData (list, query, sortingOrder, checkbox) {
 			query = query.toLowerCase();
 			var filteredList = list.slice().filter(function (item) {
 				var name = item.display_name.toLowerCase();
 				return name.match(query);
 			})
 			if (sortingOrder == 'alphabetical')  {
-				return filteredList.sort((a, b) => a.display_name.localeCompare(b.display_name));
+				filteredList.sort((a, b) => a.display_name.localeCompare(b.display_name));
 			} else if (sortingOrder == 'count') {
-				return filteredList.sort((a, b) => b.count - a.count);
-			} else {
-				return filteredList;
+				filteredList.sort((a, b) => b.count - a.count);
+			} 
+			if (!checkbox) {
+				return filteredList.slice(0,5);
 			}
-		},
+			return filteredList;
+        },
 		sortedData (list) {
 			return list.slice().sort((a, b) => a.count < b.count);
 		},
@@ -374,10 +367,13 @@ export default {
         },
         filterByLetter(letter) {
             // TODO - Filter list by letter
+			// this.fetchArchivalRecords(letter)
             this.active = letter;
         },
         filterByYear() {
-            console.log(this.minExistenceRange, this.maxExistenceRange);
+            this.selectedFilters.push(this.minCreationRange + ' - ' + this.maxCreationRange);
+            // TODO - Filter list by year
+			// this.fetchArchivalRecords(this.minCreationRange, this.maxCreationRange)
         },
 		updateExistenceSlider() {
 			this.$refs.existenceSlider.noUiSlider.set([this.minExistenceRange, this.maxExistenceRange]);
@@ -388,12 +384,41 @@ export default {
 		},
 		removeFacet(facetIndex) {
 			this.selectedFilters.splice(facetIndex,1);
+        },
+        async filter(facet, option) {
+			if (event.target.checked) {
+				const setQuery = this.$route.query;
+				setQuery.page = this.pageNum;
+				if (setQuery[facet]) {
+					setQuery[facet].push(option);
+				} else {
+					setQuery[facet] = [option];
+				}
+				this.$router.replace({ query: {} });
+                this.$router.push({query: setQuery});
+            }
+            else {
+				const setQuery = this.$route.query;
+				setQuery.page = this.pageNum;
+				setQuery[facet].splice(setQuery[facet].indexOf(option),1);
+				this.$router.replace({ query: {} });
+				this.$router.push({query: setQuery});
+			}
+		},
+        async moreRecords(n) {
+			this.loading = true;
+			this.pageNum = n + 1;
+			this.$router.push({query: {page: this.pageNum}});
+			await this.loadMoreAuthorityEntities();
+			this.loading = false;
 		},
 		...mapActions(['fetchAuthorityEntities','loadMoreAuthorityEntities'])
-	},
+    },
 	created() {
+        // TODO add the number of records = 10 * pageNum
 		this.fetchAuthorityEntities();
-		this.active = this.letterIndex[0].name;
+        this.active = this.letterIndex[0].name;
+        this.$router.push({query: {page: this.pageNum} });
 	},
 	mounted() {
 		noUiSlider.create(this.$refs.existenceSlider, {

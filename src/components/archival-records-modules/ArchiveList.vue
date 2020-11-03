@@ -20,9 +20,7 @@
 					<div class="toggle-section">
 						<div class="facets">
 							<label v-for="(level, index) in facets.levels" v-bind:key="index" class="facet">
-								<!-- <router-link :to="{name: 'objects'}" class="checkbox-anchor"> -->
-									<input type="checkbox" v-bind:name="level.display_name" v-bind:aria-label="level.display_name" :value="level" v-model="selectedFilters"/> {{level.display_name}} <span class="count">({{level.count}})</span>
-								<!-- </router-link> -->
+								<input type="checkbox" v-bind:name="level.display_name" v-bind:aria-label="level.display_name" :value="level" v-model="selectedFilters" v-on:click="filter('document_level', level.display_name)"/> {{level.display_name}} <span class="count">({{level.count}})</span>
 							</label>
 						</div>
 					</div>
@@ -33,10 +31,10 @@
 					<label for="record-type-toggle" class="toggle-label"><span hidden>Expand/collapse record type</span></label>
 					<div class="toggle-section">
 						<input v-if="facets.recordTypes.length > 5" type="text" aria-label="Search record type" placeholder="Search record type" onfocus="this.placeholder=''" v-on:click="recordTypeCheckbox = true" v-model="searchRecordTypes" onblur="this.placeholder='Search record type'" name=""/>
-						<div class="facets" v-bind:class="{active: recordTypeCheckbox}">
-							<label v-for="(type, index) in filteredData(facets.recordTypes, searchRecordTypes, 'count')" v-bind:key="index" class="facet">
+						<div class="facets">
+							<label v-for="(type, index) in filteredData(facets.recordTypes, searchRecordTypes, 'count', recordTypeCheckbox)" v-bind:key="index" class="facet">
 								<!-- <router-link :to="{name: 'objects'}" class="checkbox-anchor"> -->
-								<input type="checkbox" v-bind:name="type.display_name" v-bind:aria-label="type.display_name" :value="type" v-model="selectedFilters"/> {{type.display_name}} <span class="count">({{type.count}})</span>
+								<input type="checkbox" v-bind:name="type.display_name" v-bind:aria-label="type.display_name" :value="type" v-model="selectedFilters" v-on:click="filter('record_type', type.display_name)"/> {{type.display_name}} <span class="count">({{type.count}})</span>
 								<!-- </router-link> -->
 							</label>
 						</div>
@@ -51,10 +49,10 @@
 					<label for="writer-toggle" class="toggle-label"><span hidden>Expand/collapse writer</span></label>
 					<div class="toggle-section">
 						<input v-if="facets.writers.length > 5" type="text" aria-label="Search writer" placeholder="Search writer" onfocus="this.placeholder=''" v-on:click="writersCheckbox = true" v-model="searchWriters" onblur="this.placeholder='Search writer'" name=""/>
-						<div class="facets" v-bind:class="{active: writersCheckbox}">
-						<label v-for="(writer, index) in filteredData(facets.writers, searchWriters, 'alphabetical')" v-bind:key="index" class="facet">
+						<div class="facets">
+						<label v-for="(writer, index) in filteredData(facets.writers, searchWriters, 'alphabetical', writersCheckbox)" v-bind:key="index" class="facet">
 							<!-- <router-link :to="{name: 'objects'}" class="checkbox-anchor"> -->
-							<input type="checkbox" v-bind:name="writer.display_name" v-bind:aria-label="writer.display_name" :value="writer" v-model="selectedFilters"/> {{writer.display_name}} <span class="count">({{writer.count}})</span>
+							<input type="checkbox" v-bind:name="writer.display_name" v-bind:aria-label="writer.display_name" :value="writer" v-model="selectedFilters" v-on:click="filter('writer', writer.display_name)"/> {{writer.display_name}} <span class="count">({{writer.count}})</span>
 							<!-- </router-link> -->
 						</label>
 						</div>
@@ -68,10 +66,10 @@
 					<label for="addressee-toggle" class="toggle-label"><span hidden>Expand/collapse addressee</span></label>
 					<div class="toggle-section">
 						<input v-if="facets.addressees.length > 5" type="text" aria-label="Search addressee" placeholder="Search addressee" onfocus="this.placeholder=''" v-on:click="addresseesCheckbox = true" v-model="searchAddressees" onblur="this.placeholder='Search addressee'" name=""/>
-						<div class="facets" v-bind:class="{active: addresseesCheckbox}">
-						<label v-for="(addressee, index) in filteredData(facets.addressees, searchAddressees, 'alphabetical')" v-bind:key="index" class="facet">
+						<div class="facets">
+						<label v-for="(addressee, index) in filteredData(facets.addressees, searchAddressees, 'alphabetical', addresseesCheckbox)" v-bind:key="index" class="facet">
 							<!-- <router-link :to="{name: 'objects'}" class="checkbox-anchor"> -->
-							<input type="checkbox" v-bind:name="addressee.display_name" :value="addressee" v-bind:aria-label="addressee.display_name" v-model="selectedFilters"/> {{addressee.display_name}} <span class="count">({{addressee.count}})</span>
+							<input type="checkbox" v-bind:name="addressee.display_name" :value="addressee" v-bind:aria-label="addressee.display_name" v-model="selectedFilters" v-on:click="filter('addressee', addressee.display_name)"/> {{addressee.display_name}} <span class="count">({{addressee.count}})</span>
 							<!-- </router-link> -->
 						</label>
 						</div>
@@ -85,10 +83,10 @@
 					<label for="language-toggle" class="toggle-label"><span hidden>Expand/collapse language</span></label>
 					<div class="toggle-section">
 						<input v-if="facets.languages.length > 5" type="text" aria-label="Search language" placeholder="Search language" onfocus="this.placeholder=''" v-on:click="languagesCheckbox = true" v-model="searchLanguages" onblur="this.placeholder='Search language'" name=""/>
-						<div class="facets" v-bind:class="{active: languagesCheckbox}">
-						<label v-for="(language, index) in filteredData(facets.languages, searchLanguages, 'count')" v-bind:key="index" class="facet">
+						<div class="facets">
+						<label v-for="(language, index) in filteredData(facets.languages, searchLanguages, 'count', languagesCheckbox)" v-bind:key="index" class="facet">
 							<!-- <router-link :to="{name: 'objects'}" class="checkbox-anchor"> -->
-							<input type="checkbox" v-bind:name="language.display_name" :value="language" v-bind:aria-label="language.display_name" v-model="selectedFilters"/> {{language.display_name}} <span class="count">({{language.count}})</span>
+							<input type="checkbox" v-bind:name="language.display_name" :value="language" v-bind:aria-label="language.display_name" v-model="selectedFilters" v-on:click="filter('language', language.display_name)"/> {{language.display_name}} <span class="count">({{language.count}})</span>
 							<!-- </router-link> -->
 						</label>
 						</div>
@@ -96,24 +94,18 @@
 						<label class="show-all dotted-underline" for="show-all-languages" v-if="facets.languages.length > 5 && !searchLanguages"> languages</label>
 					</div>
 				</fieldset>
-				<label><input type="checkbox" name="Records with transcriptions" value="Records with transcriptions" aria-label="Records with transcriptions" v-model="selectedFilters"/>Show only records with transcriptions</label>
+				<label><input type="checkbox" name="Records with transcriptions" value="Records with transcriptions" aria-label="Records with transcriptions" v-model="selectedFilters" v-on:click="filter('with_transcriptions', 1)"/>Show only records with transcriptions</label>
 			</div>
 			<div>
-				<fieldset v-if="selectedFilters.length" class="selected-facets">
+				<!-- <fieldset v-if="selectedFilters.length" class="selected-facets">
 					<legend hidden>Selected filters</legend>
 					<label v-for="(selectedFilter, i) in selectedFilters" v-bind:key="i" class="facet">
-						<!-- <router-link :to="{name: 'objects'}" class="checkbox-anchor"> -->
 						<input type="checkbox" v-bind:name="selectedFilter.display_name" v-bind:aria-label="selectedFilter.display_name" v-on:click="removeFacet(i)" checked/> 
 						<span v-if="selectedFilter.display_name">{{selectedFilter.display_name}} ({{selectedFilter.count}})</span>
 						<span v-else>{{selectedFilter}}</span>
-						<!-- </router-link> -->
 					</label>
-					<!-- check if filters are selected -->
-						<!-- <router-link :to="{name: 'objects'}" class="clear"> -->
-						<button class="button-link dotted-underline" v-on:click="selectedFilters = []">Clear all filters</button>
-						<!-- </router-link> -->
-					<!-- TODO: add date range -->
-				</fieldset>
+					<button class="button-link dotted-underline" v-on:click="selectedFilters = []">Clear all filters</button>
+				</fieldset> -->
 				<div class="index">
 					<button v-for="(letter, i) in letterIndex" v-bind:key="i" v-bind:class="['button-link', {'active': active == letter.name}, {'missing': letter.missing}]" v-on:click="filterByLetter(letter.name)">{{letter.name}}</button>
 				</div>
@@ -139,11 +131,12 @@
 						<span v-show="item.creation_dates != null">{{item.creation_dates}}</span>
 						<span v-show="item.creation_dates == null">--</span>
 					</div>
-					<button type="button" v-if="getArchivalRecords.length != 0" class="button-default large" v-on:click="loadMoreArchivalRecords">
-						<!-- TODO while waiting for a response -->
-						<span v-if="loading" class="loader"></span>
-						<span v-else>Show more archival records</span>
-					</button>
+					<div v-if="loading" class="loader"></div>
+					<template v-else>
+						<button type="button" v-if="getArchivalRecords.length != 0 && getArchivalRecords.length < count" class="button-default large" v-on:click="moreRecords(pageNum)">
+							Show more archival records
+						</button>
+					</template>
 				</div>
 			</div>
 		</div>
@@ -160,7 +153,7 @@ export default {
 	computed: mapGetters(['getArchivalRecords']),
 	data: function() {
 		return {
-			count: '2,994',
+			count: 2994,
 			letterIndex: [
 				{
 					name: 'All',
@@ -305,18 +298,6 @@ export default {
 					{id: 9, display_name: "Rochford, 4th Earl of", count: 24},
 					{id: 10, display_name: "Basnett, William", count: 19},
 					{id: 11, display_name: "Parker and Perry; Glass Manufacturers", count: 18},
-					{id: 0, display_name: "George III, 1738-1820, King of Great Britain and Ireland", count: 541},
-					{id: 1, display_name: "Grafton, 3rd Duke of", count: 81},
-					{id: 2, display_name: "North, Frederick, Lord", count: 75},
-					{id: 3, display_name: "William, Prince (1765-1837)", count: 69},
-					{id: 4, display_name: "Conway, Henry Seymour (1721-1795)", count: 41},
-					{id: 5, display_name: "Rockingham, 2nd Marquess of", count: 38},
-					{id: 6, display_name: "Charlotte, Queen Consort to George III", count: 37},
-					{id: 7, display_name: "Baillie, Matthew (1761-1823)", count: 34},
-					{id: 9, display_name: "Chatham, 1st Earl of", count: 26},
-					{id: 9, display_name: "Rochford, 4th Earl of", count: 24},
-					{id: 10, display_name: "Basnett, William", count: 19},
-					{id: 11, display_name: "Parker and Perry; Glass Manufacturers", count: 18}
 				],
 				addressees: [
 					{id: 0, display_name: "George III, 1738-1820, King of Great Britain and Ireland", count: 541},
@@ -359,23 +340,26 @@ export default {
 			searchWriters: '',
 			searchLanguages: '',
 			loading: false,
-			active: ''
+			active: '',
+			pageNum: 1
 		}
 	},
 	methods: {
-		filteredData (list, query, sortingOrder) {
+		filteredData (list, query, sortingOrder, checkbox) {
 			query = query.toLowerCase();
 			var filteredList = list.slice().filter(function (item) {
 				var name = item.display_name.toLowerCase();
 				return name.match(query);
 			})
 			if (sortingOrder == 'alphabetical')  {
-				return filteredList.sort((a, b) => a.display_name.localeCompare(b.display_name));
+				filteredList.sort((a, b) => a.display_name.localeCompare(b.display_name));
 			} else if (sortingOrder == 'count') {
-				return filteredList.sort((a, b) => b.count - a.count);
-			} else {
-				return filteredList;
+				filteredList.sort((a, b) => b.count - a.count);
+			} 
+			if (!checkbox) {
+				return filteredList.slice(0,5);
 			}
+			return filteredList;
 		},
 		sortedData (list) {
 			return list.slice().sort((a, b) => a.count < b.count);
@@ -392,10 +376,15 @@ export default {
 		},
 		filterByLetter(letter) {
 			// TODO - Filter list by letter
+			// this.fetchArchivalRecords(letter)
             this.active = letter;
 		},
 		filterByYear(){
- 			console.log(this.minExistenceRange, this.maxExistenceRange);
+			this.selectedFilters.push(this.minCreationRange + ' - ' + this.maxCreationRange);
+			const option = this.minCreationRange + ' - ' + this.maxCreationRange
+			// TODO - year_range - add to /remove from URL this.filter('year_range', option);
+			// TODO - Filter list by year
+			// this.fetchArchivalRecords(this.minCreationRange, this.maxCreationRange)
 		},
 		updateCreationSlider() {
 			this.$refs.creationSlider.noUiSlider.set([this.minCreationRange, this.maxCreationRange]);
@@ -407,11 +396,36 @@ export default {
 		removeFacet(facetIndex) {
 			this.selectedFilters.splice(facetIndex,1);
 		},
+		async filter(facet, option) {
+			const setQuery = this.$route.query;
+			setQuery.page = this.pageNum;
+			if (event.target.checked) {
+				if (setQuery[facet]) {
+					setQuery[facet].push(option);
+				} else {
+					setQuery[facet] = [option];
+				}
+			} else {
+				setQuery[facet].splice(setQuery[facet].indexOf(option),1);
+			}
+			this.$router.replace({ query: {} });
+			this.$router.push({query: setQuery});
+		},
+		async moreRecords(n) {
+			this.loading = true;
+			this.pageNum = n + 1;
+			this.$router.push({query: {page: this.pageNum}});
+			await this.loadMoreArchivalRecords();
+			this.loading = false;
+		},
 		...mapActions(['fetchArchivalRecords','loadMoreArchivalRecords'])
 	},
 	created() {
+		// TODO add the number of records = 10 * pageNum
+		// TODO add filters
 		this.fetchArchivalRecords();
 		this.active = this.letterIndex[0].name;
+		this.$router.push({query: {page: this.pageNum} });
 	},
 	mounted() {
 		noUiSlider.create(this.$refs.creationSlider, {

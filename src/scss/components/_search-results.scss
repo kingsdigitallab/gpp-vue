@@ -1,0 +1,13 @@
+.search-results {
+    ul {
+        margin-top: 2em;
+        font-size: 1.1em;
+        li {
+            margin-bottom: 2em;
+            padding: 1em;
+            &:nth-of-type(odd) {
+                background-color: $grey-background-light;
+            }
+        }
+    }
+}

@@ -11,20 +11,26 @@
 			</div>
 			<div class="home-search">
 				<form class="search-field">
-					<input type="search" aria-label="Search" placeholder="e.g., menu book for George IV, identities of Maria van Antwerpen" onfocus="this.placeholder=''" onblur="this.placeholder='e.g., menu book for George IV, identities of Maria van Antwerpen'"/>
-					<input type="submit" class="search-button" aria-label="Search button" value=""/>
+					<input type="search" v-model="searchQuery" name="search" aria-label="Search" placeholder="e.g., menu book for George IV, identities of Maria van Antwerpen" onfocus="this.placeholder=''" onblur="this.placeholder='e.g., menu book for George IV, identities of Maria van Antwerpen'"/>
+					<input type="submit" class="search-button" @click.stop.prevent="submit()" aria-label="Search button" value=""/>
 				</form>
-				<button v-on:click="search()" class="button-link dotted-underline">Advanced search</button>
+				<button v-on:click="showModal" class="button-link dotted-underline">Advanced search</button>
 			</div>
 		</div>
+		<advancedSearchModal v-show="advancedSearchShow" @close="closeModal"/>
   </div>
 </template>
 
 <script>
+
+import AdvancedSearchModal from '../AdvancedSearchModal.vue';
+
 export default {
 	name: 'HomeTop',
+	components: {AdvancedSearchModal},
 	data: function() {
 		return {
+
 			stats: [
 				{
 					num: 123,
@@ -48,13 +54,23 @@ export default {
 			articleParagraphs: [
 				'',
 				''
-			]
+			],
+			searchQuery: null,
+			advancedSearchShow: false,
 		}
 	},
 	methods: {
-		search() {
-			console.log('search');
+		showModal() {
+			this.advancedSearchShow = true;
+		},
+		closeModal() {
+			this.advancedSearchShow = false;
+		},
+		submit(){
+			this.$router.push("/search?q="+this.searchQuery);
 		}
+	},
+	mounted() {
 	}
 }
 </script>

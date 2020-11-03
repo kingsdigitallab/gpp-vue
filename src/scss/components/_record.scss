@@ -1,9 +1,16 @@
 .record {
     > div {
-        margin: 2em 0 6em 0;
+        margin: 2em 0 5em 0;
         p {
             line-height: 1.6em;
         }
+    }
+    h2 {
+        margin-bottom: 1.5em;
+    }
+    h4 {
+        margin-top: 0;
+        margin-bottom: 1em;
     }
     .related-to {
         &:before {
@@ -15,12 +22,139 @@
             margin-left: 0.5em;
         }
     }
-    .grey-column {
-        &.two-column-30-70 {
+    .two-column-40-60 {
+        column-gap: 1em;
+    }
+    div[class^="two-column"], .grey-column {
+        .two-column-30-70, .two-column-40-60, .two-column-20-80  {
             column-gap: 1em;
-            div > span {
-                display: block;
-                margin-bottom: 1em;
+            margin-bottom: 1em;
+        }
+    }
+    div[class^="two-column"] {
+        > h4 {
+            margin-bottom: 0;
+        }
+    }
+    .transcriptions {
+        background-color: $grey-background-dark;
+        box-shadow: 0px 2px 3px lighten($grey-light, 20%);
+        div[class^="two-column"] {
+            column-gap: 0em;
+            &.main-pane {
+                height: 500px;
+                .image-section {
+                    .image {
+                        background-color: $grey-primary;
+                        position: relative;
+                        overflow: hidden;
+                        height: 500px;
+                        .openseadragon-canvas > canvas {
+                            cursor: grab;
+                        }
+                    }
+                }
+                .transcription-section {
+                    height: inherit;
+                    overflow: hidden;
+                    padding: 2em;
+                    box-sizing: border-box;
+                    .transcription {
+                        padding: 0em 2em;
+                        width: 100%;
+                        height: 100%;
+                        overflow-y: scroll;
+                        box-sizing: border-box;
+                        display: none;
+                        &.active{
+                            display: block;
+                        }
+                        p {
+                            font-size: 0.9em;
+                            line-height: 1.3em;
+                        }
+                    }
+                }
+            }
+            &.action-pane {
+                justify-content: center;
+                background-color: white;
+                .image-control {
+                    background-color: darken($grey-primary, 10%);
+                    padding: 0.8em 0em;
+                    .control {
+                        display: grid;
+                        grid-template-columns: 0.5fr 1fr;
+                        align-items: center;
+                        margin: 0 auto;
+                        width:80%;
+                        div:last-of-type {
+                            text-align: right;
+                        }
+                    }
+                    .nav-icon {
+                        font-family: $fontawesome;
+                        font-weight: 200;
+                        color: white;
+                        margin: 0px 10px;
+                        font-size: 1.4em;
+                        display: inline-block;
+                        cursor: pointer;
+                        &:hover, &:focus {
+                            color: $grey-light;
+                        }
+                    }
+                    #zoom-in:after {
+                        content: '\f00e';
+                    }
+                    #zoom-out:after {
+                        content: '\f010';
+                    }
+                    #default:after {
+                        content: '\f84c';
+                    }
+                    #rotate-left:after {
+                        content: '\f2ea';
+                    }
+                    #rotate-right {
+                        -moz-transform: scale(-1, 1);
+                        -webkit-transform: scale(-1, 1);
+                        -o-transform: scale(-1, 1);
+                        -ms-transform: scale(-1, 1);
+                        transform: scale(-1, 1);
+                        &:after {
+                            content: '\f2ea';
+                        }
+                    }
+                    #full-mode:after {
+                        content: '\f31d';
+                    } 
+                }
+                .pagination-pane {
+                    padding: 0.8em 0em;
+                    text-align: center;
+                    ul li {
+                        display: inline-block;
+                        a {
+                            border-bottom: 0;
+                        }
+                        &.active {
+                            border-bottom: 1px dashed $red-primary;
+                        }
+                        &.disabled {
+                            a {
+                                color: $grey-light;
+                                cursor: auto;
+                                &:hover, &:focus {
+                                    background-color: transparent;
+                                }
+                            }
+                        }
+                        &:not(:last-of-type) {
+                            margin-right: 1.5em;
+                        }
+                    }
+                }
             }
         }
     }

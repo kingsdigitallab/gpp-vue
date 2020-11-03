@@ -1,3 +1,68 @@
+.entity {
+    .identity-list {
+        margin-top: 2em;
+        border-bottom: 3px solid $red-primary;
+        display: flex;
+        align-items: center;
+        .identity-tabs {
+            .identity-tab {
+                display: inline-block;
+                padding: 0.5em 1.5em;
+                border-top-left-radius: 0.3em;
+                border-top-right-radius: 0.3em;
+                transition: 0.2s ease-in;
+                cursor: pointer;
+                &:not(:last-of-type), &:first-of-type {
+                    margin-left: 2em;
+                }
+                &:hover, &:focus {
+                    background-color: $grey-background-dark;
+                    color: $red-primary;
+
+                }
+                &.active {
+                    background-color: $red-primary;
+                    color: white;
+                }
+            }
+        }
+    }
+    .identity-description {
+        margin-top: 4em;
+        h1 {
+            margin-top: 0;
+        }
+        h4 {
+            margin-bottom: 0.5em;
+        }
+    }
+    .identity-description, .descriptions-section {
+        .description {
+            display: grid;
+            grid-template-columns: 1fr 0.4fr;
+            gap: 2em;
+            align-items: flex-start;
+            .abstract {
+                grid-row: 1 / span 2;
+            }
+        }
+        .two-column-40-60 {
+            column-gap: 1em;
+        }
+        div[class^="two-column"], .grey-column {
+            .two-column-30-70, .two-column-40-60, .two-column-20-80  {
+                column-gap: 1em;
+                margin-bottom: 1em;
+            }
+        }
+        div[class^="two-column"] {
+            > h4 {
+                margin-bottom: 0;
+            }
+        }
+    }
+}
+
 // .people-corp {
 // 	padding-top: 62px;
 // 	padding-left: 20px;

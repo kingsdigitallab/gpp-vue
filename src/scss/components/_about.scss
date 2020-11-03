@@ -1,16 +1,17 @@
-.about {
-	padding-top: 62px;
-	padding-bottom: 100px;
-	text-align: justify;
-}
-
-.about__intro {
-	font-family: "Lucida";
-	font-size: 20px;
-	margin-bottom: 30px;
-}
-
-.about__img {
-	width: 100%;
-    margin-bottom: 30px;
+.about-template {
+	margin-top: 3em;
+	text-align: center;
+	p {
+		width: 700px;
+		font-size: 1.1em;
+		margin: 1em auto;
+		p {
+			font-size: 1em;
+		}
+	}
+	img {
+		width: 100%;
+		max-width: 700px;
+		margin: 2em auto;
+	}
 }

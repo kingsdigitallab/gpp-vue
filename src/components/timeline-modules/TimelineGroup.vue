@@ -3,7 +3,7 @@
 		<div class="container">
             <div class="related-people-corporate-bodies">
                 <h3>Related people &amp; corporate bodies</h3>
-                <router-link :to="{name: 'person-and-corporate-body', params: {id: entity.id}}" class="link-button-grey small" v-for="(entity, i) in entities" v-bind:key="i"><span class="dotted-underline">{{entity.title}}</span></router-link>
+                <router-link :to="{name: 'entity', params: {id: entity.id}}" class="link-button-grey small" v-for="(entity, i) in entities" v-bind:key="i"><span class="dotted-underline">{{entity.title}}</span></router-link>
             </div>
             <div class="related-collections">
                 <h3>Related collections</h3>

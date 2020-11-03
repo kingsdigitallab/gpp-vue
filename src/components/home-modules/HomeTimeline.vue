@@ -1,23 +1,21 @@
 <template>
-	<div class="home-timeline">
-		<div class="container">
-			<div v-for="(group, i) in timelineGroup" v-bind:key="i" class="timeline-group">
-				<h2><router-link :to="{name:'timeline', params: {id: group.id}}">{{group.title}} <span class="arrow"></span></router-link></h2>
-				<p>{{group.description}}</p>
-				<div class="featured-collections-series">
-					<router-link :to="{name: 'archival-record', params: {id: collection.id}}" class="link-button-default small" v-for="(collection, i) in group.collections" v-bind:key="i">{{collection.title}}</router-link>
-				</div>
-				<div class="featured-files-items" v-if="group.featuredRecords.length">
-					<h3>Featured files and items</h3>
-					<carousel-template v-bind:featuredRecords="group.featuredRecords"></carousel-template>
-					<!-- <template v-if="group.featuredRecords.length > 1">
-						<button class="slider-arrow prev" aria-label="previous slide" @click="showPrev">&#xf104;</button>
-						<button class="slider-arrow next" aria-label="next slide" @click="showNext">&#xf105;</button>
-					</template> -->
-				</div>
-				<div class="featured-people-corporate-bodies">
-					<router-link :to="{name: 'person-and-corporate-body', params: {id: entity.id}}" class="link-button-grey small" v-for="(entity, i) in group.entities" v-bind:key="i"><span class="dotted-underline">{{entity.title}}</span></router-link>
-				</div>
+	<div class="home-timeline container">
+		<div v-for="(group, i) in timelineGroup" v-bind:key="i" class="timeline-group">
+			<h2><router-link :to="{name:'timeline', params: {subpage: group.url}}">{{group.title}} <span class="arrow"></span></router-link></h2>
+			<p>{{group.description}}</p>
+			<div class="featured-collections-series">
+				<router-link :to="{name: 'archival-record', params: {id: collection.id}}" class="link-button-default small" v-for="(collection, i) in group.collections" v-bind:key="i">{{collection.title}}</router-link>
+			</div>
+			<div class="featured-files-items" v-if="group.featuredRecords.length">
+				<h3>Featured files and items</h3>
+				<carousel-template v-bind:featuredRecords="group.featuredRecords"></carousel-template>
+				<!-- <template v-if="group.featuredRecords.length > 1">
+					<button class="slider-arrow prev" aria-label="previous slide" @click="showPrev">&#xf104;</button>
+					<button class="slider-arrow next" aria-label="next slide" @click="showNext">&#xf105;</button>
+				</template> -->
+			</div>
+			<div class="featured-people-corporate-bodies">
+				<router-link :to="{name: 'entity', params: {id: entity.id}}" class="link-button-grey small" v-for="(entity, i) in group.entities" v-bind:key="i"><span class="dotted-underline">{{entity.title}}</span></router-link>
 			</div>
 		</div>
 	</div>
@@ -35,6 +33,7 @@ export default {
 				{
 					id: 1,
 					title: 'Early Georgians',
+					url: 'early-georgians',
 					description: 'Collections related to George I, George II and their families',
 					collections: [
 						{id: 11, title: 'George II [collection]'},
@@ -53,6 +52,7 @@ export default {
 				},
 				{
 					id: 2,
+					url: 'george-III-queen-charlotte-and-their-family',
 					title: 'George III, Queen Charlotte and their family',
 					description: 'Introductions to published collections of George III, his Queen consort and their children',
 					collections: [
@@ -94,6 +94,7 @@ export default {
 				{
 					id: 3,
 					title: 'George III siblings',
+					url: 'george-III-siblings',
 					description: 'Papers of the brothers of George III',
 					collections: [
 					],
@@ -117,6 +118,7 @@ export default {
 				{
 					id: 4,
 					title: 'George IV and Princess Charlotte of Wales',
+					url: 'george-IV-and-princess-charlotte-of-wales',
 					description: 'Introductions to his papers and financial records as Prince, Regent and King, as well as those of his only daughter',
 					collections: [
 					],
@@ -130,6 +132,7 @@ export default {
 				{
 					id: 5,
 					title: 'William IV',
+					url: 'william-iv',
 					description: 'Correspondence of the seafaring Prince and King',
 					collections: [
 						{id: 51, title: 'Letters from and to William IV and Queen Adelaide and papers concerning them'},

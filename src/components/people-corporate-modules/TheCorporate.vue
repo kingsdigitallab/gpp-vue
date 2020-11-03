@@ -1,3 +1,4 @@
+<!--
 <template>
 	<div class="corporate">
 		<ul class="list">
@@ -103,3 +104,4 @@ export default {
 	}
 }
 </script>
+-->

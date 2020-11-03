@@ -1,3 +1,5 @@
+
+<!--
 <template>
 	<div>
 		<div v-show="loading" class="loader"></div>
@@ -196,3 +198,4 @@ export default {
 	}
 }
 </script>
+-->

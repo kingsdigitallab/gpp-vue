@@ -4,7 +4,7 @@
 	box-sizing: border-box;
 	position: fixed;
 	top: 0;
-	z-index: 100;
+	z-index: 10;
 	transition: 0.3s ease;
 	.container {
 		display: grid;
@@ -23,7 +23,7 @@
 				width: 200px;
 			}
 			&:focus, &:hover {
-				background-color: darken($maroon, 50%);
+				background-color: $red-dark;
 			}
 		}
 		.header__nav, .header__search {
@@ -34,6 +34,7 @@
 				display: flex;
 				align-items: center;
 				.header__nav-item {
+					list-style: none;
 					&:not(:last-of-type) {
 						margin-right: 3em;
 					}
@@ -77,13 +78,12 @@
 			  }
 			}
 			.search-field {
-			  visibility: hidden;
-			  width: 30px;
-			  transition: ease-in 0.3s;
-			  font-size: 1em;
-			  margin: 0em;
-			  padding: 0.7em 0em;
-			  label {
+				visibility: hidden;
+				width: 30px;
+				transition: ease-in 0.3s;
+				font-size: 1em;
+				margin: 0em;
+				padding: 0.7em 0em;
 				input[type=search] {
 					border: 0;
 					width: 100%;
@@ -93,18 +93,17 @@
 						background-color: transparent;
 					}
 				}
-			  }
-			  .search-button {
-				position: absolute;
-				right: 8px;
-			  	top: 10px;
-				background: none;
-				border: 0;
-				color: $red-primary;
-				z-index: 11;
-				display: none;
-				padding: 0;
-			  }
+				.search-button {
+					position: absolute;
+					right: 8px;
+					top: 10px;
+					background: none;
+					border: 0;
+					color: $red-primary;
+					z-index: 11;
+					display: none;
+					padding: 0;
+				}
 			}
 			button.dotted-underline {
 				visibility: hidden;
@@ -188,19 +187,19 @@
 			.header__nav {
 				opacity: 0;
 				transform: translateX(200%);
-				background-color: $maroon;
+				background-color: $red-dark;
 				top: 82px;
 				text-align: center;
 				font-size: 28px;
 				left: 0;
 				bottom: 0;
 				width: 100%;
-				color: $white;
+				color: white;
 				position: fixed;
 				padding-top: 50px;
 				padding-bottom: 20px;
 				z-index: 10;
-				transition: $dur $ease;
+				transition: 0.3s ease;
 				.header__nav-list {
 					flex-direction: column;
 					padding-left: 0.7em;

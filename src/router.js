@@ -9,6 +9,7 @@ import FilesItems from './views/FilesItems.vue'
 import Entity from './views/Entity.vue'
 import Entities from './views/Entities.vue'
 import Accessibility from './views/Accessibility.vue'
+import SearchResults from './views/SearchResults.vue'
 
 Vue.use(Router)
 
@@ -29,6 +30,11 @@ export default new Router({
       path: '/timeline/:subpage',
       name: 'timeline',
       component: Timeline
+    },
+    {
+      path: '/search',
+      name: 'search-results',
+      component: SearchResults
     },
     {
       path: '/archival-records',
@@ -75,6 +81,7 @@ export default new Router({
     },
   ],
   scrollBehavior () {
+    // TODO update scroll behaviour on the archival records and people and corporate bodies list pages
     return { x: 0, y: 0 }
   }
 })

@@ -101,6 +101,9 @@ button, input[type=submit], input[type=button] {
 			}
 		}
 	}
+	&:hover, &:focus {
+		outline: none;
+	}
 }
 
 button.small, a.small {
@@ -120,6 +123,16 @@ button.large, a.large {
 	}
 }
 
+.arrow:after {
+	content: '\f105';
+	font-family: $fontawesome;
+	color: inherit;
+	font-size: 1.5em;
+	vertical-align: middle;
+	padding-left: 0.4em;
+	font-weight: 200;
+}
+
 a {
 	color: $red-secondary;
 	border-bottom: 1px dotted $grey-light;
@@ -128,15 +141,7 @@ a {
 	&:hover, &:focus {
 		background-color: $grey-background-dark;
 		border-bottom: 1px dotted $red-primary;
-	}
-	.arrow:after {
-		content: '\f105';
-		font-family: $fontawesome;
-		color: inherit;
-		font-size: inherit;
-		vertical-align: middle;
-		padding-left: 0.4em;
-		font-weight: 200;
+		outline: none;
 	}
 	&.link-button-default {
 		background-color: $red-primary;
