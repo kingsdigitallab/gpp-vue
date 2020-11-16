@@ -7,6 +7,15 @@ button, input[type=submit], input[type=button] {
 		margin: 0;
 		padding: 0;
 		color: $red-primary;
+		&.clear {
+			&:before {
+				content: '\f00d';
+				font-family: $fontawesome;
+				margin-right: 7px;
+				font-weight: 300;
+				display: inline-block;
+			}
+		}
 		&.active {
 			font-weight: 600;
 			border-bottom: 1px dashed $red-primary !important;		

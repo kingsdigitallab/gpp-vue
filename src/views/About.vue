@@ -1,7 +1,7 @@
 <template>
-  <main class="about-template container">
+  <main class="about-page container">
       <h1 class="page-title">{{getPage.title}}</h1>
-      <p>{{getPage.introduction}}</p>
+      <p class="introduction">{{getPage.introduction}}</p>
       <img :src="getImageURL" alt="">
       <p v-html="getPage.body"></p>
   </main>

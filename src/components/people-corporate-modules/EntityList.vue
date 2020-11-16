@@ -27,7 +27,7 @@
 						</div>
 					</div>
 				</fieldset>
-				<fieldset class="filter-collapse">
+				<fieldset>
 					<legend>Gender</legend>
 					<input type="checkbox" id="gender-toggle" class="toggle-checkbox" />
 					<label for="gender-toggle" class="toggle-label"><span hidden>Expand/collapse gender</span></label>
@@ -61,7 +61,7 @@
 						<label class="show-all dotted-underline" for="show-all-languages" v-if="facets.languages.length > 5 && !searchLanguages"> languages used</label>
 					</div>
 				</fieldset>
-				<fieldset class="filter-collapse">
+				<fieldset>
 					<!-- acquirers only -->
 					<legend>Related people &amp; corporate bodies</legend>
 					<input type="checkbox" id="related-entities-toggle" class="toggle-checkbox" />

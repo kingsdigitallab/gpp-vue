@@ -1,27 +1,28 @@
 <template>
 	<main class="records">
 		<div class="container">
-			<h1 class="page-title">{{title}}</h1>
-			<p>{{description}}</p>
+			<h1 class="page-title">{{pageTitle}}</h1>
+			<p>{{pageDescription}}</p>
 			<archive-list></archive-list>
 		</div>
 	</main>
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
 import ArchiveList from '../components/archival-records-modules/ArchiveList.vue'
 
 export default {
 	name: 'ArchivalRecords',
+	computed: mapGetters(['pageTitle', 'pageDescription']),
 	components: {
 		ArchiveList
 	},
-	data: function() {
-		return {
-            id: 1,
-            title: 'Archival records',
-            description: 'About archival records - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-		}
+	methods: {
+		...mapActions(['fetchArchivalRecordsPageDescription'])
 	},
+	async created() {
+		await this.fetchArchivalRecordsPageDescription();
+	}
 }
 </script>

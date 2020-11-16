@@ -25,10 +25,10 @@
 			<div class="header__search">
 				<input type="checkbox" aria-label="Search button" id="search-icon"/>
 				<label class="search-label" for="search-icon"><span hidden>Expand search bar</span></label>
-				<form action="" class="search-field">
+				<form @submit.prevent="submit" class="search-field">
 					<!-- name, date, category, creator -->
 					<input type="search" v-model="searchQuery" name="search" aria-label="Search" placeholder="e.g., Chevalier d’Eon" onfocus="this.placeholder=''" onblur="this.placeholder='e.g., Chevalier d’Eon'"/>
-					<input type="submit" class="search-button" @click.stop.prevent="submit()" aria-label="Search button" value=""/>
+					<input type="submit" class="search-button" aria-label="Search button" value=""/>
 				</form>
 				<button v-on:click="showModal" class="button-link dotted-underline">Advanced search</button>
 			</div>

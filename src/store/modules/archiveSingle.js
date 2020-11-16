@@ -11,7 +11,7 @@ const getters = {
 const actions = {
     async fetchArchive({ commit }, id) {
         const response = await Api.getSingle('/archival/records/',id);
-
+        
         let images = [];
         response.data['media'].forEach(element => {
             images.push({type:'image', url: element['resource'], buildPyramid: false});

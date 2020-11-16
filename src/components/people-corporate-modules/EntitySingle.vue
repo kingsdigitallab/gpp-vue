@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="entity" v-if="!loading">
-			<div class="identity-list">
+			<div class="identity-list" v-if="getAuthority.identities.length > 1">
 				<strong>Identities:</strong>
 				<ul class="identity-tabs" v-for="(identity, i) in getAuthority.identities" v-bind:key="i">
 					<!-- TODO change to identity.authorised_display_name -->
@@ -20,9 +20,10 @@
 								<template v-if="name_entry.display_date">(name used: {{name_entry.display_date}})</template>
 								<template v-if="i != identity.name_entries.length-2">;</template>
 							</span>
+							<br>
+							<br>
 						</p>
-						<br>
-						<br>
+						<!-- TODO send one description rather than an array of descriptions -->
 						<template v-if="identity.descriptions.length > 0">
 							<p v-html="identity.descriptions[activeDescription].biography_history.abstract"></p>
 							<p v-html="identity.descriptions[activeDescription].biography_history.biography"></p>
@@ -32,7 +33,7 @@
 							<p v-html="identity.descriptions[activeDescription].biography_history.copyright"></p>
 						</template>
 					</div>
-					<div class="grey-column" v-if="identity.descriptions.length > 0">
+					<div class="grey-column">
 						<div class="two-column-40-60" v-if="identity.display_date">
 							<h4>Dates of existence</h4>
 							<span>{{identity.display_date}}</span>
@@ -94,42 +95,6 @@
 							<!-- TODO ADD SHOW MORE -->
 						</div>
 					</div>
-			</div>
-			<div class="descriptions-section" v-if="identity.descriptions && identity.descriptions.length > 1">
-				<h2>Other descriptions of {{identity.name_entries[0].display_name}}</h2>
-				<div v-for="(description, i) in identity.descriptions" v-show="activeDescription != i" v-bind:key="i" class="grey-column description column-delimiter">
-					<div class="abstract" v-html="description.biography_history.abstract"></div>
-					<div>
-						<div class="two-column-40-60" v-if="description.genders && description.genders.length > 0">
-							<h4>Genders</h4>
-							<ul class="flex">
-								<!-- TODO add route to the list page with filters -->
-								<li v-for="(gender, i) in description.genders" v-bind:key="i" class="mgn-right">
-									<router-link :to="{}" class="dotted-underline">{{gender.title}}</router-link><template v-if="i != description.genders.length - 1">, </template>
-								</li>
-							</ul>
-						</div>
-						<div class="two-column-40-60" v-if="description.language_scripts && description.language_scripts.length > 0">
-							<h4>Languages used</h4>
-							<ul class="flex">
-								<!-- TODO add route to the list page with filters -->
-								<li v-for="(language, i) in description.language_scripts" v-bind:key="i" class="mgn-right">
-									{{language}}<template v-if="i != description.language_scripts.length - 1">, </template>
-								</li>
-							</ul>
-						</div>
-						<div class="two-column-40-60" v-if="description.functions && description.functions.length > 0">
-							<h4>Functions</h4>
-							<ul class="flex">
-								<!-- TODO add route to the list page with filters -->
-								<li v-for="(entityFunction, i) in description.functions" v-bind:key="i" class="mgn-right">
-									{{entityFunction.title}} (used: {{entityFunction.display_date}})<template v-if="i != description.functions.length - 1">, </template>
-								</li>
-							</ul>
-						</div>
-					</div>
-					<button type="button" v-on:click="activeDescription = i" class="button-default large arrow">See this description</button>
-				</div>
 			</div>
 			<div class="descriptions-section" v-if="identity.related_records && identity.related_records.length > 0 || identity.related_entites && identity.related_entites.length > 0">
 				<h2>Related</h2>
@@ -200,285 +165,7 @@ export default {
 			loading: true,
 			activeIdentity: 0,
 			activeDescription: 0,
-			identity: [],
-			entity_PLACEHOLDER: {
-				identities: [
-					{
-						"display_date": "1983-03-03",
-						"authorised_display_name": "Authorised display name",
-						"name_entries": [
-							{
-								"display_name": "display_name1",
-								"display_date": "display_date1"
-							},
-							{
-								"display_name": "display_name2",
-								"display_date": "display_date2"
-							}
-						],
-						"descriptions": [
-							{
-								"biography_history": {
-									"abstract": "abstract1",
-									"biography": "biography1",
-									"sources": "sources1",
-									"copyright": "copyright1"
-								},
-								"genders": [
-									{
-										"title": "gender11",
-										"display_date":  "display_date11",
-										"descriptive_notes": "descriptive_notes11",
-										"citation": "citation11"
-									},
-									{
-										"title": "gender12",
-										"display_date":  "display_date12",
-										"descriptive_notes": "descriptive_notes12",
-										"citation": "citation12"
-									}
-								],
-								"functions": [
-									{
-										"title": "function11",
-										"display_date": "display_date11"
-									},
-									{
-										"title": "function12",
-										"display_date": "display_date12"
-									}
-								],
-								"language_scripts": ["language11", "language12"],
-								"places": [
-									{
-										"title": "place11",
-										"role": "role11",
-										"address": "address11",
-										"display_date": "display_date11"
-									},
-									{
-										"title": "place12",
-										"role": "role12",
-										"address": "address12",
-										"display_date": "display_date12"
-									}
-								],
-								"events": [
-									{
-										"title": "event11",
-										"place": "place11",
-										"display_date": "display_date11"
-									},
-									{
-										"title": "event12",
-										"place": "place12",
-										"display_date": "display_date12"
-									},
-									{
-										"display_name": "display_name13",
-										"display_date": "display_date13"
-									},
-								]
-							},
-							{
-								"biography_history": {
-									"abstract": "abstract12",
-									"biography": "biography12",
-									"sources": "sources12",
-									"copyright": "copyright12"
-								},
-								"genders": [
-									{
-										"title": "gender11",
-										"display_date":  "display_date11",
-										"descriptive_notes": "descriptive_notes11",
-										"citation": "citation11"
-									},
-									{
-										"title": "gender12",
-										"display_date":  "display_date12",
-										"descriptive_notes": "descriptive_notes12",
-										"citation": "citation12"
-									}
-								],
-								"functions": [
-									{
-										"title": "function11",
-										"display_date": "display_date11"
-									},
-									{
-										"title": "function12",
-										"display_date": "display_date12"
-									}
-								],
-								"language_scripts": ["language11", "language12"],
-								"places": [
-									{
-										"title": "place11",
-										"role": "role11",
-										"address": "address11",
-										"display_date": "display_date11"
-									},
-									{
-										"title": "place12",
-										"role": "role12",
-										"address": "address12",
-										"display_date": "display_date12"
-									}
-								],
-								"events": [
-									{
-										"title": "event11",
-										"place": "place11",
-										"display_date": "display_date11"
-									},
-									{
-										"title": "event12",
-										"place": "place12",
-										"display_date": "display_date12"
-									}
-								]
-							}
-						],
-						"related_records": 
-						[
-							{
-								"id": 1,
-								"title": "record11",
-								"related_as": "related_as11"
-							},
-							{
-								"id": 2,
-								"title": "title12",
-								"related_as": "related_as12"
-							}	
-						],
-						"related_entities": [
-							{
-								"id": 1,
-								"title": "title11",
-								"related_as": "related_as11"
-							},
-							{
-								"id": 2,
-								"title": "title12",
-								"related_as": "related_as12"
-							}	
-						],
-						"resources": [
-							{
-								"citation": "resource11",
-								"url": "url11",
-								"related_as": "related_as11",
-								"notes": "note11"
-							},
-							{
-								"citation": "resource12",
-								"url": "url11",
-								"related_as": "related_as12",
-								"notes": "note11"
-							}
-						]
-					},
-					{
-						"display_date": "date",
-						"authorised_display_name": "Authorised display name",
-						"name_entries": [
-							{
-								"display_name": "display_name21",
-								"display_date": "display_date21"
-							},
-						],
-						"descriptions": [
-							{
-								"biography_history": {
-									"abstract": "abstract2",
-									"biography": "biography2",
-									"sources": "sources2",
-									"copyright": "copyright2"
-								},
-								"genders": [
-									{
-										"title": "gender21",
-										"display_date":  "display_date21",
-										"descriptive_notes": "descriptive_notes21",
-										"citation": "citation21"
-									},
-								],
-								"functions": [
-									{
-										"title": "function21",
-										"display_date": "display_date21"
-									},
-									{
-										"title": "function22",
-										"display_date": "display_date22"
-									}
-								],
-								"language_scripts": [],
-								"places": [
-									{
-										"title": "place21",
-										"role": "role21",
-										"address": "address21",
-										"display_date": "display_date21"
-									},
-									{
-										"title": "place22",
-										"role": "role22",
-										"address": "address22",
-										"display_date": "display_date22"
-									}
-								],
-								"events": [
-								]
-							}
-						],
-						"related_records": 
-						[
-							{
-								"id": 1,
-								"title": "record21",
-								"related_as": "related_as21"
-							},
-							{
-								"id": 2,
-								"title": "title22",
-								"related_as": "related_as22"
-							}	
-						],
-						"related_entities": [
-						],
-						"resources": [
-							{
-								"citation": "resource21",
-								"url": "url21",
-								"related_as": "related_as21",
-								"notes": "note21"
-							},
-							{
-								"citation": "resource21",
-								"url": "url21",
-								"related_as": "related_as21",
-								"notes": "note21"
-							}
-						]
-					}
-				],
-				"sources": [
-					{
-						"title": "source1",
-						"url": "url1",
-						"notes": "notes1"
-					},
-					{
-						"title": "source2",
-						"url": "url2",
-						"notes": "notes2"
-					}
-				],
-				"rights_declaration": "rights_declaration"
-			}
+			identity: []
 		}
 	},
 	methods: {

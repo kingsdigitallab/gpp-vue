@@ -80,8 +80,27 @@ export default new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
     },
   ],
-  scrollBehavior () {
-    // TODO update scroll behaviour on the archival records and people and corporate bodies list pages
-    return { x: 0, y: 0 }
+  // scrollBehavior () {
+  //   // TODO update scroll behaviour on the archival records and people and corporate bodies list
+  //   return { x: 0, y: 0 }
+  // }
+  scrollBehavior (to, from, savedPosition) {
+    // savedPosition is only available for popstate navigations.
+    if (savedPosition) return savedPosition
+
+    // if the returned position is falsy or an empty object,
+    // will retain current scroll position.
+    if (to.params.savePosition) return {}
+
+    // scroll to anchor by returning the selector
+    if (to.hash) {
+      let position = {selector: to.hash}
+
+      // specify offset of the element
+      // if (to.hash === '#anchor2') {
+      //   position.offset = { y: 100 }
+      // }
+      return position
+    }
   }
 })
