@@ -73,11 +73,11 @@ export default {
 						document.querySelector('.js-archive-link').classList.add('router-link-exact-active');
 					}, 100);
 					break;
-				case 'archival-record':
-					setTimeout(function() {
-						document.querySelector('.js-archive-link').classList.add('router-link-exact-active');
-					}, 100);
-					break;
+				// case 'archival-record':
+				// 	setTimeout(function() {
+				// 		document.querySelector('.js-archive-link').classList.add('router-link-exact-active');
+				// 	}, 100);
+				// 	break;
 				case 'collections-series':
 					setTimeout(function() {
 						document.querySelector('.js-archive-link').classList.add('router-link-exact-active');

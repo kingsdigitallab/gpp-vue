@@ -13,9 +13,9 @@
                             <!-- set word limit -->
                             {{record.title}}
                             <br>
-                            <router-link :to="{name:'archival-record', params:{id: record.id}}" class="dotted-underline">See record<span class="arrow"></span></router-link>
+                            <router-link :to="{name:'files-items', params:{id: record.id}}" class="dotted-underline">See record<span class="arrow"></span></router-link>
                         </p>
-                        <p>in <router-link :to="{name:'archival-record', params:{id: record.collection.id}}" class="dotted-underline">{{record.collection.title}}</router-link></p>
+                        <p>in <router-link :to="{name:'collections-series', params:{id: record.collection.id}}" class="dotted-underline">{{record.collection.title}}</router-link></p>
                     </div>
                 </div>
             </div>

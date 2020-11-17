@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Timeline from './views/Timeline.vue'
 import ArchivalRecords from './views/ArchivalRecords.vue'
-import ArchiveRecord from './views/ArchiveRecord.vue'
+// import ArchiveRecord from './views/ArchiveRecord.vue'
 import CollectionsSeries from './views/CollectionsSeries.vue'
 import FilesItems from './views/FilesItems.vue'
 import Entity from './views/Entity.vue'
@@ -41,11 +41,11 @@ export default new Router({
       name: 'archival-records',
       component: ArchivalRecords
     },
-    {
-      path: '/archival-records/:id',
-      name: 'archival-record',
-      component: ArchiveRecord
-    },
+    // {
+    //   path: '/archival-records/:id',
+    //   name: 'archival-record',
+    //   component: ArchiveRecord
+    // },
     {
       path: '/archival-records/collections-series/:id',
       name: 'collections-series',
@@ -85,22 +85,18 @@ export default new Router({
   //   return { x: 0, y: 0 }
   // }
   scrollBehavior (to, from, savedPosition) {
-    // savedPosition is only available for popstate navigations.
-    if (savedPosition) return savedPosition
-
-    // if the returned position is falsy or an empty object,
-    // will retain current scroll position.
-    if (to.params.savePosition) return {}
-
-    // scroll to anchor by returning the selector
-    if (to.hash) {
-      let position = {selector: to.hash}
-
-      // specify offset of the element
-      // if (to.hash === '#anchor2') {
-      //   position.offset = { y: 100 }
-      // }
-      return position
+    // Exists when Browser's back/forward pressed
+    if (savedPosition) {
+      return savedPosition
+    // For anchors
+    } else if (to.hash) {
+      return { selector: to.hash }
+    // By changing queries we are still in the same component, so "from.path" === "to.path" (new query changes just "to.fullPath", but not "to.path").
+    } else if (from.path === to.path) {
+      return {}
     }
+
+    // Scroll to top
+    return { x: 0, y: 0 }
   }
 })

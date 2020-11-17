@@ -1,16 +1,16 @@
 <template>
   <div class="timeline-group">
-		<div class="container">
-            <div class="related-people-corporate-bodies">
+		<div class="container" v-if="!loadingTimelineGroup">
+            <div class="related-people-corporate-bodies" v-if="getTimelineGroup.entities">
                 <h3>Related people &amp; corporate bodies</h3>
-                <router-link :to="{name: 'entity', params: {id: entity.id}}" class="link-button-grey small" v-for="(entity, i) in entities" v-bind:key="i"><span class="dotted-underline">{{entity.title}}</span></router-link>
+                <router-link v-for="(entity, i) in getTimelineGroup.entities" v-bind:key="i" :to="{name: 'entity', params: {id: entity.id}}" class="link-button-grey small"><span class="dotted-underline">{{entity.title}}</span></router-link>
             </div>
-            <div class="related-collections">
+            <div class="related-collections" v-if="getTimelineGroup.collections">
                 <h3>Related collections</h3>
                 <div class="two-column-30-70">
                     <div class="grey-column">
                         <div class="collections">
-                            <button v-for="(collection, i) in collections" v-bind:key="i" v-bind:class="[{active: collection.id === activeCollection}, 'collection']" v-on:click="setHierarchy(collections[i].id, collections[i].title)">
+                            <button v-for="(collection, i) in getTimelineGroup.collections" v-bind:key="i" v-bind:class="[{active: collection.id === activeCollection}, 'collection']" v-on:click="setHierarchy(collection.id, collection.title)">
                                 <span class="red-highlight">{{collection.title}}</span> ({{collection.children_desc}})
                             </button>
                         </div>
@@ -26,204 +26,59 @@
                             </span>
                         </div>
                         <div class="parent-level">
-                            <hierarchy-template v-bind:current="this.hierarchy"></hierarchy-template>
+                            <hierarchy-template v-bind:current="getHierarchy" v-if="!loadingHierarchy"></hierarchy-template>
+                            <div v-else class="loader"></div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="related-files-items">
+            <div class="related-files-items" v-if="getTimelineGroup.featuredRecords">
                  <h3>Featured files &amp; items</h3>
-                 <carousel-template v-bind:featuredRecords="featuredRecords"></carousel-template>
+                 <carousel-template v-bind:featuredRecords="getTimelineGroup.featuredRecords"></carousel-template>
             </div>
 		</div>
+        <div v-else class="loader"></div>
   </div>
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
+
 import HierarchyTemplate from '../templates/HierarchyTemplate.vue';
 import CarouselTemplate from '../templates//CarouselTemplate.vue';
 
 export default {
     name: 'TimelineGroup',
+    computed: mapGetters(['getTimelineGroup', 'getHierarchy']),
     components: {HierarchyTemplate, CarouselTemplate},
 	data: function() {
 		return {
-            id: 1,
-            title: 'Early Georgians',
-            description: 'Early Georgians - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-            entities: [
-                {id: 11, title: 'George I, King'},
-                {id: 12, title: 'George II, King'},
-                {id: 13, title: 'Caroline, Queen Consort to George II (1683-1737)'},
-                {id: 14, title: 'Frederick, Prince of Wales'},
-            ],
-            collections: [
-                {
-                    id: 21, 
-                    title: 'Additional papers relating to George III and Queen Charlotte',
-                    children_desc: '12 series'
-                },
-                {   
-                    id: 22, 
-                    title: 'George III Calendar',
-                    children_desc: '12 series'
-                },
-                {
-                    id: 23, 
-                    title: 'George III Essays',
-                    children_desc: '12 series'
-                },
-                {
-                    id: 24, 
-                    title: 'Diaries, essays and notes of Queen Charlotte',
-                    children_desc: '12 series'
-                },
-                {
-                    id: 25, 
-                    title: 'Papers of Charlotte, Queen Consort to George III',
-                    children_desc: '12 series'
-                },
-                {
-                    id: 26, 
-                    title: 'Letters from and concerning Princess Augusta Sophia',
-                    children_desc: '12 series'
-                },
-                {
-                    id: 27, 
-                    title: 'Papers of Charlotte, Queen Consort to George III',
-                    children_desc: '12 series'
-                },
-                {
-                    id: 28, 
-                    title: 'Papers relating to Lady Charlotte Finch',
-                    children_desc: '12 series'
-                },
-            ],
-            featuredRecords: [
-                {
-                    id: 21, 
-                    src: require("@/assets/images/record-placeholder.png"), 
-                    date: '7 January 1766', 
-                    title: 'Letter from George III to Sir Joseph Yorke on the possibility of the Hereditary Prince of Brunswick [Charles William Ferdinand, Duke of Brunswick-Wolfenbüttel] being put into the service of the Prince of Orange [William V]', 
-                    collection: {id: 211, title: 'Collection'}
-                },
-                {
-                    id: 22, 
-                    src: require("@/assets/images/record-placeholder.png"), 
-                    date: '1746-1805', 
-                    title: 'Essay on government', 
-                    collection: {id: 212, title: 'George III Essays'}
-                },
-                {
-                    id: 22, 
-                    src: require("@/assets/images/record-placeholder.png"), 
-                    date: '1746-1805', 
-                    title: 'Essay on government', 
-                    collection: {id: 212, title: 'George III Essays'}
-                },
-            ],
             activeCollection: 0,
             collectionTitle: '',
-            current: '',
-            hierarchy: '',
-            hierarchy_PLACEHOLDER: 
-                {
-                    id: 1,
-                    is_selected: false,
-                    title: '<Collection: Papers of General Jacob de Budé.>', 
-                    archival_level: 'Collection',
-                    creation_dates: '',
-                    is_ancestor: true, 
-                    children_desc: '(7 series)', 
-                    children: [
-                        {
-                            id: 3,
-                            is_selected: false, 
-                            title: '<Series 3: Correspondence principally between General Jacob de Budé and King George III and Queen Charlotte.>', 
-                            archival_level: 'Series',
-                            creation_dates: '',
-                            is_ancestor: false, 
-                            children_desc: '(7 series)',
-                            children: []
-                        },
-                        {
-                            id: 4,
-                            is_selected: false, 
-                            title: '<Series 4: Correspondence principally between General Jacob de Budé and King George III and Queen Charlotte.>', 
-                            archival_level: 'Series',
-                            is_ancestor: false, 
-                            creation_dates: '',
-                            children_desc: '(7 series)',
-                            children: []
-                        },
-                        {
-                            id: 2,
-                            is_selected: false, 
-                            title: '<Series: Correspondence principally between General Jacob de Budé and King George III and Queen Charlotte.>', 
-                            archival_level: 'Series',
-                            is_ancestor: true, 
-                            creation_dates: '',
-                            children_desc: '(7 series)',
-                            children: [
-                                {
-                                    id: 2,
-                                    is_selected: true, 
-                                    title: '<Series: Correspondence principally between General Jacob de Budé and King George III and Queen Charlotte.>', 
-                                    archival_level: 'Series',
-                                    is_ancestor: false, 
-                                    creation_dates: '',
-                                    children_desc: '(7 series)',
-                                    children: []
-                                }
-                            ]
-                        },
-                        {
-                            id: 2,
-                            is_selected: false, 
-                            title: '<Series: Correspondence principally between General Jacob de Budé and King George III and Queen Charlotte.>', 
-                            archival_level: 'Series',
-                            is_ancestor: false, 
-                            creation_dates: '',
-                            children_desc: '(7 series)',
-                            children: [
-                                {
-                                    id: 2,
-                                    is_selected: false, 
-                                    title: '<Series: Correspondence principally between General Jacob de Budé and King George III and Queen Charlotte.>', 
-                                    archival_level: 'Series',
-                                    is_ancestor: false, 
-                                    creation_dates: '',
-                                    children_desc: '(7 series)',
-                                    children: []
-                                }
-                            ]
-                        }
-                    ]
-                }
-            
+            loadingTimelineGroup: true,
+            loadingHierarchy: true
 		}
 	},
 	methods: {
-        setHierarchy(id, title) {
-            this.collectionTitle = title;
-            this.activeCollection = id;
-            // this.fetchHierarchy(id);
-            this.hierarchy = this.hierarchy_PLACEHOLDER;
+        async setHierarchy(collection_id, collection_title) {
+            this.collectionTitle = collection_title;
+            this.activeCollection = collection_id;
+            await this.fetchHierarchy(collection_id);
+            this.loadingHierarchy = false;
         },
-        updatePage(url) {
-            console.log(url);
+        ...mapActions(['fetchTimelineGroup', 'fetchHierarchy'])
+    },
+    async created(){
+        const timelineGroup = this.$route.params.subpage;
+        if (timelineGroup) {
+            await this.fetchTimelineGroup(timelineGroup);
+            this.loadingTimelineGroup = false;
+            this.setHierarchy(this.getTimelineGroup.collections[0].id, this.getTimelineGroup.collections[0].title);
         }
-    },
-    created: function(){
-        // this.fetchHierarchy(this.collections[0].id)
-        this.setHierarchy(this.collections[0].id, this.collections[0].title);
-    },
-    mounted: function() {
-        this.current = this.hierarchy[0];
     },
     watch: {
         $route() {
-            this.updatePage(this.$route.params.subpage)
+            this.fetchTimelineGroup(this.$route.params.subpage);
         }
     }
 }

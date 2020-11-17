@@ -29,23 +29,26 @@
 		<div class="two-column-50-50">
 			<div class="about">
 				<h2>About</h2>
-				<p>The Collaborative Workspace is a digital platform, developed by <a href="https://www.kdl.kcl.ac.uk/" class="dotted-underline">King’s Digital Lab</a>, that holds material digitised by the <a href="https://gpp.rct.uk/" class="dotted-underline">Royal Archives</a> as part of the <a href="https://georgianpapers.com/" class="dotted-underline">Georgian Papers Programme</a>. It is the one platform on which all datastreams for the Georgian papers, images, metadata and completed transcriptions, are offered; and will allow scholarly users to edit and augment these according to their own knowledge and close reading of the material.</p>
-				<p>The platform is built to solicited requirements from both academics and information professionals and brings the rigour required by archivists through the implementation of archival standards (<a href="https://www.loc.gov/ead/EAD3taglib/index.html" class="dotted-underline">EAD3</a> and <a href="https://eac.staatsbibliothek-berlin.de/schema/taglibrary/cpfTagLibrary2019_EN.html" class="dotted-underline">EAC-CPF</a>) while offering flexibility to scholars in allowing them to correct and augment almost all data surfaced in the Workspace. Editing is moderated to ensure fidelity.</p>
+				<p v-html="getAboutDescription.description"></p>
 			</div>
 			<div>
-				<img src="@/assets/images/Charlotte_children_brothers.jpg" alt="Queen Charlotte with her Children and Brothers" class="image-fill"/>
+				<img v-bind:src="getAboutDescription.image_src" v-bind:alt="getAboutDescription.image_alt_text" class="image-fill"/>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
+
 export default {
 	name: 'HomeBottom',
-	data: function() {
-		return {
-			
-		}
-	}
+	computed: mapGetters(['getAboutDescription']),
+	methods: {
+		...mapActions(['fetchAboutDescription'])
+	},
+	async created() {
+		await this.fetchAboutDescription();
+	},
 }
 </script>

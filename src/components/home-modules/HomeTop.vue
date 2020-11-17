@@ -3,7 +3,11 @@
 		<div class="container">
 			<h1>Explore the Georgian era, 1714-1837</h1>
 			<div class="home-stats">
-				<div :key="index" v-for="(stat, index) in stats" class="home-stats-group">
+				<div class="home-stats-group">
+					<p class="home-stats-num">123</p>
+					<p>years of history</p>
+				</div>
+				<div v-bind:key="index" v-for="(stat, index) in getHomeStats" class="home-stats-group">
 					<p class="home-stats-num">{{stat.num}}</p>
 					<p>{{stat.text}}</p>
 					<span v-if="stat.year" class="home__stats-year">{{stat.year}}</span>
@@ -22,40 +26,16 @@
 </template>
 
 <script>
-
+import { mapGetters, mapActions } from 'vuex';
 import AdvancedSearchModal from '../AdvancedSearchModal.vue';
 
 export default {
 	name: 'HomeTop',
+	computed: mapGetters(['getHomeStats']),
 	components: {AdvancedSearchModal},
 	data: function() {
 		return {
-
-			stats: [
-				{
-					num: 123,
-					text: 'years of history'
-				},
-				{
-					num: '2,994',
-					text: 'archival records'
-				},
-				{
-					num: '1,743',
-					text: 'people & corporate bodies'
-				},
-				{
-					num: '125,558',
-					text: 'images of manuscripts'
-				}
-			],
-			updated: 'Last updated 30 Oct 2019',
-			articleTitle: '',
-			articleParagraphs: [
-				'',
-				''
-			],
-			searchQuery: null,
+			searchQuery: '',
 			advancedSearchShow: false,
 		}
 	},
@@ -68,7 +48,11 @@ export default {
 		},
 		submit(){
 			this.$router.push("/search?q="+this.searchQuery);
-		}
+		},
+		...mapActions(['fetchHomeStats'])
+	},
+	async created() {
+		await this.fetchHomeStats();
 	},
 	mounted() {
 	}

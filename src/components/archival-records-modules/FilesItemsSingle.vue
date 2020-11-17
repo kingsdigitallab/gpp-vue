@@ -302,13 +302,13 @@ export default {
           this.activeTranscription = pageNum-1;  
           startOpenSeaDragon(pageNum-1);
         },
-		...mapActions(['fetchArchive'])
+		...mapActions(['fetchFilesItems'])
 	},
 	created() {
         this.loading = true;
 	},
 	async mounted() {
-        await this.fetchArchive(this.$route.params.id);
+        await this.fetchFilesItems(this.$route.params.id);
         // await this.fetchTranscriptions(this.$route.params.id);
         // TODO  - order returned data?
         this.transcriptions = this.transcriptions_PLACEHOLDER;
@@ -320,6 +320,11 @@ export default {
                 url: this.getArchive.media[index].url
             })
         }
+        // FOR TESTING OPENSEADRAGON
+        // tileSources.push({
+        //     type: 'image',
+        //     url: require('@/assets/images/Masked-Ball-Louis-XV-court.jpg')
+        // })
         startOpenSeaDragon(0);
 	},
 	watch: {
