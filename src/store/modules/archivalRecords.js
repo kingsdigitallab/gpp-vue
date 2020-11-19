@@ -21,6 +21,7 @@ const getters = {
 
 const actions = {
     async fetchArchivalRecordsPageDescription ({ commit }) {
+        // TODO add description to Wagtail (very low priority)
         const response = {
             data: {
                 pageTitle: 'Archival records',
@@ -31,10 +32,11 @@ const actions = {
         commit('setPageDescription', response.data.pageDescription);
     },
     async fetchArchivalRecords({ commit }, params) {
+        console.log('fetch archival records with params: ', params);
         /*
             TODO: 
             /archival/records is currently returning too much data that we don't actually need on the Archival records page
-            Please have the following structure of the response:
+            Please use the following structure of the response:
             data: {
                 count: [total number of records that can be returned with the specified params, e.g., 87],
                 results: [
@@ -42,7 +44,7 @@ const actions = {
                         id: 0,
                         title: “archival_record_title”,
                         archival_level: “archival_record_archival_level”,
-                        writers: [
+                        creators: [
                             {
                                 id: 0,
                                 display_name: “writer_display_name”
@@ -71,15 +73,15 @@ const actions = {
                     },
                     {
                         name: 'C',
-                        missing: false
+                        missing: true
                     },
                     {
                         name: 'D',
-                        missing: false
+                        missing: true
                     },
                     { 
                         name: 'E',
-                        missing: false
+                        missing: true
                     }, 
                     {
                         name:'F',
@@ -175,13 +177,13 @@ const actions = {
                         min_default: 1700,
                         max_default: 2020
                     },
-                    levels: [
+                    archival_level: [
                         {display_name: "Collection", count: 19},
                         {display_name: "Series", count: 84},
                         {display_name: "File", count: 349},
                         {display_name: "Item", count: 452},
                     ],
-                    recordTypes: [
+                    record_types: [
                         {display_name: "Writings (documents)", count: 5},
                         {display_name: "Correspondence", count: 4},
                         {display_name: "Diaries", count: 2},
@@ -191,7 +193,7 @@ const actions = {
                         {display_name: "Wills", count: 5},
                         {display_name: "Commonplace books", count: 1},
                     ],
-                    writers: [
+                    creators: [
                         {display_name: "George III, 1738-1820, King of Great Britain and Ireland", count: 541},
                         {display_name: "Grafton, 3rd Duke of", count: 81},
                         {display_name: "North, Frederick, Lord", count: 75},
@@ -205,7 +207,7 @@ const actions = {
                         {display_name: "Basnett, William", count: 19},
                         {display_name: "Parker and Perry; Glass Manufacturers", count: 18},
                     ],
-                    addressees: [
+                    persons_as_relations: [
                         {display_name: "George III, 1738-1820, King of Great Britain and Ireland", count: 541},
                         {display_name: "Grafton, 3rd Duke of", count: 81},
                         {display_name: "North, Frederick, Lord", count: 75},

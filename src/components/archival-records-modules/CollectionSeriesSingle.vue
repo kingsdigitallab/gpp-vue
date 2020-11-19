@@ -8,12 +8,12 @@
                 <div class="grey-column">
                     <!-- TODO: change to v-if="getArchive.ra_references && getArchive.ra_references.length > 0" -->
                     <div class="two-column-30-70" v-if="getArchive.references && getArchive.references.length > 0" >
-                        <h4>RA References</h4>
+                        <h4>RA {{ 'Reference' | pluralize(getArchive.references.length) }}</h4>
                         <span>
                             <!-- TODO: normalise the data response, change to getArchive.ra_references -->
                             {{getArchive.references[0].unitid}}
                             <!-- <span v-for="(reference, i) in getArchive.ra_references" v-bind:key="i">
-                                {{reference.title}}<span v-if="i != getArchive.ra_references.length - 1">, </span>
+                                {{reference.title}}<template v-if="i != getArchive.ra_references.length - 1">; </template>
                             </span> -->
                         </span>
                     </div>
@@ -31,17 +31,18 @@
                         <span>{{getArchive.extent}}</span>
                     </div>
                     <div class="two-column-30-70" v-if="getArchive.languages && getArchive.languages.length > 0">
-                        <h4>Languages</h4>
+                        <h4>{{ 'Language' | pluralize(getArchive.languages.length) }}</h4>
                         <span>
                             <span v-for="(language, i) in getArchive.languages" v-bind:key="i">
-                                {{language}}<span v-if="i != getArchive.languages.length - 1">, </span>
+                                <!-- TODO change to {{ language }} -->
+                                {{language.name_en}}<template v-if="i != getArchive.languages.length - 1">; </template>
                             </span>
                         </span>
                     </div>
                 </div>
             </div>
             <!-- TODO: add v-if="getArchive.administrative_history || getArchiveHierarchy" --> 
-            <div class="two-column-30-70">
+            <div :class="{'two-column-30-70': administrativeHistory != ''}">
                 <div class="grey-column" v-if="administrativeHistory != ''">
                     <h4>Administrative history</h4>
                     <p>
@@ -93,7 +94,7 @@
                                     <!-- <router-link :to="{}"> -->
                                         {{subject.title}}
                                     <!-- </router-link> -->
-                                    <template v-if="i != getArchive.subjects.length - 1">, </template>
+                                    <template v-if="i != getArchive.subjects.length - 1">; </template>
                                 </li>
                             </ul>
                         </div>
@@ -103,21 +104,21 @@
                             <ul class="flex">
                                 <li v-for="(place, i) in getArchive.places_as_subjects" v-bind:key="i" class="mgn-right">
                                     {{place}}
-                                    <template v-show="i != getArchive.places_as_subjects.length - 1">, </template>
+                                    <template v-show="i != getArchive.places_as_subjects.length - 1">; </template>
                                 </li>
                             </ul>
                         </div>
                         <!-- TODO change to v-if getArchive.related.persons_as_subjects.length > 0 -->
                         <div class="two-column-40-60" v-if="getArchive.persons_as_subjects && getArchive.persons_as_subjects.length > 0">
-                            <h4>Persons</h4>
+                            <h4>People</h4>
                             <ul class="flex">
                                 <li v-for="(person, i) in getArchive.persons_as_subjects" v-bind:key="i">
                                     <!-- TODO forward to the entity page -->
                                     <router-link :to="{}">
-                                        <!-- TODO change to person.name -->
+                                        <!-- TODO change to person.display_name -->
                                         {{person}}
                                     </router-link>
-                                    <template v-if="i != getArchive.persons_as_subjects.length - 1">, </template>
+                                    <template v-if="i != getArchive.persons_as_subjects.length - 1">; </template>
                                 </li>
                             </ul>
                         </div>
@@ -128,10 +129,10 @@
                                 <li v-for="(organisation, i) in getArchive.organisations_as_subjects" v-bind:key="i">
                                     <!-- TODO forward to the entity page -->
                                     <router-link :to="{}">
-                                        <!-- TODO change to organisation.name -->
+                                        <!-- TODO change to organisation.display_name -->
                                         {{organisation}}
                                     </router-link>
-                                    <template v-if="i != getArchive.organisations_as_subjects.length - 1">, </template>
+                                    <template v-if="i != getArchive.organisations_as_subjects.length - 1">; </template>
                                 </li>
                             </ul>
                         </div>
@@ -169,7 +170,7 @@
                         <template v-if="getArchive.origin_location && getArchive.origin_location.length > 0">
                             <span class="highlight">Location of originals:</span> 
                             <span v-for="(location, i) in getArchive.origin_location" v-bind:key="i">
-                                {{location}}<span v-if="i != getArchive.origin_location.length - 1">, </span>
+                                {{location}}<template v-if="i != getArchive.origin_location.length - 1">; </template>
                             </span>
                         </template>
                     </div>

@@ -82,6 +82,8 @@
                 .image-control {
                     background-color: darken($grey-primary, 10%);
                     padding: 0.8em 0em;
+                    height: 100%;
+                    box-sizing: border-box;
                     .control {
                         display: grid;
                         grid-template-columns: 0.5fr 1fr;

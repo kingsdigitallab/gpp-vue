@@ -19,7 +19,8 @@ export default {
 	},
 	data: function() {
 		return {
-			breadcrumbs: [{ text: 'Home', url: '/' },{ text: 'Archival Records', url: '/archival-records' }]
+			// TODO: add params to URL?
+			breadcrumbs: [{ text: 'Home', url: '/' },{ text: 'Archival records', url: '/archival-records' }]
 		}
 	}
 }

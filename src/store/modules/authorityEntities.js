@@ -8,9 +8,7 @@ const state = {
     facets: [],
     letterIndex: [],
     total: 0,
-    // people: [],
-    // corporate: [],
-}
+};
 
 const getters = {
     getAuthorityEntitiesPageTitle: (state) => state.title,
@@ -18,13 +16,12 @@ const getters = {
     getAuthorityEntities: (state) => state.authorityEntities,
     getTotalAuthorityEntities: (state) => state.total,
     getEntityLetterIndex: (state) => state.letterIndex,
-    getEntityFacets: (state) => state.facets,
-    // getPeople: (state) => state.people,
-    // getCorporate: (state) => state.corporate
+    getEntityFacets: (state) => state.facets
 };
 
 const actions = {
     async fetchEntityPageDescription ({ commit }) {
+        // TODO: add page descriptions to Wagtail (very low priority)
         const response = {
             data: {
                 pageTitle: 'People & corporate bodies',
@@ -35,10 +32,11 @@ const actions = {
         commit('setPageDescription', response.data.pageDescription);
     },
     async fetchAuthorityEntities({ commit }, params) {
+        console.log('fetch the list of entities with params: ', params);
         /*
             TODO: 
             /authority/entities/ is currently returning too much data that we don't actually need on the Archival records page
-            Please have the following structure of the response:
+            Please use the following structure of the response:
             data: {
                 count: [total number of records that can be returned with the specified params, e.g., 87],
                 results: [
@@ -75,15 +73,15 @@ const actions = {
                     },
                     { 
                         name: 'E',
-                        missing: false
+                        missing: true
                     }, 
                     {
                         name:'F',
-                        missing: false
+                        missing: true
                     }, 
                     {
                         name: 'G',
-                        missing: false
+                        missing: true
                     },
                     {
                         name: 'H',
@@ -186,7 +184,7 @@ const actions = {
                         {display_name: "Italian", count: 8},
                         {display_name: "Latin", count: 6}
                     ],
-                    relatedEntities: [
+                    related_entities: [
                         {display_name: "George III, 1738-1820, King of Great Britain and Ireland", count: 541},
                         {display_name: "Grafton, 3rd Duke of", count: 81},
                         {display_name: "North, Frederick, Lord", count: 75},
@@ -200,7 +198,7 @@ const actions = {
                         {display_name: "Basnett, William", count: 19},
                         {display_name: "Parker and Perry; Glass Manufacturers", count: 18}
                     ],
-                    relatedPlaces: [
+                    related_places: [
                         {display_name: "George III, 1738-1820, King of Great Britain and Ireland", count: 541},
                         {display_name: "Grafton, 3rd Duke of", count: 81},
                         {display_name: "North, Frederick, Lord", count: 75},
@@ -219,33 +217,20 @@ const actions = {
                 }
             }
         };
-
+        
         commit('setAuthorityEntities', response.data.results);
         commit('setLoadMoreUrl', response.data.next);
         commit('setTotal', response.data.count);
         commit('setFacets', response_placeholder.data.facets);
         commit('setLetterIndex', response_placeholder.data.letterIndex);
     },
+    // I don't know what loadMoreAuthorityEntities does in the backend (same with loadMoreArchivalRecords), it might be worth replacing this function with fetchAuthorityEntities if it does not process filters
     async loadMoreAuthorityEntities({ commit }) {
         const response = await Api.getUrl(state.loadMoreUrl);
 
         commit('setLoadMoreUrl', response.data.next);
         commit('setMoreAuthorityEntities', response.data.results);
-    },
-    // async fetchCorporate({ commit }) {
-    //     const response = await Api.getFilteredData('/authority/entities','entity_type__title=Corporation');
-
-    //     commit('setCorporate', response.data.results);
-    //     commit('setLoadMoreUrl', response.data.next);
-    //     commit('setTotal', response.data.count);
-    // },
-    // async fetchPeople({ commit }) {
-    //     const response = await Api.getFilteredData('/authority/entities','entity_type__title=Person');
-
-    //     commit('setPeople', response.data.results);
-    //     commit('setLoadMoreUrl', response.data.next);
-    //     commit('setTotal', response.data.count);
-    // }
+    }
 };
 
 const mutations = {
@@ -256,10 +241,7 @@ const mutations = {
     setTotal: (state, count) => (state.total = count),
     setFacets: (state, facets) => (state.facets = facets),
     setLetterIndex: (state, letterIndex) => (state.letterIndex = letterIndex),
-    setMoreAuthorityEntities: (state, moreAuthorityEntities) => moreAuthorityEntities.forEach(element => state.authorityEntities.push(element)),
-    // setPeople: (state, people) => (state.people = people),
-    // setCorporate: (state, corporate) => (state.corporate = corporate),
-    // setMorePeople: (state, morePeople) => morePeople.forEach(element => state.people.push(element)),
+    setMoreAuthorityEntities: (state, moreAuthorityEntities) => moreAuthorityEntities.forEach(element => state.authorityEntities.push(element))
 };
 
 export default {

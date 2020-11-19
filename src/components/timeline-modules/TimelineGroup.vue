@@ -77,8 +77,8 @@ export default {
         }
     },
     watch: {
-        $route() {
-            this.fetchTimelineGroup(this.$route.params.subpage);
+        $route(to, from) {
+            this.fetchTimelineGroup(to.params.subpage);
         }
     }
 }

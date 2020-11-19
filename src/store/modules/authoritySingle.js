@@ -11,11 +11,14 @@ const getters = {
 const actions = {
     async fetchAuthority({ commit }, id) {
         const response = await Api.getSingle('/authority/entities/',id);
-        // NB: in the response_placeholder below, I have structured description as a single object as it should be, 
-        // because only one description is allowed; 
-        // if you comment out response above and change response_placeholder to response, you will get an error, 
-        // because the Vue template is currently relying on an *array* of descriptions and not on a *single object*, 
-        // but I will update the Vue template, once the response from the django backend is updated to send a *single object*. 
+        /*
+            TODO: Please use the following structure of the response
+            NB: in the response_placeholder below, I have structured description as a single object as it should be, 
+            because only one description is allowed; 
+            if you comment out response above and change response_placeholder to response, you will get an error, 
+            because the Vue template is currently relying on an *array* of descriptions and not on a *single object*, 
+            but I will update the Vue template, once the response from the django backend is updated to send a *single object*.
+        */ 
         const response_placeholder = {
             data: {
                 "identities": [
@@ -93,6 +96,22 @@ const actions = {
                                     "display_name": "display_name13",
                                     "display_date": "display_date13"
                                 },
+                            ],
+                            "mandates": [
+                                {
+                                    "display_name": "",
+                                    "display_date": "",
+                                    "notes": "",
+                                    "citation": ""
+                                }
+                            ],
+                            "legal_statuses": [
+                                {
+                                    "display_name": "",
+                                    "display_date": "",
+                                    "notes": "",
+                                    "citation": ""
+                                }
                             ]
                         },
                         "related_records": 
@@ -185,6 +204,10 @@ const actions = {
                                 }
                             ],
                             "events": [
+                            ],
+                            "mandates": [
+                            ],
+                            "legal_statuses": [
                             ]
                         },
                         "related_records": 
@@ -233,6 +256,8 @@ const actions = {
                 "rights_declaration": "rights_declaration"
             }
         };
+
+        // ?: change to response.data.identities?; vue template is currently using getAuthority.identities, so this is not critical
         commit('setAuthority', response.data);
     }
 };

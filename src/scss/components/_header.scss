@@ -11,7 +11,6 @@
 		column-gap: 3em;
 		grid-template-columns: auto 1fr auto;
 		align-items: center;
-
 		.skip-link {
 			visibility: hidden;
 			position: absolute;
@@ -125,7 +124,7 @@
 					width: 300px;
 					visibility: visible;
 					background-color: $grey-background-dark;
-					box-shadow: 0px 0px 3px lighten($grey-light, 10%);
+					box-shadow: 0px 1px 2px lighten($grey-light, 10%);
 					padding: 0.7em 2.5em 0.7em 2.3em;
 					.search-button {
 						display: inline-block;
@@ -136,33 +135,32 @@
 					}
 			  	}
 			}
-			
 		}
 		.mobile__nav {
 			display: none;
 			div {
 				width: 25px;
-				height: 2px;
-				background-color: white;
+				height: 3px;
+				background-color: $red-dark;
 				margin: 5px;
 				transition: all 0.3s ease;
 			}
 			&.toggle {
 				.line1 {
-				transform: rotate(-45deg) translate(-5px, 5px);
+					transform: rotate(-45deg) translate(-6px, 6px);
 				}
 				.line2 {
-				opacity: 0;
+					opacity: 0;
 				}
 				.line3 {
-				transform: rotate(45deg) translate(-5px, -5px);
+					transform: rotate(45deg) translate(-5px, -5px);
 				}
 			}
 		}
 	}
 	&.fixed {
 		background-color: white;
-		box-shadow: 0px 1px 3px lighten($grey-light, 20%);
+		box-shadow: 0px 1px 2px lighten($grey-light, 20%);
 		padding: 0.3em 0em;
 		.header__search {
 			input[type=checkbox]:checked + label.search-label {
@@ -175,150 +173,138 @@
 			}
 		}
 	}
-
 }
 
-
-
 @media only screen and (max-width: 1200px) {
-	header {
-		padding: 0.5em;
+	.header {
 		.container {
 			.header__nav {
-				opacity: 0;
-				transform: translateX(200%);
+				.header__nav-list {
+					flex-wrap: wrap;
+					.header__nav-item {
+						width: max-content;
+						&:not(:last-of-type) {
+							margin: 0 1em;
+						}
+						.header__link {
+							font-size: 1.1em;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+@media only screen and (max-width: 1050px) {
+	.header {
+		padding: 0.5em;
+		.container {
+			.header__logo {
+				img {
+					width: 160px;
+				}
+			}
+			.header__nav {
+				position: absolute;
+				height: 100vh;
+				right: 0px;
+				top: 69px;
+				min-width: 200px;
 				background-color: $red-dark;
-				top: 82px;
-				text-align: center;
-				font-size: 28px;
-				left: 0;
-				bottom: 0;
-				width: 100%;
-				color: white;
-				position: fixed;
-				padding-top: 50px;
-				padding-bottom: 20px;
-				z-index: 10;
-				transition: 0.3s ease;
+				transform: translateX(100%);
+				transition: transform 0.4s ease-in;
+				padding-top: 20px;
 				.header__nav-list {
 					flex-direction: column;
 					padding-left: 0.7em;
 					padding-right: 0.7em;
+					align-items: flex-start;
+					height: 60vh;
+    				justify-content: center;
+					.header__nav-item {
+						margin: 1em !important;
+						.header__link {
+							color: white;
+							font-size: 1.2em;
+							&.router-link-active {
+								color: white;
+								border-bottom: 1px dashed white;
+							}
+							&:hover {
+								background-color: transparent;
+								color: white;
+								border-bottom: 1px dashed white;
+							}
+						}
+					}
 				}
 			}
-			.header__menu-button {
-				display: block;
+			.mobile__nav {
+				display: block !important;
+				cursor: pointer;
+				margin: auto;
 			}
 		}
 	}
 }
 
-@media only screen and (max-width: 768px) {
-	header {
+@media only screen and (max-width: 780px) {
+	.header {
 		.container {
-			.header__logo {
-				img {
-					width: 150px;
+			grid-template-columns: auto 1fr 40px;
+			.header__nav {
+				top: 59px;
+			}
+			.header__search {
+				position: unset;
+				.search-label {
+					position: relative;
+					top: 0;
+				}
+				button.dotted-underline {
+					transition: none;
+				}
+				.search-field {
+					position: absolute;
+					top: 3.89em;
+					left: 0px;
+					right: 0px;
+					transition: margin-top ease-in 0.3s;
+					box-shadow: 0px 1px 2px lighten($grey-light, 10%);
+				}
+				input[type=search] {
+					visibility: hidden;
+				}
+				input[type=checkbox]:checked + label.search-label {
+					+ .search-field {
+						width: 100%;
+						box-sizing: border-box;
+						padding: 1em 2.5em 1em 2.3em;
+						input[type=search] {
+							visibility: visible;
+						}
+						.search-button {
+							top: 11px;
+							right: 20px;
+						}
+						+ button.dotted-underline {
+							right: 1.2em;
+							white-space: nowrap;
+							top: 8em;
+						}
+					}
 				}
 			}
-			.header__nav {
-				top: 67px;
+		}
+		&.fixed {
+			.header__search {
+				input[type=checkbox]:checked + label.search-label {
+					+.search-field {
+						box-shadow: 0px 1px 2px lighten($grey-light, 10%);
+					}
+				}
 			}
 		}
 	}
 }
-
-// .header__nav-active {
-// 	transform: translateX(0);
-// 	opacity: 1;
-// }
-
-// .header__nav-item--search {
-// 	@media only screen and (max-width: 1200px) {
-// 		margin-right: 0;
-// 	}
-// }
-
-// .header__link {
-	
-// 	@media only screen and (max-width: 1450px) {
-// 		font-size: 16px;
-// 		padding-left: 5px;
-// 		padding-right: 5px;
-// 	}
-// 	@media only screen and (max-width: 1200px) {
-// 		color: $white;
-// 		display: block;
-// 		margin-bottom: 10px;
-// 		&:hover, &:focus {
-// 			color: darken($white, 10%);
-// 			&::before {
-// 				content: none;
-// 			}
-// 		}
-// 	}
-// 	@media only screen and (max-width: 768px) {
-// 		font-size: 16px;
-// 	}
-// }
-
-// .router-link-exact-active {
-// 	&::before {
-// 		width: 100%;
-// 	}
-// }
-
-// .header__search {
-// 	display: flex;
-// 	@media only screen and (max-width: 1200px) {
-// 		width: 300px;
-// 	}
-// }
-
-// .header__search-input {
-// 	font-size: 14px;
-// 	padding: 5px 10px;
-// 	height: 20px;
-// 	outline: none;
-// 	max-width: 200px;
-// 	border: 1px solid $gray;
-// 	display: block;
-// 	&:focus {
-// 		border-color: $maroon;
-// 	}
-// 	@media only screen and (max-width: 1450px) {
-// 		max-width: 120px;
-// 	}
-// 	@media only screen and (max-width: 1200px) {
-// 		width: 300px;
-// 		max-width: 100%;
-// 		border: none;
-// 		&:focus {
-// 			border-color: none;
-// 		}
-// 	}
-// }
-
-// .header__search-btn {
-// 	height: 32px;
-// 	border: none;
-// 	color: $white;
-// 	background-color: $maroon;
-// 	padding-left: 10px;
-// 	padding-right: 10px;
-// 	outline: none;
-// 	transition: $dur $ease;
-// 	&:hover, &:focus{
-// 		background-color: $maroon-light;
-// 	}
-// 	@media only screen and (max-width: 1200px) {
-// 		background-color: $white;
-// 		color: $maroon;
-// 		height: 30px;
-// 		font-size: 25px;
-// 		&:hover {
-// 			color: $maroon-light;
-// 			background-color: $white;
-// 		}
-// 	}
-// }

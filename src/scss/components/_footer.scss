@@ -28,3 +28,18 @@
 		padding: 10px 20px;
 	}
 }
+
+
+@media only screen and (max-width: 800px) {
+	.footer {
+		padding: 3em 4em;
+		.footer-logos {
+			display: block;
+			text-align: center;
+			margin-bottom: 2em;
+			img {
+				margin: 0 2em 2em 2em;
+			}
+		}
+	}
+}

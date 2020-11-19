@@ -110,8 +110,18 @@ button, input[type=submit], input[type=button] {
 			}
 		}
 	}
-	&:hover, &:focus {
+	&:hover {
 		outline: none;
+	}
+	&:disabled {
+		cursor: auto !important;
+		color: $grey-light !important;
+		background-color: $grey-background-dark !important;
+		&:hover, &:focus {
+			background-color: $grey-background-dark !important;
+			color: $grey-light !important;
+			font-weight: 300 !important;
+		}
 	}
 }
 
@@ -187,47 +197,8 @@ a {
 		}
 	}
 }
-
-// .btn {
-// 	border: 1px solid $gray;
-// 	width: 190px;
-// 	padding: 8px 15px;
-// 	color: $black;
-// 	background-color: $white;
-// 	font-size: 20px;
-// 	outline: none;
-// 	transition: $dur $ease;
-// 	&:hover, &--active {
-// 		background-color: $maroon;
-// 		color: $white;
-// 	}
-// 	&:focus {
-// 		border: 1px solid darken($gray, 10%);
-// 	}
-// 	@media only screen and (max-width: 768px) {
-// 		width: 50%;
-// 		border-bottom: 0;
-// 		font-size: 16px;
-// 		padding: 8px 5px;
-// 	}
-// }
-
-// .btn--active {
-// 	background-color: $maroon;
-// 	color: $white;
-// }
-
-// .btn-load {
-// 	margin-left: 50%;
-// 	transform: translateX(-50%);
-// 	margin-bottom: 70px;
-// 	transition: $dur $ease;
-// 	text-transform: uppercase;
-// 	font-size: 18px;
-// 	&:focus {
-// 		background-color: darken(white, 20%);
-// 	}
-// 	@media only screen and (max-width: 768px) {
-// 		border-bottom: 1px solid $gray;
-// 	}
-// }
+@media only screen and (max-width: 800px) {
+	a.link-button-default {
+		white-space: unset;
+	}
+}

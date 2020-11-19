@@ -23,14 +23,13 @@
 				</ul>
 			</nav>
 			<div class="header__search">
-				<input type="checkbox" aria-label="Search button" id="search-icon"/>
+				<input type="checkbox" aria-label="Search button" id="search-icon" v-on:click="toggleSearch"/>
 				<label class="search-label" for="search-icon"><span hidden>Expand search bar</span></label>
 				<form @submit.prevent="submit" class="search-field">
 					<!-- name, date, category, creator -->
 					<input type="search" v-model="searchQuery" name="search" aria-label="Search" placeholder="e.g., Chevalier d’Eon" onfocus="this.placeholder=''" onblur="this.placeholder='e.g., Chevalier d’Eon'"/>
 					<input type="submit" class="search-button" aria-label="Search button" value=""/>
 				</form>
-				<button v-on:click="showModal" class="button-link dotted-underline">Advanced search</button>
 			</div>
 			<div class="mobile__nav" role="button" v-on:click="toggleMenu">
 				<div class="line1"></div>
@@ -38,20 +37,17 @@
 				<div class="line3"></div>
 			</div>
 		</div>
-		<!-- <advancedSearchModal v-show="advancedSearchShow" @close="closeModal"/> -->
 	</header>
 </template>
 
 <script>
 import { setTimeout } from 'timers';
-import AdvancedSearchModal from './AdvancedSearchModal.vue';
 
 export default {
 	name: 'TheHeader',
-	components: {AdvancedSearchModal},
+	components: {},
 	data: function() {
 		return {
-			advancedSearchShow: false,
 			searchQuery: null
 		}
 	},
@@ -112,10 +108,15 @@ export default {
 	},
 	methods: {
 		toggleMenu: function() {
-			const mobileNav = document.querySelector('.mobile__nav')
-			const nav = document.querySelector('.header__nav')
-			mobileNav.classList.toggle('toggle')
-			nav.classList.toggle('nav-active')
+			document.getElementById('search-icon').checked = false;
+			const mobileNav = document.querySelector('.mobile__nav');
+			const nav = document.querySelector('.header__nav');
+			mobileNav.classList.toggle('toggle');
+			nav.classList.toggle('nav-active');
+		},
+		toggleSearch: function() {
+			document.querySelector('.mobile__nav').classList.remove('toggle');
+			document.querySelector('.header__nav').classList.remove('nav-active');
 		},
 		showModal() {
 			this.advancedSearchShow = true;
@@ -124,7 +125,9 @@ export default {
 			this.advancedSearchShow = false;
 		},
 		submit(){
-			this.$router.push("/search?q="+this.searchQuery);
+			if (this.searchQuery && this.searchQuery != '') {
+				this.$router.push("/search?q="+this.searchQuery);
+			}
 		}
 	}
 }

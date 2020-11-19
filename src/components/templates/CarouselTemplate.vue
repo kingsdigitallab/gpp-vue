@@ -37,7 +37,16 @@ export default {
             sliderOptions: {
 				"arrows": true,
 				"dots": false,
-				"slidesToShow": 2,
+                "slidesToShow": 2,
+                "responsive": [
+                    {
+                    "breakpoint": 1150,
+                    "settings": {
+                        "slidesToShow": 1,
+                        "slidesToScroll": 1,
+                        }
+                    }
+                ]
 			}
         }
     }

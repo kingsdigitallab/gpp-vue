@@ -19,7 +19,7 @@ export default {
 	},
 	data: function() {
 		return {
-			breadcrumbs: [{ text: 'Home', url: '/' },{ text: 'People and Corporate Bodies', url: '/people-and-corporate-bodies' }]
+			breadcrumbs: [{ text: 'Home', url: '/' },{ text: 'People and corporate bodies', url: '/people-and-corporate-bodies' }]
 		}
 	}
 }

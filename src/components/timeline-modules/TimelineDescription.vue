@@ -13,11 +13,19 @@ import { mapGetters, mapActions } from 'vuex';
 export default {
     name: 'TimelineDescription',
     computed: mapGetters(['getTimelineGroupDescription']),
-	methods: {
-        ...mapActions(['fetchTimelineGroupDescription'])
+    methods: {
+          ...mapActions(['fetchTimelineGroupDescription'])
     },
     async created() {
-		await this.fetchTimelineGroupDescription();
-	},
+      const timelineGroup = this.$route.params.subpage;
+      if (timelineGroup) {
+        await this.fetchTimelineGroupDescription(timelineGroup);
+      }
+    },
+    watch: {
+        $route(to, from) {
+            this.fetchTimelineGroupDescription(to.params.subpage);
+        }
+    }
 }
 </script>

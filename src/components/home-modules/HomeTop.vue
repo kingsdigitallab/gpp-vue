@@ -18,34 +18,24 @@
 					<input type="search" v-model="searchQuery" name="search" aria-label="Search" placeholder="e.g., menu book for George IV, identities of Maria van Antwerpen" onfocus="this.placeholder=''" onblur="this.placeholder='e.g., menu book for George IV, identities of Maria van Antwerpen'"/>
 					<input type="submit" class="search-button" @click.stop.prevent="submit()" aria-label="Search button" value=""/>
 				</form>
-				<button v-on:click="showModal" class="button-link dotted-underline">Advanced search</button>
 			</div>
 		</div>
-		<advancedSearchModal v-show="advancedSearchShow" @close="closeModal"/>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import AdvancedSearchModal from '../AdvancedSearchModal.vue';
 
 export default {
 	name: 'HomeTop',
 	computed: mapGetters(['getHomeStats']),
-	components: {AdvancedSearchModal},
+	components: {},
 	data: function() {
 		return {
 			searchQuery: '',
-			advancedSearchShow: false,
 		}
 	},
 	methods: {
-		showModal() {
-			this.advancedSearchShow = true;
-		},
-		closeModal() {
-			this.advancedSearchShow = false;
-		},
 		submit(){
 			this.$router.push("/search?q="+this.searchQuery);
 		},

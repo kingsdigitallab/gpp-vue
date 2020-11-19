@@ -12,61 +12,61 @@
 					<input type="number" name="creation_end_year" aria-label="creation year end" class="range-year" :min="creationSlider.min" :max="creationSlider.max" v-model="maxCreationRange" v-on:change="updateCreationSlider(minCreationRange, maxCreationRange)" />
 					<button type="button" class="button-outline" v-on:click="filter('creation_years', minCreationRange + '-' + maxCreationRange)">Filter</button>
 				</fieldset>
-				<fieldset v-if="getArchivalFacets.levels && getArchivalFacets.levels.length > 0">
+				<fieldset v-if="getArchivalFacets.archival_level && getArchivalFacets.archival_level.length > 0">
 					<legend>Document level</legend>
 					<input type="checkbox" id="document-level-toggle" class="toggle-checkbox" checked />
 					<label for="document-level-toggle" class="toggle-label"><span hidden>Expand/collapse document level</span></label>
 					<div class="toggle-section">
 						<div class="facets">
-							<label v-for="(level, index) in getArchivalFacets.levels" v-bind:key="index" class="facet">
-								<input type="checkbox" name="level" v-bind:aria-label="level.display_name" :value="level.display_name" v-on:click="filter('level', level.display_name)" :checked="selectedFacets.filter(obj => obj.display_name===level.display_name && obj.category==='level').length > 0"/> {{level.display_name}} <span class="count">({{level.count}})</span>
+							<label v-for="(level, index) in getArchivalFacets.archival_level" v-bind:key="index" class="facet">
+								<input type="checkbox" name="level" v-bind:aria-label="level.display_name" :value="level.display_name" v-on:click="filter('archival_level', level.display_name)" :checked="selectedFacets.filter(obj => obj.display_name===level.display_name && obj.category==='archival_level').length > 0"/> {{level.display_name}} <span class="count">({{level.count}})</span>
 							</label>
 						</div>
 					</div>
 				</fieldset>
-				<fieldset v-if="getArchivalFacets.recordTypes && getArchivalFacets.recordTypes.length > 0">
+				<fieldset v-if="getArchivalFacets.record_types && getArchivalFacets.record_types.length > 0">
 					<legend>Record type</legend>
 					<input type="checkbox" id="record-type-toggle" class="toggle-checkbox" />
 					<label for="record-type-toggle" class="toggle-label"><span hidden>Expand/collapse record type</span></label>
 					<div class="toggle-section">
-						<input v-if="getArchivalFacets.recordTypes.length > 5" type="text" aria-label="Search record type" placeholder="Search record type" onfocus="this.placeholder=''" v-on:click="recordTypeCheckbox = true" v-model="searchRecordTypes" onblur="this.placeholder='Search record type'" name=""/>
+						<input v-if="getArchivalFacets.record_types.length > 5" type="text" aria-label="Search record type" placeholder="Search record type" onfocus="this.placeholder=''" v-on:click="recordTypeCheckbox = true" v-model="searchRecordTypes" onblur="this.placeholder='Search record type'" name=""/>
 						<div class="facets">
-							<label v-for="(type, index) in filteredData(getArchivalFacets.recordTypes, searchRecordTypes, 'count', recordTypeCheckbox)" v-bind:key="index" class="facet">
-								<input type="checkbox" name="type" v-bind:aria-label="type.display_name" :value="type.display_name" v-on:click="filter('record_type', type.display_name)" :checked="selectedFacets.filter(obj => obj.display_name===type.display_name && obj.category==='record_type').length > 0"/> {{type.display_name}} <span class="count">({{type.count}})</span>
+							<label v-for="(type, index) in filteredData(getArchivalFacets.record_types, searchRecordTypes, 'count', recordTypeCheckbox)" v-bind:key="index" class="facet">
+								<input type="checkbox" name="type" v-bind:aria-label="type.display_name" :value="type.display_name" v-on:click="filter('record_types', type.display_name)" :checked="selectedFacets.filter(obj => obj.display_name===type.display_name && obj.category==='record_types').length > 0"/> {{type.display_name}} <span class="count">({{type.count}})</span>
 							</label>
 						</div>
 						<input type="checkbox" id="show-all-record-types" class="show-checkbox" v-model="recordTypeCheckbox">
-						<label class="show-all dotted-underline" for="show-all-record-types" v-if="getArchivalFacets.recordTypes.length > 5 && !searchRecordTypes"> record types</label>
+						<label class="show-all dotted-underline" for="show-all-record-types" v-if="getArchivalFacets.record_types.length > 5 && !searchRecordTypes"> record types</label>
 					</div>
 				</fieldset>
-				<fieldset v-if="getArchivalFacets.writers && getArchivalFacets.writers.length > 0">
+				<fieldset v-if="getArchivalFacets.creators && getArchivalFacets.creators.length > 0">
 					<legend>Writer</legend>
 					<input type="checkbox" id="writer-toggle" class="toggle-checkbox" />
 					<label for="writer-toggle" class="toggle-label"><span hidden>Expand/collapse writer</span></label>
 					<div class="toggle-section">
-						<input v-if="getArchivalFacets.writers.length > 5" type="text" aria-label="Search writer" placeholder="Search writer" onfocus="this.placeholder=''" v-on:click="writersCheckbox = true" v-model="searchWriters" onblur="this.placeholder='Search writer'" name=""/>
+						<input v-if="getArchivalFacets.creators.length > 5" type="text" aria-label="Search writer" placeholder="Search writer" onfocus="this.placeholder=''" v-on:click="writersCheckbox = true" v-model="searchWriters" onblur="this.placeholder='Search writer'" name=""/>
 						<div class="facets">
-						<label v-for="(writer, index) in filteredData(getArchivalFacets.writers, searchWriters, 'alphabetical', writersCheckbox)" v-bind:key="index" class="facet">
-							<input type="checkbox" name="writer" v-bind:aria-label="writer.display_name" :value="writer.display_name" v-on:click="filter('writer', writer.display_name)" :checked="selectedFacets.filter(obj => obj.display_name===writer.display_name && obj.category==='writer').length > 0"/> {{writer.display_name}} <span class="count">({{writer.count}})</span>
+						<label v-for="(writer, index) in filteredData(getArchivalFacets.creators, searchWriters, 'alphabetical', writersCheckbox)" v-bind:key="index" class="facet">
+							<input type="checkbox" name="writer" v-bind:aria-label="writer.display_name" :value="writer.display_name" v-on:click="filter('creators', writer.display_name)" :checked="selectedFacets.filter(obj => obj.display_name===writer.display_name && obj.category==='creators').length > 0"/> {{writer.display_name}} <span class="count">({{writer.count}})</span>
 						</label>
 						</div>
 						<input type="checkbox" id="show-all-writers" class="show-checkbox" v-model="writersCheckbox">
-						<label class="show-all dotted-underline" for="show-all-writers" v-if="getArchivalFacets.writers.length > 10 && !searchWriters"> writers</label>
+						<label class="show-all dotted-underline" for="show-all-writers" v-if="getArchivalFacets.creators.length > 10 && !searchWriters"> writers</label>
 					</div>
 				</fieldset>
-				<fieldset v-if="getArchivalFacets.addressees && getArchivalFacets.addressees.length > 0">
+				<fieldset v-if="getArchivalFacets.persons_as_relations && getArchivalFacets.persons_as_relations.length > 0">
 					<legend>Addressee</legend>
 					<input type="checkbox" id="addressee-toggle" class="toggle-checkbox" />
 					<label for="addressee-toggle" class="toggle-label"><span hidden>Expand/collapse addressee</span></label>
 					<div class="toggle-section">
-						<input v-if="getArchivalFacets.addressees.length > 5" type="text" aria-label="Search addressee" placeholder="Search addressee" onfocus="this.placeholder=''" v-on:click="addresseesCheckbox = true" v-model="searchAddressees" onblur="this.placeholder='Search addressee'" name=""/>
+						<input v-if="getArchivalFacets.persons_as_relations.length > 5" type="text" aria-label="Search addressee" placeholder="Search addressee" onfocus="this.placeholder=''" v-on:click="addresseesCheckbox = true" v-model="searchAddressees" onblur="this.placeholder='Search addressee'" name=""/>
 						<div class="facets">
-						<label v-for="(addressee, index) in filteredData(getArchivalFacets.addressees, searchAddressees, 'alphabetical', addresseesCheckbox)" v-bind:key="index" class="facet">
-							<input type="checkbox" name="addressee" :value="addressee.display_name" v-bind:aria-label="addressee.display_name" v-on:click="filter('addressee', addressee.display_name)" :checked="selectedFacets.filter(obj => obj.display_name===addressee.display_name && obj.category==='addressee').length > 0"/> {{addressee.display_name}} <span class="count">({{addressee.count}})</span>
+						<label v-for="(addressee, index) in filteredData(getArchivalFacets.persons_as_relations, searchAddressees, 'alphabetical', addresseesCheckbox)" v-bind:key="index" class="facet">
+							<input type="checkbox" name="addressee" :value="addressee.display_name" v-bind:aria-label="addressee.display_name" v-on:click="filter('person_as_relations', addressee.display_name)" :checked="selectedFacets.filter(obj => obj.display_name===addressee.display_name && obj.category==='persons_as_relations').length > 0"/> {{addressee.display_name}} <span class="count">({{addressee.count}})</span>
 						</label>
 						</div>
 						<input type="checkbox" id="show-all-addressees" class="show-checkbox" v-model="addresseesCheckbox">
-						<label class="show-all dotted-underline" for="show-all-addressees" v-if="getArchivalFacets.addressees.length > 10 && !searchAddressees"> addressees</label>
+						<label class="show-all dotted-underline" for="show-all-addressees" v-if="getArchivalFacets.persons_as_relations.length > 10 && !searchAddressees"> addressees</label>
 					</div>
 				</fieldset>
 				<fieldset v-if="getArchivalFacets.languages && getArchivalFacets.languages.length > 0">
@@ -105,7 +105,7 @@
 				</fieldset>
 				<div class="index">
 					<button v-bind:class="['button-link', {'active': activeLetter == ''}]" v-on:click="filterByLetter('')">All</button>
-					<button v-for="(letter, i) in getArchivalLetterIndex" v-bind:key="i" v-bind:class="['button-link', {'active': activeLetter == letter.name}, {'missing': letter.missing}]" v-on:click="filterByLetter(letter.name)">{{letter.name}}</button>
+					<button v-for="(letter, i) in getArchivalLetterIndex" v-bind:key="i" v-bind:class="['button-link', {'active': activeLetter == letter.name}, {'disabled': letter.missing}]" :aria-hidden="letter.missing" :disabled="letter.missing" v-on:click="filterByLetter(letter.name)">{{letter.name}}</button>
 				</div>
 				<div class="list grey-column">
 					<div class="list-header">
@@ -122,15 +122,14 @@
 						</span>
 						<!-- TODO: normalise metadata -> item.archival_level -->
 						<span>{{item.metadata[1].content}}</span>
-						<!-- TODO: change creators to writers -->
-						<!-- TODO: change item.writers.length > 0 -->
-						<span v-show="item.creators != null" v-for="(creator, i) in item.creators" v-bind:key="i" class="list-data">
-							{{creator.display_name}}
-						</span>
-						<span v-show="item.creators == null">--</span>
-						<!-- TODO: change from == null to != '' -->
-						<span v-show="item.creation_dates != null">{{item.creation_dates}}</span>
-						<span v-show="item.creation_dates == null">--</span>
+						<template v-if="item.creators && item.creators.length > 0">
+							<span v-for="(creator, i) in item.creators" v-bind:key="i" class="list-data">
+								{{creator.display_name}}<template v-if="i != item.creators.length - 1">; </template>
+							</span>
+						</template>
+						<span v-else>---</span>
+						<span v-if="item.creation_dates">{{item.creation_dates}}</span>
+						<span v-else>---</span>
 					</div>
 					<div v-if="loadingMoreRecords" class="loader"></div>
 					<template v-else>
@@ -298,13 +297,14 @@ export default {
 		async moreRecords() {
 			this.loadingMoreRecords = true;
 
-			this.pageNum = this.pageNum + 1;
+			this.pageNum = Number(this.pageNum) + 1;
 
 			const setQuery = this.$route.query;
-			setQuery['page'] = this.pageNum;
+			setQuery['page'] = Number(this.pageNum);
 			this.$router.replace({ query: {} });
 			this.$router.push({query: setQuery});
 
+			// ?: change to await this.fetchArchivalRecords({'pages': this.pageNum, 'selectedFacets': JSON.parse(JSON.stringify(this.selectedFacets)), 'letter': this.activeLetter});
 			await this.loadMoreArchivalRecords();
 
 			this.loadingMoreRecords = false;
@@ -320,10 +320,10 @@ export default {
 					this.activeLetter = setQuery[key];
 					break;
 				case 'page':
-					this.pageNum = setQuery[key];
+					this.pageNum = Number(setQuery[key]);
 					break;
 				default:
-					if (setQuery[key] == 'creation_years') {
+					if (key == 'creation_years') {
 						this.minCreationRange = setQuery[key].split('-')[0];
 						this.maxCreationRange = setQuery[key].split('-')[1];
                     }

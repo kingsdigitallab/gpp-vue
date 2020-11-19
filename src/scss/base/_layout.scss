@@ -100,6 +100,7 @@ body {
 		}
 	}
 	.hierarchy {
+		max-width: 1200px;
 		h2 {
 			margin-bottom: 1em;
 		}
@@ -256,7 +257,10 @@ body {
 		margin: 0;
 		border: 1px solid $grey-light;
 		background: white;
-		border-radius: 0.2em;
+		// border-radius: 0.2em;
+		&:hover, &:focus {
+			outline: none;
+		}
 	}
 
 	input[type=text], input[type=number], textarea {
@@ -273,12 +277,24 @@ body {
 	100% { transform: rotate(360deg); }
 }
 
-// .container-wide {
-// 	margin: 0 auto;
-// 	padding-left: 20px;
-// 	padding-right: 20px;
-// }
+@media only screen and (max-width: 1200px) {
+	body {
+		div[class^="two-column"] {
+			column-gap: 3em;
+		}
+	}
+}
 
-// .overflow {
-// 	overflow: hidden;
-// }
+@media only screen and (max-width: 800px) {
+	body {
+		.carousel-template {
+			.featured-card {
+				display: block;
+				height: auto;
+				.featured-card-image {
+					height: 200px;
+				}
+			}
+		}
+	}
+}

@@ -1,4 +1,5 @@
 import Vuex from 'vuex';
+import VuePluralize from 'vue-pluralize'
 import Vue from 'vue';
 import home from './modules/home';
 import about from './modules/about';
@@ -10,6 +11,7 @@ import accessibility from './modules/accessibility';
 import timeline from './modules/timeline';
 
 Vue.use(Vuex);
+Vue.use(VuePluralize)
 
 export default new Vuex.Store({
     modules: {
