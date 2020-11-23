@@ -1,100 +1,102 @@
 <template>
 	<!-- 
-		Noticed issues that I am struggling to replicate: 
+		IMPORTANT: Noticed issues that I am struggling to replicate: 
 		1. There was a case when language facet was the only one that loaded, there rest was not displayed, no errors were thrown either
 	-->
 	<div class="entity-list">
 		<div class="two-column-20-80" v-show="!loadingRecords">
 			<div class="filters">
 				<button class="display-mobile filter-button" v-on:click="toggleFilters" aria-label="filter objects">Hide filters</button>
-                <fieldset class="range" v-if="getEntityFacets.existence_years && getEntityFacets.existence_years.min_default > 0 && getEntityFacets.existence_years.max_default > 0">
-                    <legend>Years of existence</legend>
-                    <div id="existence-year-slider" ref="existenceSlider"></div>
-                    <br>
-                    <input type="number" name="existence_start_year" aria-label="existence year start" class="range-year" :min="existenceSlider.min" :max="existenceSlider.max" v-model="minExistenceRange" v-on:change="updateExistenceSlider(minExistenceRange, maxExistenceRange)" />
-                    -
-                    <input type="number" name="existence_end_year" aria-label="existence year end" class="range-year" :min="existenceSlider.min" :max="existenceSlider.max" v-model="maxExistenceRange" v-on:change="updateExistenceSlider(minExistenceRange, maxExistenceRange)" />
-                    <button type="button" class="button-outline" v-on:click="filter('existence_years', minExistenceRange + '-' + maxExistenceRange)">Filter</button>
-                </fieldset>
-				<fieldset v-if="getEntityFacets.entityTypes && getEntityFacets.entityTypes.length > 0">
-					<legend>Entity type</legend>
-					<input type="checkbox" id="entity-type-toggle" class="toggle-checkbox" checked />
-					<label for="entity-type-toggle" class="toggle-label"><span hidden>Expand/collapse entity type</span></label>
-					<div class="toggle-section">
-						<div class="facets">
-							<label v-for="(entityType, i) in getEntityFacets.entityTypes" v-bind:key="i" class="facet">
-								<input type="checkbox" v-bind:name="entityType.display_name" v-bind:aria-label="entityType.display_name" :value="entityType" v-on:click="filter('entity_type', entityType.display_name)" :checked="selectedFacets.filter(obj => obj.display_name===entityType.display_name && obj.category==='entity_type').length > 0"/> {{entityType.display_name}} <span class="count">({{entityType.count}})</span>
+				<div>
+					<fieldset class="range" v-if="getEntityFacets.existence_years && getEntityFacets.existence_years.min_default > 0 && getEntityFacets.existence_years.max_default > 0">
+						<legend>Years of existence</legend>
+						<div id="existence-year-slider" ref="existenceSlider"></div>
+						<br>
+						<input type="number" name="existence_start_year" aria-label="existence year start" class="range-year" :min="existenceSlider.min" :max="existenceSlider.max" v-model="minExistenceRange" v-on:change="updateExistenceSlider(minExistenceRange, maxExistenceRange)" />
+						-
+						<input type="number" name="existence_end_year" aria-label="existence year end" class="range-year" :min="existenceSlider.min" :max="existenceSlider.max" v-model="maxExistenceRange" v-on:change="updateExistenceSlider(minExistenceRange, maxExistenceRange)" />
+						<button type="button" class="button-outline" v-on:click="filter('existence_years', minExistenceRange + '-' + maxExistenceRange)">Filter</button>
+					</fieldset>
+					<fieldset v-if="getEntityFacets.entityTypes && getEntityFacets.entityTypes.length > 0">
+						<legend>Entity type</legend>
+						<input type="checkbox" id="entity-type-toggle" class="toggle-checkbox" checked />
+						<label for="entity-type-toggle" class="toggle-label"><span hidden>Expand/collapse entity type</span></label>
+						<div class="toggle-section">
+							<div class="facets">
+								<label v-for="(entityType, i) in getEntityFacets.entityTypes" v-bind:key="i" class="facet">
+									<input type="checkbox" v-bind:name="entityType.display_name" v-bind:aria-label="entityType.display_name" :value="entityType" v-on:click="filter('entity_type', entityType.display_name)" :checked="selectedFacets.filter(obj => obj.display_name===entityType.display_name && obj.category==='entity_type').length > 0"/> {{entityType.display_name}} <span class="count">({{entityType.count}})</span>
+								</label>
+							</div>
+						</div>
+					</fieldset>
+					<fieldset v-if="getEntityFacets.genders && getEntityFacets.genders.length > 0">
+						<legend>Gender</legend>
+						<input type="checkbox" id="gender-toggle" class="toggle-checkbox" />
+						<label for="gender-toggle" class="toggle-label"><span hidden>Expand/collapse gender</span></label>
+						<div class="toggle-section">
+							<input v-if="getEntityFacets.genders.length > 5" type="text" aria-label="Search gender" placeholder="Search gender" onfocus="this.placeholder=''" v-on:click="genderCheckbox = true" v-model="searchGenders" onblur="this.placeholder='Search gender'" name=""/>
+							<div class="facets">
+								<label v-for="(gender, index) in filteredData(getEntityFacets.genders, searchGenders, 'count')" v-bind:key="index" class="facet">
+									<input type="checkbox" v-bind:name="gender.display_name" v-bind:aria-label="gender.display_name" :value="gender" v-on:click="filter('gender', gender.display_name)" :checked="selectedFacets.filter(obj => obj.display_name===gender.display_name && obj.category==='gender').length > 0"/> {{gender.display_name}} <span class="count">({{gender.count}})</span>
+								</label>
+							</div>
+							<input type="checkbox" id="show-all-genders" class="show-checkbox" v-model="genderCheckbox">
+							<label class="show-all dotted-underline" for="show-all-genders" v-if="getEntityFacets.genders.length > 5 && !searchGenders"> genders</label>
+						</div>
+					</fieldset>
+					<fieldset v-if="getEntityFacets.languages && getEntityFacets.languages.length > 0">
+						<legend>Languages used</legend>
+						<input type="checkbox" id="language-toggle" class="toggle-checkbox" />
+						<label for="language-toggle" class="toggle-label"><span hidden>Expand/collapse language</span></label>
+						<div class="toggle-section">
+							<input v-if="getEntityFacets.languages.length > 5" type="text" aria-label="Search language used" placeholder="Search language used" onfocus="this.placeholder=''" v-on:click="languagesCheckbox = true" v-model="searchLanguages" onblur="this.placeholder='Search language used '" name=""/>
+							<div class="facets">
+							<label v-for="(language, index) in filteredData(getEntityFacets.languages, searchLanguages, 'count', languagesCheckbox)" v-bind:key="index" class="facet">
+								<input type="checkbox" v-bind:name="language.display_name" :value="language" v-bind:aria-label="language.display_name" v-on:click="filter('language', language.display_name)" :checked="selectedFacets.filter(obj => obj.display_name===language.display_name && obj.category==='language').length > 0"/> {{language.display_name}} <span class="count">({{language.count}})</span>
 							</label>
+							</div>
+							<input type="checkbox" id="show-all-languages" class="show-checkbox" v-model="languagesCheckbox">
+							<label class="show-all dotted-underline" for="show-all-languages" v-if="getEntityFacets.languages.length > 5 && !searchLanguages"> languages used</label>
 						</div>
-					</div>
-				</fieldset>
-				<fieldset v-if="getEntityFacets.genders && getEntityFacets.genders.length > 0">
-					<legend>Gender</legend>
-					<input type="checkbox" id="gender-toggle" class="toggle-checkbox" />
-					<label for="gender-toggle" class="toggle-label"><span hidden>Expand/collapse gender</span></label>
-					<div class="toggle-section">
-						<input v-if="getEntityFacets.genders.length > 5" type="text" aria-label="Search gender" placeholder="Search gender" onfocus="this.placeholder=''" v-on:click="genderCheckbox = true" v-model="searchGenders" onblur="this.placeholder='Search gender'" name=""/>
-						<div class="facets">
-							<label v-for="(gender, index) in filteredData(getEntityFacets.genders, searchGenders, 'count')" v-bind:key="index" class="facet">
-								<input type="checkbox" v-bind:name="gender.display_name" v-bind:aria-label="gender.display_name" :value="gender" v-on:click="filter('gender', gender.display_name)" :checked="selectedFacets.filter(obj => obj.display_name===gender.display_name && obj.category==='gender').length > 0"/> {{gender.display_name}} <span class="count">({{gender.count}})</span>
+					</fieldset>
+					<fieldset v-if="getEntityFacets.related_entities && getEntityFacets.related_entities.length > 0">
+						<!-- acquirers only -->
+						<legend>Related people &amp; corporate bodies</legend>
+						<input type="checkbox" id="related-entities-toggle" class="toggle-checkbox" />
+						<label for="related-entities-toggle" class="toggle-label"><span hidden>Expand/collapse related people and corporate bodies</span></label>
+						<div class="toggle-section">
+							<input v-if="getEntityFacets.related_entities.length > 5" type="text" aria-label="Search person or corporate body" placeholder="Search person or corporate body" onfocus="this.placeholder=''" v-on:click="relatedEntitiesCheckbox = true" v-model="searchRelatedEntities" onblur="this.placeholder='Search person or corporate body'" name=""/>
+							<div class="facets">
+							<label v-for="(entity, index) in filteredData(getEntityFacets.related_entities, searchRelatedEntities, 'alphabetical', relatedEntitiesCheckbox)" v-bind:key="index" class="facet">
+								<input type="checkbox" v-bind:name="entity.display_name" v-bind:aria-label="entity.display_name" :value="entity" v-on:click="filter('related_entities', entity.display_name)" :checked="selectedFacets.filter(obj => obj.display_name===entity.display_name && obj.category==='related_entities').length > 0"/> {{entity.display_name}} <span class="count">({{entity.count}})</span>
 							</label>
+							</div>
+							<input type="checkbox" id="show-all-entity" class="show-checkbox" v-model="relatedEntitiesCheckbox">
+							<label class="show-all dotted-underline" for="show-all-entity" v-if="getEntityFacets.related_entities.length > 5 && !searchRelatedEntities"> related people &amp; corporate bodies</label>
 						</div>
-						<input type="checkbox" id="show-all-genders" class="show-checkbox" v-model="genderCheckbox">
-						<label class="show-all dotted-underline" for="show-all-genders" v-if="getEntityFacets.genders.length > 5 && !searchGenders"> genders</label>
-					</div>
-				</fieldset>
-                <fieldset v-if="getEntityFacets.languages && getEntityFacets.languages.length > 0">
-					<legend>Languages used</legend>
-					<input type="checkbox" id="language-toggle" class="toggle-checkbox" />
-					<label for="language-toggle" class="toggle-label"><span hidden>Expand/collapse language</span></label>
-					<div class="toggle-section">
-						<input v-if="getEntityFacets.languages.length > 5" type="text" aria-label="Search language used" placeholder="Search language used" onfocus="this.placeholder=''" v-on:click="languagesCheckbox = true" v-model="searchLanguages" onblur="this.placeholder='Search language used '" name=""/>
-						<div class="facets">
-						<label v-for="(language, index) in filteredData(getEntityFacets.languages, searchLanguages, 'count', languagesCheckbox)" v-bind:key="index" class="facet">
-							<input type="checkbox" v-bind:name="language.display_name" :value="language" v-bind:aria-label="language.display_name" v-on:click="filter('language', language.display_name)" :checked="selectedFacets.filter(obj => obj.display_name===language.display_name && obj.category==='language').length > 0"/> {{language.display_name}} <span class="count">({{language.count}})</span>
-						</label>
+					</fieldset>
+					<fieldset v-if="getEntityFacets.related_places && getEntityFacets.related_places.length > 0">
+						<legend>Related places</legend>
+						<input type="checkbox" id="related-places-toggle" class="toggle-checkbox" />
+						<label for="related-places-toggle" class="toggle-label"><span hidden>Expand/collapse addressee</span></label>
+						<div class="toggle-section">
+							<input v-if="getEntityFacets.related_places.length > 5" type="text" aria-label="Search place" placeholder="Search place" onfocus="this.placeholder=''" v-on:click="relatedPlacesCheckbox = true" v-model="searchRelatedPlaces" onblur="this.placeholder='Search place'" name=""/>
+							<div class="facets">
+							<label v-for="(place, index) in filteredData(getEntityFacets.related_places, searchRelatedPlaces, 'alphabetical', relatedPlacesCheckbox)" v-bind:key="index" class="facet">
+								<input type="checkbox" v-bind:name="place.display_name" :value="place" v-bind:aria-label="place.display_name" v-on:click="filter('related_places', place.display_name)" :checked="selectedFacets.filter(obj => obj.display_name===place.display_name && obj.category==='related_places').length > 0"/> {{place.display_name}} <span class="count">({{place.count}})</span>
+							</label>
+							</div>
+							<input type="checkbox" id="show-all-places" class="show-checkbox" v-model="relatedPlacesCheckbox">
+							<label class="show-all dotted-underline" for="show-all-places" v-if="getEntityFacets.related_places.length > 5 && !searchRelatedPlaces"> places</label>
 						</div>
-						<input type="checkbox" id="show-all-languages" class="show-checkbox" v-model="languagesCheckbox">
-						<label class="show-all dotted-underline" for="show-all-languages" v-if="getEntityFacets.languages.length > 5 && !searchLanguages"> languages used</label>
-					</div>
-				</fieldset>
-				<fieldset v-if="getEntityFacets.related_entities && getEntityFacets.related_entities.length > 0">
-					<!-- acquirers only -->
-					<legend>Related people &amp; corporate bodies</legend>
-					<input type="checkbox" id="related-entities-toggle" class="toggle-checkbox" />
-					<label for="related-entities-toggle" class="toggle-label"><span hidden>Expand/collapse related people and corporate bodies</span></label>
-					<div class="toggle-section">
-						<input v-if="getEntityFacets.related_entities.length > 5" type="text" aria-label="Search person or corporate body" placeholder="Search person or corporate body" onfocus="this.placeholder=''" v-on:click="relatedEntitiesCheckbox = true" v-model="searchRelatedEntities" onblur="this.placeholder='Search person or corporate body'" name=""/>
-						<div class="facets">
-						<label v-for="(entity, index) in filteredData(getEntityFacets.related_entities, searchRelatedEntities, 'alphabetical', relatedEntitiesCheckbox)" v-bind:key="index" class="facet">
-							<input type="checkbox" v-bind:name="entity.display_name" v-bind:aria-label="entity.display_name" :value="entity" v-on:click="filter('related_entities', entity.display_name)" :checked="selectedFacets.filter(obj => obj.display_name===entity.display_name && obj.category==='related_entities').length > 0"/> {{entity.display_name}} <span class="count">({{entity.count}})</span>
-						</label>
-						</div>
-						<input type="checkbox" id="show-all-entity" class="show-checkbox" v-model="relatedEntitiesCheckbox">
-						<label class="show-all dotted-underline" for="show-all-entity" v-if="getEntityFacets.related_entities.length > 5 && !searchRelatedEntities"> related people &amp; corporate bodies</label>
-					</div>
-				</fieldset>
-				<fieldset v-if="getEntityFacets.related_places && getEntityFacets.related_places.length > 0">
-					<legend>Related places</legend>
-					<input type="checkbox" id="related-places-toggle" class="toggle-checkbox" />
-					<label for="related-places-toggle" class="toggle-label"><span hidden>Expand/collapse addressee</span></label>
-					<div class="toggle-section">
-						<input v-if="getEntityFacets.related_places.length > 5" type="text" aria-label="Search place" placeholder="Search place" onfocus="this.placeholder=''" v-on:click="relatedPlacesCheckbox = true" v-model="searchRelatedPlaces" onblur="this.placeholder='Search place'" name=""/>
-						<div class="facets">
-						<label v-for="(place, index) in filteredData(getEntityFacets.related_places, searchRelatedPlaces, 'alphabetical', relatedPlacesCheckbox)" v-bind:key="index" class="facet">
-							<input type="checkbox" v-bind:name="place.display_name" :value="place" v-bind:aria-label="place.display_name" v-on:click="filter('related_places', place.display_name)" :checked="selectedFacets.filter(obj => obj.display_name===place.display_name && obj.category==='related_places').length > 0"/> {{place.display_name}} <span class="count">({{place.count}})</span>
-						</label>
-						</div>
-						<input type="checkbox" id="show-all-places" class="show-checkbox" v-model="relatedPlacesCheckbox">
-						<label class="show-all dotted-underline" for="show-all-places" v-if="getEntityFacets.related_places.length > 5 && !searchRelatedPlaces"> places</label>
-					</div>
-				</fieldset>
-				<label v-if="getEntityFacets.with_royal_names">
-                    <input type="checkbox" name="with_royal_names" value="Show only people with royal names" aria-label="Show only people with royal names" v-on:click="filter('with_royal_names', 1)" :checked="selectedFacets.filter(obj => obj.category==='with_royal_names').length > 0"/>{{getEntityFacets.with_royal_names.display_name}} <span class="count">({{getEntityFacets.with_royal_names.count}})</span>
-                </label>
-                <label v-if="getEntityFacets.with_multiple_identities">
-                    <input type="checkbox" name="with_multiple_identities" value="Show only people with multiple identities" aria-label="People with multiple identities" v-on:click="filter('with_multiple_identities', 1)" :checked="selectedFacets.filter(obj => obj.category==='with_multiple_identities').length > 0"/>{{getEntityFacets.with_multiple_identities.display_name}} <span class="count">({{getEntityFacets.with_multiple_identities.count}})</span>
-                </label>
+					</fieldset>
+					<label v-if="getEntityFacets.with_royal_names">
+						<input type="checkbox" name="with_royal_names" value="Show only people with royal names" aria-label="Show only people with royal names" v-on:click="filter('with_royal_names', 1)" :checked="selectedFacets.filter(obj => obj.category==='with_royal_names').length > 0"/>{{getEntityFacets.with_royal_names.display_name}} <span class="count">({{getEntityFacets.with_royal_names.count}})</span>
+					</label>
+					<label v-if="getEntityFacets.with_multiple_identities">
+						<input type="checkbox" name="with_multiple_identities" value="Show only people with multiple identities" aria-label="People with multiple identities" v-on:click="filter('with_multiple_identities', 1)" :checked="selectedFacets.filter(obj => obj.category==='with_multiple_identities').length > 0"/>{{getEntityFacets.with_multiple_identities.display_name}} <span class="count">({{getEntityFacets.with_multiple_identities.count}})</span>
+					</label>
+				</div>
 			</div>
 			<div>
 				<fieldset v-if="selectedFacets.length > 0" class="selected-facets">
@@ -114,16 +116,22 @@
 					</label>
 					<button class="button-link clear dotted-underline"  v-on:click="clearFacets">Clear all filters</button>
 				</fieldset>
-				<div class="index">
-                    <button v-bind:class="['button-link', {'active': activeLetter == ''}]" v-on:click="filterByLetter('')">All</button>
-					<button v-for="(letter, i) in getEntityLetterIndex" v-bind:key="i" v-bind:class="['button-link', {'active': activeLetter == letter.name}, {'disabled': letter.missing}]" :aria-hidden="letter.missing" :disabled="letter.missing" v-on:click="filterByLetter(letter.name)">{{letter.name}}</button>
+				<div class="flex">
+					<div class="letterIndex">
+						<!-- TODO replace with a select dropdown in mobile version? -->
+						<button v-bind:class="['button-link', {'active': activeLetter == ''}]" v-on:click="filterByLetter('')">All</button>
+						<button v-for="(letter, i) in getEntityLetterIndex" v-bind:key="i" v-bind:class="['button-link', {'active': activeLetter == letter.name}, {'disabled': letter.missing}]" :aria-hidden="letter.missing" :disabled="letter.missing" v-on:click="filterByLetter(letter.name)">{{letter.name}}</button>
+					</div>
+					<button class="button-default filter display-mobile" v-on:click="toggleFilters" aria-label="filter objects"><span hidden>Filter</span></button>
 				</div>
 				<div class="list grey-column">
 					<div class="list-header">
 						<h2 v-if="activeLetter == ''">All people &amp; corporate bodies ({{getTotalAuthorityEntities}})</h2>
 						<h2 v-else>{{activeLetter}} ({{getTotalAuthorityEntities}})</h2>
-						<span>Type</span>
-						<span>Existence dates</span>
+						<span class="details">
+							<span>Type</span>
+							<span>Existence dates</span>
+						</span>
 					</div>
 					<div v-if="getAuthorityEntities.length == 0" class="loader"></div>
 					<div v-for="(entity, i) in getAuthorityEntities" v-bind:key="i" class="list-row">
@@ -131,10 +139,12 @@
 						<span>
 							<router-link :to="'/people-and-corporate-bodies/'+(entity.id)" :aria-label="'entity type: '+(entity.entity_type.title)">{{entity.display_name}}</router-link>
 						</span>
-						<span>{{entity.entity_type.title}}</span>
-                        <!-- TODO change to entity.display_date_name_used -->
-						<span v-if="entity.display_date">{{entity.display_date}}</span>
-						<span v-else>---</span>
+						<span class="details">
+							<span>{{entity.entity_type.title}}</span>
+							<!-- TODO change to entity.display_date_name_used -->
+							<span v-if="entity.display_date">{{entity.display_date}}</span>
+							<span v-else>---</span>
+						</span>
 					</div>
 					<div v-if="loadingMoreRecords" class="loader"></div>
 					<template v-else>

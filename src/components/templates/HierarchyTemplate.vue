@@ -7,8 +7,10 @@
                 <router-link to="" class="mgn-right">{{current.title}}</router-link> {{current.children_desc}}
             </span>
             <span class="record-details">
-                <span>{{current.archival_level}}</span>
-                <span>{{current.creation_dates}}</span>
+                <span v-if="current.archival_level && current.archival_level != ''">{{current.archival_level}}</span>
+                <span v-else>---</span>
+                <span v-if="current.creation_dates && current.creation_dates != ''">{{current.creation_dates}}</span>
+                <span v-else>---</span>
             </span>
         </div>
         <div v-bind:class="['fieldset-body', {'expand': current.is_ancestor}]" v-if="current.children.length > 0">

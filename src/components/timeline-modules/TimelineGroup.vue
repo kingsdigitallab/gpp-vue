@@ -4,15 +4,25 @@
             <div class="related-people-corporate-bodies" v-if="getTimelineGroup.entities">
                 <h3>Related people &amp; corporate bodies</h3>
                 <router-link v-for="(entity, i) in getTimelineGroup.entities" v-bind:key="i" :to="{name: 'entity', params: {id: entity.id}}" class="link-button-grey small"><span class="dotted-underline">{{entity.title}}</span></router-link>
+                <!-- TODO ADD SEE ALL IF MORE THAN 5 -->
             </div>
             <div class="related-collections" v-if="getTimelineGroup.collections">
                 <h3>Related collections</h3>
                 <div class="two-column-30-70">
                     <div class="grey-column">
-                        <div class="collections">
+                        <div v-if="!mobile" class="collections">
                             <button v-for="(collection, i) in getTimelineGroup.collections" v-bind:key="i" v-bind:class="[{active: collection.id === activeCollection}, 'collection']" v-on:click="setHierarchy(collection.id, collection.title)">
                                 <span class="red-highlight">{{collection.title}}</span> ({{collection.children_desc}})
                             </button>
+                        </div>
+                        <div v-if="mobile" class="collections">
+                            <button v-for="(collection, i) in collectionSubset" v-bind:key="i" v-bind:class="[{active: collection.id === activeCollection}, 'collection']" v-on:click="setHierarchy(collection.id, collection.title)">
+                                <span class="red-highlight">{{collection.title}}</span> ({{collection.children_desc}})
+                            </button>
+                            <input type="checkbox" class="show-checkbox" id="show-all-collections" :checked="collectionSubset == getTimelineGroup.collections" v-on:click="collectionSubset == getTimelineGroup.collections ? collectionSubset =  getTimelineGroup.collections.slice().splice(0,3) : collectionSubset =  getTimelineGroup.collections"/>
+                            <label for="show-all-collections" class="show-all dotted-underline">
+                                collections
+                            </label>
                         </div>
                     </div>
                     <div class="hierarchy">
@@ -56,7 +66,9 @@ export default {
             activeCollection: 0,
             collectionTitle: '',
             loadingTimelineGroup: true,
-            loadingHierarchy: true
+            loadingHierarchy: true,
+            mobile: false,
+            collectionSubset: []
 		}
 	},
 	methods: {
@@ -75,6 +87,18 @@ export default {
             this.loadingTimelineGroup = false;
             this.setHierarchy(this.getTimelineGroup.collections[0].id, this.getTimelineGroup.collections[0].title);
         }
+    },
+    mounted() {
+            if (window.innerWidth < 1150) {
+                this.mobile = true;
+                if (this.getTimelineGroup.collections.length > 3) {
+                    this.collectionSubset = this.getTimelineGroup.collections.slice().splice(0,3);
+                } else {
+                    this.collectionSubset = this.getTimelineGroup.collections;
+                }
+            } else {
+                this.mobile = false;
+            }
     },
     watch: {
         $route(to, from) {

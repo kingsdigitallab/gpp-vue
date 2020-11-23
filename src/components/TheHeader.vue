@@ -55,9 +55,6 @@ export default {
 		$route(to, from) {
 			switch(to.name) {
 				case 'search-results':
-					setTimeout(function() {
-						document.querySelector('.js-home').classList.add('router-link-exact-active');
-					}, 100);
 					break;
 				case 'timeline':
 					setTimeout(function() {

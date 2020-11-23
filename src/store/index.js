@@ -9,6 +9,7 @@ import authorityEntities from './modules/authorityEntities';
 import authoritySingle from './modules/authoritySingle';
 import accessibility from './modules/accessibility';
 import timeline from './modules/timeline';
+import searchResults from './modules/searchResults';
 
 Vue.use(Vuex);
 Vue.use(VuePluralize)
@@ -22,6 +23,7 @@ export default new Vuex.Store({
         authorityEntities,
         authoritySingle,
         accessibility,
-        timeline
+        timeline,
+        searchResults
     }
 })

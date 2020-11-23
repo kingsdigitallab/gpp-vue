@@ -1,11 +1,11 @@
 <template>
 	<div>
 		<div class="entity" v-if="!loading">
-			<div class="identity-list" v-if="getAuthority.identities.length > 1">
+			<div class="inline-list" v-if="getAuthority.identities.length > 1">
 				<strong>Identities:</strong>
-				<ul class="identity-tabs" v-for="(identity, i) in getAuthority.identities" v-bind:key="i">
+				<ul class="inline-tabs" v-for="(identity, i) in getAuthority.identities" v-bind:key="i">
 					<!-- TODO change to identity.authorised_display_name -->
-					<li role="button" v-on:click="changeIdentity(i)" v-bind:class="['identity-tab', {'active': activeIdentity == i}]">{{identity.name_entries[0].display_name}}</li>
+					<li role="button" v-on:click="changeIdentity(i)" v-bind:class="['inline-tab', {'active': activeIdentity == i}]">{{identity.name_entries[0].display_name}}</li>
 				</ul>
 			</div>
 			<div class="identity-description two-column-70-30">
@@ -16,9 +16,7 @@
 						<b>Also known as:</b> 
 						<span v-for="(name_entry, i) in identity.name_entries.slice(1)" v-bind:key="i">
 							<!-- TODO change name_entry.date_from - .date_to to .display_date -->
-							{{name_entry.display_name}} 
-							<template v-if="name_entry.display_date">(name used: {{name_entry.display_date}})</template>
-							<template v-if="i != identity.name_entries.length-2">;</template>
+							{{name_entry.display_name}}<template v-if="name_entry.display_date"> (name used: {{name_entry.display_date}})</template><template v-if="i != identity.name_entries.length-2">;</template>
 						</span>
 						<br>
 						<br>

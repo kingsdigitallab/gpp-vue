@@ -18,7 +18,7 @@ button, input[type=submit], input[type=button] {
 		}
 		&.active {
 			font-weight: 600;
-			border-bottom: 1px dashed $red-primary !important;		
+			border-bottom: 1px dotted $red-primary !important;		
 		}
 	}
 	&.button-outline {
@@ -41,6 +41,14 @@ button, input[type=submit], input[type=button] {
 		border-bottom: 0;
 		margin-bottom: 1em;
 		white-space: nowrap;
+		&.filter{
+			padding: 0.5em 1em;
+			&:after {
+				content: '\F0B0';
+				font-family: $fontawesome;
+				font-weight: 300;
+			}
+		}
 		&:not(:last-of-type) {
 			margin-right: 1em;
 		}
@@ -125,6 +133,29 @@ button, input[type=submit], input[type=button] {
 	}
 }
 
+.show-checkbox {
+	display: none;
+}
+.show-all {
+	display: inline;
+	color: $red-primary;
+	text-decoration: none;
+	font-size: 0.9em;
+	margin: 0.5em 0 1em 0;
+	border-radius: 0.2em;
+	transition: 0.4s ease-in;
+	box-sizing: border-box;
+	cursor: pointer;
+	&:before {
+		content: 'Show all ';
+	}
+}
+.show-checkbox:checked + label.show-all {
+	&:before {
+		content: 'Show less ';
+	}
+}
+
 button.small, a.small {
 	padding: 0.3em 1em 0.4em 1em;
 	font-size: 1em;
@@ -197,8 +228,9 @@ a {
 		}
 	}
 }
+
 @media only screen and (max-width: 800px) {
-	a.link-button-default {
+	a.link-button-default, a.link-button-grey {
 		white-space: unset;
 	}
 }

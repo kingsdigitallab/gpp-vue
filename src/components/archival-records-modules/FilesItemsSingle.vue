@@ -44,18 +44,13 @@
                     </div>
                 </div>
             </div>
+            <input type="checkbox" id="show-transcriptions" />
+            <label for="show-transcriptions" class="show-button">Show/Hide transcriptions</label>
             <div v-if="hasTranscription" class="transcriptions">
-                <div class="two-column-50-50 main-pane">
+                <div class="image">
                     <div class="image-section">
                         <div id="openseadragon" ref="openSeaDragon" class="image"></div>
                     </div>
-                    <div class="transcription-section">
-                        <div v-for="(transcription, i) in getTranscriptions" v-bind:key="i" v-bind:id="'transcription-' + i" v-html="transcription.transcription" v-bind:class="['transcription', {'active':activeTranscription == i}]">
-                            {{transcription.transcription}}
-                        </div>
-                    </div>
-                </div>
-                <div class="two-column-50-50 action-pane">
                     <div id="navigation-pane" class="image-control">
                         <!-- TODO add v-if="this.getArchive.media.length > 0"-->
                         <div class="control">
@@ -71,8 +66,15 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="transcription">
+                    <div class="transcription-section">
+                        <div v-for="(transcription, i) in getTranscriptions" v-bind:key="i" v-bind:id="'transcription-' + i" v-html="transcription.transcription" v-bind:class="['transcription', {'active':activeTranscription == i}]">
+                            {{transcription.transcription}}
+                        </div>
+                    </div>
                     <div class="pagination-pane">
-                        <paginate :page-count="getTranscriptions.length" :click-handler="page" :prev-text="'Prev'" :next-text="'Next'"></paginate>
+                        <paginate :page-count="getArchive.media.length" :click-handler="page" :prev-text="'Prev'" :next-text="'Next'"></paginate>
                     </div>
                 </div>
             </div>
@@ -299,10 +301,10 @@ export default {
                 }
             }
             // TO TEST OPENSEADRAGON 
-            // tileSources.push({
-            //     type: 'image',
-            //     url: require('@/assets/images/Masked-Ball-Louis-XV-court.jpg')
-            // });
+            tileSources.push({
+                type: 'image',
+                url: require('@/assets/images/Masked-Ball-Louis-XV-court.jpg')
+            });
             startOpenSeaDragon(0);
         },
         page(pageNum) {

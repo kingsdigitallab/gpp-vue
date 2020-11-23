@@ -81,3 +81,41 @@
     }
     
 }
+
+@media only screen and (max-width: 1150px) {
+    .timeline {
+        .timeline-group {
+            .related-collections {
+                .two-column-30-70 {
+                    display: block;
+                    .grey-column {
+                        .collections {
+                            .show-all {
+                                display: inline-block;
+                                margin: 1em 0 0 2.2em;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    .timeline {
+        .timeline-top {
+            overflow-x: scroll;
+            overflow-y: visible;
+            margin-bottom: 2em;
+            .timestamps {
+                margin-left: -2em;
+                margin-right: 0;
+                padding-top: 1em;
+                .timestamp {
+                    min-width: 200px;
+                }
+            }
+        }
+    }
+}

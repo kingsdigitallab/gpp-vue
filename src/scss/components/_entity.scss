@@ -1,32 +1,4 @@
 .entity {
-    .identity-list {
-        margin-top: 2em;
-        border-bottom: 3px solid $red-primary;
-        display: flex;
-        align-items: center;
-        .identity-tabs {
-            .identity-tab {
-                display: inline-block;
-                padding: 0.5em 1.5em;
-                border-top-left-radius: 0.3em;
-                border-top-right-radius: 0.3em;
-                transition: 0.2s ease-in;
-                cursor: pointer;
-                &:not(:last-of-type), &:first-of-type {
-                    margin-left: 2em;
-                }
-                &:hover, &:focus {
-                    background-color: $grey-background-dark;
-                    color: $red-primary;
-
-                }
-                &.active {
-                    background-color: $red-primary;
-                    color: white;
-                }
-            }
-        }
-    }
     .identity-description {
         margin-top: 4em;
         h1 {
@@ -63,69 +35,15 @@
     }
 }
 
-// .people-corp {
-// 	padding-top: 62px;
-// 	padding-left: 20px;
-// 	padding-right: 20px;
-// 	@media only screen and (max-width: 768px) {
-// 		padding-left: 0;
-// 		padding-right: 0;
-// 	}
-// }
-
-// .people__select {
-// 	display: block;
-// 	float: right;
-// 	width: 120px;
-// 	margin-top: -60px;
-// 	text-transform: uppercase;
-// 	color: $gray;
-// 	border-color: $gray;
-// 	padding: 8px;
-// 	option {
-// 		color: $black;
-// 	}
-// 	&:focus {
-// 		background-color: lighten($gray, 10%);
-// 	}
-// 	@media only screen and (max-width: 768px) {
-// 		margin-top: -45px;
-
-// 	}
-// }
-
-// .people, .corporate {
-// 	a.list-row {
-// 		color: $black;
-// 		transition: $dur $ease;
-// 		&:hover, &:focus {
-// 			color: lighten($maroon, 20%);
-// 		}
-// 	}
-// 	.list-item {
-// 		border-bottom: 1px solid $gray;
-// 		&:first-of-type {
-// 			border: none;
-// 		}
-// 	}
-// 	@media only screen and (max-width: 768px) {
-// 		.list-row {
-// 			display: flex;
-// 			flex-direction: column;
-// 			border: 1px solid $gray;
-// 			margin-bottom: 15px;
-// 			padding: 20px;
-// 			padding-bottom: 0;
-// 		}
-// 		.list-item {
-// 			&:first-of-type {
-// 				// border: none;
-// 				margin-bottom: 0;
-// 				padding: 0;
-// 			}
-// 		}
-// 		.list-head:not(.list-head--hidden) {
-// 			display: none;
-// 		}
-// 	}
-// }
+@media only screen and (max-width: 1000px) {
+    .entity {
+        .identity-description {
+            display: block;
+        }
+        .descriptions-section {
+            .description {
+                display: block;
+            }
+        }
+    }
+}

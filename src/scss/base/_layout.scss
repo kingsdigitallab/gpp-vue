@@ -66,7 +66,7 @@ body {
 	}
 	.grey-column {
 		background-color: $grey-background-light;
-		box-shadow: 0px 2px 4px lighten($grey-light, 20%);
+		box-shadow: 0px 2px 2px lighten($grey-light, 20%);
 		padding: 2em;
 		margin-bottom: 1em;
 		h2, h3, h4 {
@@ -97,6 +97,34 @@ body {
 			list-style: auto;
 			margin-bottom: 1em;
 			line-height: 1.4em;
+		}
+	}
+	.inline-list {
+		margin-top: 2em;
+		border-bottom: 3px solid $red-primary;
+		display: flex;
+		align-items: center;
+		.inline-tabs {
+			.inline-tab {
+				display: inline-block;
+				padding: 0.5em 1.5em;
+				border-top-left-radius: 0.3em;
+				border-top-right-radius: 0.3em;
+				transition: 0.2s ease-in;
+				cursor: pointer;
+				&:first-of-type {
+					margin-left: 2em;
+				}
+				&:hover, &:focus {
+					background-color: $grey-background-dark;
+					color: $red-primary;
+	
+				}
+				&.active {
+					background-color: $red-primary;
+					color: white;
+				}
+			}
 		}
 	}
 	.hierarchy {
@@ -214,7 +242,7 @@ body {
 			display: grid;
 			grid-template-columns: 47% 53%;
 			height: 340px;
-			box-shadow: 0px 2px 4px lighten($grey-light, 30%);
+			box-shadow: 0px 2px 2px lighten($grey-light, 20%);
 			.featured-card-image {
 				height: inherit;
 				img {
@@ -285,8 +313,45 @@ body {
 	}
 }
 
+@media only screen and (max-width: 1120px) {
+	body {
+		main {
+			.mobile-none {
+				display: none !important;
+			}
+			.display-mobile {
+				display: block;
+			}
+		}
+	}
+}
+
 @media only screen and (max-width: 800px) {
 	body {
+		.inline-list {
+			display: block;
+			overflow-x: scroll;
+			white-space: nowrap;
+			.inline-tabs {
+				display: inline-block;
+			}
+		}
+		.hierarchy {
+			.hierarchy-header {
+				display: none;
+			}
+			.hierarchy-template {
+				.fieldset-header {
+					grid-template-columns: 26px 1fr 100px;
+				}
+			}
+			span.record-details {
+				display: block;
+				span {
+					display: block;
+				}
+			}
+		} 
 		.carousel-template {
 			.featured-card {
 				display: block;
@@ -294,6 +359,21 @@ body {
 				.featured-card-image {
 					height: 200px;
 				}
+			}
+		}
+	}
+}
+
+@media only screen and (max-width: 500px) {
+	body {
+		.hierarchy {
+			.hierarchy-template {
+				.fieldset-header {
+					grid-template-columns: 26px 1fr;
+				}
+			}
+			span.record-details {
+				display: none;
 			}
 		}
 	}
