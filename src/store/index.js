@@ -12,7 +12,7 @@ import timeline from './modules/timeline';
 import searchResults from './modules/searchResults';
 
 Vue.use(Vuex);
-Vue.use(VuePluralize)
+Vue.use(VuePluralize);
 
 export default new Vuex.Store({
     modules: {

@@ -6,36 +6,28 @@ button, input[type=submit], input[type=button] {
 		background-color: transparent;
 		margin: 0;
 		padding: 0;
-		color: $red-primary;
-		&.clear {
-			&:before {
-				content: '\f00d';
-				font-family: $fontawesome;
-				margin-right: 7px;
-				font-weight: 300;
-				display: inline-block;
-			}
-		}
+		color: $primary;
 		&.active {
 			font-weight: 600;
-			border-bottom: 1px dotted $red-primary !important;		
+			border: 1px dotted $primary !important;		
 		}
 	}
 	&.button-outline {
-		border: 1px solid $red-primary;
+		border: 1px solid $primary;
 		background-color: transparent;
 		margin: 0;
 		padding: 0.5em 1.2em;
-		color: $red-primary;
+		color: $primary;
 		border-radius: 0.2em;
 		&:hover, &:focus {
-			background-color: $red-primary;	
+			background-color: $primary;	
 			color: white;
 		}
 	}
-	&.button-default {
-		background-color: $red-primary;
+	&.button-primary {
+		background-color: $primary;
 		color: white;
+		padding: 10px 20px;
 		text-decoration: none;
 		border-radius: 0.2em;
 		border-bottom: 0;
@@ -53,7 +45,7 @@ button, input[type=submit], input[type=button] {
 			margin-right: 1em;
 		}
 		&:hover, &:focus {
-			background-color: $red-dark;
+			background-color: $primary-dark;
 			border-bottom: 0;
 		}
 	}
@@ -67,7 +59,7 @@ button, input[type=submit], input[type=button] {
 		&.next, &.prev {
 			position: absolute;
 			transition: 0.2s ease;
-			color: $red-secondary;
+			color: $secondary;
 			top: 48%;
 		}
 		&.next {
@@ -79,41 +71,9 @@ button, input[type=submit], input[type=button] {
 			padding: 0.1em 0.442em 0.1em 0.37em;
 		}
 		&:hover, &:focus {
-			background-color: $red-dark;
+			background-color: $primary-dark;
 			&.next, &.prev {
 				color: white;
-				outline: none;
-			}
-		}
-	}
-	&.slick-arrow {
-		z-index: 8;
-		&.slick-prev:before, &.slick-next:before {
-			position: absolute;
-			transition: 0.2s ease;
-			color: $red-secondary;
-			top: -0.3em;
-			background-color: white;
-			border-radius: 50%;
-			font-family: $fontawesome;
-			font-weight: 300;
-			font-size: 45px;
-			opacity: 1;
-		}
-		&.slick-prev:before {
-			content: '\f104';
-			right: -0.6em;
-			padding: 0.01em 0.35em 0.01em 0.27em;
-		}
-		&.slick-next:before {
-			content: '\f105';
-			left: -0.6em;
-			padding: 0.01em 0.27em 0.01em 0.35em;
-		}
-		&:hover, &:focus {
-			&.slick-prev:before, &.slick-next:before {
-				color: white;
-				background-color: $red-dark;
 				outline: none;
 			}
 		}
@@ -133,29 +93,6 @@ button, input[type=submit], input[type=button] {
 	}
 }
 
-.show-checkbox {
-	display: none;
-}
-.show-all {
-	display: inline;
-	color: $red-primary;
-	text-decoration: none;
-	font-size: 0.9em;
-	margin: 0.5em 0 1em 0;
-	border-radius: 0.2em;
-	transition: 0.4s ease-in;
-	box-sizing: border-box;
-	cursor: pointer;
-	&:before {
-		content: 'Show all ';
-	}
-}
-.show-checkbox:checked + label.show-all {
-	&:before {
-		content: 'Show less ';
-	}
-}
-
 button.small, a.small {
 	padding: 0.3em 1em 0.4em 1em;
 	font-size: 1em;
@@ -166,15 +103,9 @@ button.large, a.large {
 	box-shadow: 0px 0px 4px lighten($grey-light, 20%);
 }
 
-.dotted-underline {
-	border-bottom: 1px dotted $grey-light !important;
-	&:hover, &:focus {
-		border-bottom: 1px dotted $red-primary !important;
-	}
-}
-
 .arrow:after {
 	content: '\f105';
+	display: inline-block;
 	font-family: $fontawesome;
 	color: inherit;
 	font-size: 1.5em;
@@ -183,18 +114,53 @@ button.large, a.large {
 	font-weight: 200;
 }
 
+.show-checkbox {
+	display: none;
+}
+.show-all {
+	display: inline;
+	color: $primary;
+	text-decoration: none;
+	font-size: 0.9em;
+	border-radius: 0.2em;
+	transition: 0.4s ease-in;
+	box-sizing: border-box;
+	cursor: pointer;
+
+	margin: 0.5em 0 1em 0;
+	&:before {
+		content: 'Show all ';
+	}
+	&:hover {
+		background-color: $grey-background-light; 
+	}
+}
+.show-checkbox:checked + label.show-all {
+	&:before {
+		content: 'Show less ';
+	}
+}
+
+.dotted-underline {
+	border-bottom: 1px dotted $grey-light !important;
+	&:hover, &:focus {
+		border-bottom: 1px dotted $primary !important;
+	}
+}
+
 a {
-	color: $red-secondary;
+	color: $secondary;
 	border-bottom: 1px dotted $grey-light;
 	text-decoration: none;
 	transition: 0.2s ease;
 	&:hover, &:focus {
 		background-color: $grey-background-dark;
-		border-bottom: 1px dotted $red-primary;
+		border-bottom: 1px dotted $primary;
 		outline: none;
 	}
-	&.link-button-default {
-		background-color: $red-primary;
+	&.link-button-primary {
+		display: inline-block;
+		background-color: $primary;
 		color: white;
 		text-decoration: none;
 		border-radius: 0.2em;
@@ -205,13 +171,13 @@ a {
 			margin-right: 1em;
 		}
 		&:hover, &:focus {
-			background-color: $red-dark;
+			background-color: $primary-dark;
 			border-bottom: 0;
 		}
 	}
 	&.link-button-grey {
 		background-color: $grey-background-dark;
-		color: $red-secondary;
+		color: $secondary;
 		text-decoration: none;
 		border-radius: 0.2em;
 		border-bottom: 0;
@@ -229,8 +195,41 @@ a {
 	}
 }
 
+.slick-arrow {
+	z-index: 8;
+	&.slick-prev:before, &.slick-next:before {
+		position: absolute;
+		transition: 0.2s ease;
+		color: $secondary;
+		top: -0.3em;
+		background-color: white;
+		border-radius: 50%;
+		font-family: $fontawesome;
+		font-weight: 300;
+		font-size: 45px;
+		opacity: 1;
+	}
+	&.slick-prev:before {
+		content: '\f104';
+		right: -0.6em;
+		padding: 0.01em 0.35em 0.01em 0.27em;
+	}
+	&.slick-next:before {
+		content: '\f105';
+		left: -0.6em;
+		padding: 0.01em 0.27em 0.01em 0.35em;
+	}
+	&:hover, &:focus {
+		&.slick-prev:before, &.slick-next:before {
+			color: white;
+			background-color: $primary-dark;
+			outline: none;
+		}
+	}
+}
+
 @media only screen and (max-width: 800px) {
-	a.link-button-default, a.link-button-grey {
+	a.link-button-primary, a.link-button-grey {
 		white-space: unset;
 	}
 }

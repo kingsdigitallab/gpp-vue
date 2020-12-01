@@ -12,12 +12,12 @@
                     <div class="grey-column">
                         <div v-if="!mobile" class="collections">
                             <button v-for="(collection, i) in getTimelineGroup.collections" v-bind:key="i" v-bind:class="[{active: collection.id === activeCollection}, 'collection']" v-on:click="setHierarchy(collection.id, collection.title)">
-                                <span class="red-highlight">{{collection.title}}</span> ({{collection.children_desc}})
+                                <span>{{collection.title}}</span> ({{collection.children_desc}})
                             </button>
                         </div>
                         <div v-if="mobile" class="collections">
                             <button v-for="(collection, i) in collectionSubset" v-bind:key="i" v-bind:class="[{active: collection.id === activeCollection}, 'collection']" v-on:click="setHierarchy(collection.id, collection.title)">
-                                <span class="red-highlight">{{collection.title}}</span> ({{collection.children_desc}})
+                                <span>{{collection.title}}</span> ({{collection.children_desc}})
                             </button>
                             <input type="checkbox" class="show-checkbox" id="show-all-collections" :checked="collectionSubset == getTimelineGroup.collections" v-on:click="collectionSubset == getTimelineGroup.collections ? collectionSubset =  getTimelineGroup.collections.slice().splice(0,3) : collectionSubset =  getTimelineGroup.collections"/>
                             <label for="show-all-collections" class="show-all dotted-underline">

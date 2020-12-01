@@ -4,18 +4,18 @@
 		1. There was a case when language facet was the only one that loaded, there rest was not displayed, no errors were thrown either
 	-->
 	<div class="entity-list">
-		<div class="two-column-20-80" v-show="!loadingRecords">
+		<div class="two-column-20-80">
 			<div class="filters">
 				<button class="display-mobile filter-button" v-on:click="toggleFilters" aria-label="filter objects">Hide filters</button>
 				<div>
-					<fieldset class="range" v-if="getEntityFacets.existence_years && getEntityFacets.existence_years.min_default > 0 && getEntityFacets.existence_years.max_default > 0">
+					<fieldset id="existence_year" class="range" v-if="getEntityFacets.existence_years && getEntityFacets.existence_years[0] > 0 && getEntityFacets.existence_years[1] > 0">
 						<legend>Years of existence</legend>
 						<div id="existence-year-slider" ref="existenceSlider"></div>
 						<br>
 						<input type="number" name="existence_start_year" aria-label="existence year start" class="range-year" :min="existenceSlider.min" :max="existenceSlider.max" v-model="minExistenceRange" v-on:change="updateExistenceSlider(minExistenceRange, maxExistenceRange)" />
 						-
 						<input type="number" name="existence_end_year" aria-label="existence year end" class="range-year" :min="existenceSlider.min" :max="existenceSlider.max" v-model="maxExistenceRange" v-on:change="updateExistenceSlider(minExistenceRange, maxExistenceRange)" />
-						<button type="button" class="button-outline" v-on:click="filter('existence_years', minExistenceRange + '-' + maxExistenceRange)">Filter</button>
+						<input type="submit" class="button-outline" value="Filter" v-on:click="filterByYear('existence_years', minExistenceRange, maxExistenceRange)"/>
 					</fieldset>
 					<fieldset v-if="getEntityFacets.entityTypes && getEntityFacets.entityTypes.length > 0">
 						<legend>Entity type</legend>
@@ -24,7 +24,7 @@
 						<div class="toggle-section">
 							<div class="facets">
 								<label v-for="(entityType, i) in getEntityFacets.entityTypes" v-bind:key="i" class="facet">
-									<input type="checkbox" v-bind:name="entityType.display_name" v-bind:aria-label="entityType.display_name" :value="entityType" v-on:click="filter('entity_type', entityType.display_name)" :checked="selectedFacets.filter(obj => obj.display_name===entityType.display_name && obj.category==='entity_type').length > 0"/> {{entityType.display_name}} <span class="count">({{entityType.count}})</span>
+									<input type="checkbox" v-bind:name="entityType.key" v-bind:aria-label="entityType.key" :value="entityType" v-on:click="filter('entity_type', entityType.key)" :checked="checkedOption('entity_type', entityType.key)"/> {{entityType.key}} <span class="count">({{entityType.doc_count}})</span>
 								</label>
 							</div>
 						</div>
@@ -34,10 +34,10 @@
 						<input type="checkbox" id="gender-toggle" class="toggle-checkbox" />
 						<label for="gender-toggle" class="toggle-label"><span hidden>Expand/collapse gender</span></label>
 						<div class="toggle-section">
-							<input v-if="getEntityFacets.genders.length > 5" type="text" aria-label="Search gender" placeholder="Search gender" onfocus="this.placeholder=''" v-on:click="genderCheckbox = true" v-model="searchGenders" onblur="this.placeholder='Search gender'" name=""/>
+							<input v-if="getEntityFacets.genders.length > 5" type="text" aria-label="Search gender" placeholder="Search gender" onfocus="this.placeholder=''" v-on:click="genderCheckbox = true" v-model="searchGenders" onblur="this.placeholder='Search gender'" name="gender_search"/>
 							<div class="facets">
-								<label v-for="(gender, index) in filteredData(getEntityFacets.genders, searchGenders, 'count')" v-bind:key="index" class="facet">
-									<input type="checkbox" v-bind:name="gender.display_name" v-bind:aria-label="gender.display_name" :value="gender" v-on:click="filter('gender', gender.display_name)" :checked="selectedFacets.filter(obj => obj.display_name===gender.display_name && obj.category==='gender').length > 0"/> {{gender.display_name}} <span class="count">({{gender.count}})</span>
+								<label v-for="(gender, index) in sortedData(getEntityFacets.genders, searchGenders, 'count')" v-bind:key="index" class="facet" v-show="index < 5 || genderCheckbox">
+									<input type="checkbox" v-bind:name="gender.key" v-bind:aria-label="gender.key" :value="gender" v-on:click="filter('gender', gender.key)" :checked="checkedOption('gender', gender.key)"/> {{gender.key}} <span class="count">({{gender.doc_count}})</span>
 								</label>
 							</div>
 							<input type="checkbox" id="show-all-genders" class="show-checkbox" v-model="genderCheckbox">
@@ -49,10 +49,10 @@
 						<input type="checkbox" id="language-toggle" class="toggle-checkbox" />
 						<label for="language-toggle" class="toggle-label"><span hidden>Expand/collapse language</span></label>
 						<div class="toggle-section">
-							<input v-if="getEntityFacets.languages.length > 5" type="text" aria-label="Search language used" placeholder="Search language used" onfocus="this.placeholder=''" v-on:click="languagesCheckbox = true" v-model="searchLanguages" onblur="this.placeholder='Search language used '" name=""/>
+							<input v-if="getEntityFacets.languages.length > 5" type="text" aria-label="Search language used" placeholder="Search language used" onfocus="this.placeholder=''" v-on:click="languagesCheckbox = true" v-model="searchLanguages" onblur="this.placeholder='Search language used '" name="languages_used_search"/>
 							<div class="facets">
-							<label v-for="(language, index) in filteredData(getEntityFacets.languages, searchLanguages, 'count', languagesCheckbox)" v-bind:key="index" class="facet">
-								<input type="checkbox" v-bind:name="language.display_name" :value="language" v-bind:aria-label="language.display_name" v-on:click="filter('language', language.display_name)" :checked="selectedFacets.filter(obj => obj.display_name===language.display_name && obj.category==='language').length > 0"/> {{language.display_name}} <span class="count">({{language.count}})</span>
+							<label v-for="(language, index) in sortedData(getEntityFacets.languages, searchLanguages, 'count', languagesCheckbox)" v-bind:key="index" class="facet" v-show="index < 5 || languagesCheckbox">
+								<input type="checkbox" v-bind:name="language.key" :value="language" v-bind:aria-label="language.key" v-on:click="filter('language', language.key)" :checked="checkedOption('language', language.key)"/> {{language.key}} <span class="count">({{language.doc_count}})</span>
 							</label>
 							</div>
 							<input type="checkbox" id="show-all-languages" class="show-checkbox" v-model="languagesCheckbox">
@@ -65,10 +65,10 @@
 						<input type="checkbox" id="related-entities-toggle" class="toggle-checkbox" />
 						<label for="related-entities-toggle" class="toggle-label"><span hidden>Expand/collapse related people and corporate bodies</span></label>
 						<div class="toggle-section">
-							<input v-if="getEntityFacets.related_entities.length > 5" type="text" aria-label="Search person or corporate body" placeholder="Search person or corporate body" onfocus="this.placeholder=''" v-on:click="relatedEntitiesCheckbox = true" v-model="searchRelatedEntities" onblur="this.placeholder='Search person or corporate body'" name=""/>
+							<input v-if="getEntityFacets.related_entities.length > 5" type="text" aria-label="Search person or corporate body" placeholder="Search person or corporate body" onfocus="this.placeholder=''" v-on:click="relatedEntitiesCheckbox = true" v-model="searchRelatedEntities" onblur="this.placeholder='Search person or corporate body'" name="related_entities_search"/>
 							<div class="facets">
-							<label v-for="(entity, index) in filteredData(getEntityFacets.related_entities, searchRelatedEntities, 'alphabetical', relatedEntitiesCheckbox)" v-bind:key="index" class="facet">
-								<input type="checkbox" v-bind:name="entity.display_name" v-bind:aria-label="entity.display_name" :value="entity" v-on:click="filter('related_entities', entity.display_name)" :checked="selectedFacets.filter(obj => obj.display_name===entity.display_name && obj.category==='related_entities').length > 0"/> {{entity.display_name}} <span class="count">({{entity.count}})</span>
+							<label v-for="(entity, index) in sortedData(getEntityFacets.related_entities, searchRelatedEntities, 'alphabetical', relatedEntitiesCheckbox)" v-bind:key="index" class="facet" v-show="index < 5 || relatedEntitiesCheckbox">
+								<input type="checkbox" v-bind:name="entity.key" v-bind:aria-label="entity.key" :value="entity" v-on:click="filter('related_entities', entity.key)" :checked="checkedOption('related_entities', entity.key)"/> {{entity.key}} <span class="count">({{entity.doc_count}})</span>
 							</label>
 							</div>
 							<input type="checkbox" id="show-all-entity" class="show-checkbox" v-model="relatedEntitiesCheckbox">
@@ -80,10 +80,10 @@
 						<input type="checkbox" id="related-places-toggle" class="toggle-checkbox" />
 						<label for="related-places-toggle" class="toggle-label"><span hidden>Expand/collapse addressee</span></label>
 						<div class="toggle-section">
-							<input v-if="getEntityFacets.related_places.length > 5" type="text" aria-label="Search place" placeholder="Search place" onfocus="this.placeholder=''" v-on:click="relatedPlacesCheckbox = true" v-model="searchRelatedPlaces" onblur="this.placeholder='Search place'" name=""/>
+							<input v-if="getEntityFacets.related_places.length > 5" type="text" aria-label="Search place" placeholder="Search place" onfocus="this.placeholder=''" v-on:click="relatedPlacesCheckbox = true" v-model="searchRelatedPlaces" onblur="this.placeholder='Search place'" name="related_places_search"/>
 							<div class="facets">
-							<label v-for="(place, index) in filteredData(getEntityFacets.related_places, searchRelatedPlaces, 'alphabetical', relatedPlacesCheckbox)" v-bind:key="index" class="facet">
-								<input type="checkbox" v-bind:name="place.display_name" :value="place" v-bind:aria-label="place.display_name" v-on:click="filter('related_places', place.display_name)" :checked="selectedFacets.filter(obj => obj.display_name===place.display_name && obj.category==='related_places').length > 0"/> {{place.display_name}} <span class="count">({{place.count}})</span>
+							<label v-for="(place, index) in sortedData(getEntityFacets.related_places, searchRelatedPlaces, 'alphabetical', relatedPlacesCheckbox)" v-bind:key="index" class="facet" v-show="index < 5 || relatedPlacesCheckbox">
+								<input type="checkbox" v-bind:name="place.key" :value="place" v-bind:aria-label="place.key" v-on:click="filter('related_places', place.key)" :checked="checkedOption('related_places', place.key)"/> {{place.key}} <span class="count">({{place.doc_count}})</span>
 							</label>
 							</div>
 							<input type="checkbox" id="show-all-places" class="show-checkbox" v-model="relatedPlacesCheckbox">
@@ -91,71 +91,80 @@
 						</div>
 					</fieldset>
 					<label v-if="getEntityFacets.with_royal_names">
-						<input type="checkbox" name="with_royal_names" value="Show only people with royal names" aria-label="Show only people with royal names" v-on:click="filter('with_royal_names', 1)" :checked="selectedFacets.filter(obj => obj.category==='with_royal_names').length > 0"/>{{getEntityFacets.with_royal_names.display_name}} <span class="count">({{getEntityFacets.with_royal_names.count}})</span>
+						<input type="checkbox" name="with_royal_names" value="Show only people with royal names" aria-label="Show only people with royal names" v-on:click="filter('with_royal_names', 'true')" :checked="selectedFacets.filter(obj => obj.category==='with_royal_names').length > 0"/>{{getEntityFacets.with_royal_names.key}} <span class="count">({{getEntityFacets.with_royal_names.doc_count}})</span>
 					</label>
 					<label v-if="getEntityFacets.with_multiple_identities">
-						<input type="checkbox" name="with_multiple_identities" value="Show only people with multiple identities" aria-label="People with multiple identities" v-on:click="filter('with_multiple_identities', 1)" :checked="selectedFacets.filter(obj => obj.category==='with_multiple_identities').length > 0"/>{{getEntityFacets.with_multiple_identities.display_name}} <span class="count">({{getEntityFacets.with_multiple_identities.count}})</span>
+						<input type="checkbox" name="with_multiple_identities" value="Show only people with multiple identities" aria-label="People with multiple identities" v-on:click="filter('with_multiple_identities', 'true')" :checked="selectedFacets.filter(obj => obj.category==='with_multiple_identities').length > 0"/>{{getEntityFacets.with_multiple_identities.key}} <span class="count">({{getEntityFacets.with_multiple_identities.doc_count}})</span>
 					</label>
 				</div>
 			</div>
-			<div>
-				<fieldset v-if="selectedFacets.length > 0" class="selected-facets">
-					<legend hidden>Selected filters</legend>
-					<label v-for="(selectedFacet, index) in selectedFacets" v-bind:key="index" class="facet">
-                        <template v-if="selectedFacet.category == 'with_royal_names'">
-                            <input type="checkbox" v-bind:name="selectedFacet.category" value="Show only people with royal names" aria-label="Show only people with royal names" v-on:click="filter(selectedFacet.category, selectedFacet.display_name)" checked/> Show only people with royal names
-                        </template>
-                        <template v-else-if="selectedFacet.category == 'with_multiple_identities'">
-                            <input type="checkbox" v-bind:name="selectedFacet.category" value="Show only people with multiple identities" aria-label="Show only people with multiple identities" v-on:click="filter(selectedFacet.category, selectedFacet.display_name)" checked/> Show only people with multiple identities
-                        </template>
-                        <template v-else>
-                            <input type="checkbox" v-bind:name="selectedFacet.category" :value="selectedFacet.display_name" v-bind:aria-label="selectedFacet.display_name" v-on:click="filter(selectedFacet.category, selectedFacet.display_name)" checked/>
-                            <template v-if="selectedFacet.category == 'existence_years'">Date of existence: </template>
-                            {{selectedFacet.display_name}}
-                        </template>
-					</label>
-					<button class="button-link clear dotted-underline"  v-on:click="clearFacets">Clear all filters</button>
-				</fieldset>
-				<div class="flex">
-					<div class="letterIndex">
-						<!-- TODO replace with a select dropdown in mobile version? -->
-						<button v-bind:class="['button-link', {'active': activeLetter == ''}]" v-on:click="filterByLetter('')">All</button>
-						<button v-for="(letter, i) in getEntityLetterIndex" v-bind:key="i" v-bind:class="['button-link', {'active': activeLetter == letter.name}, {'disabled': letter.missing}]" :aria-hidden="letter.missing" :disabled="letter.missing" v-on:click="filterByLetter(letter.name)">{{letter.name}}</button>
+			<div class="objects">
+				<template v-if="!loadingRecords">
+					<fieldset class="selected-facets" v-if="selectedFacets.length > 0 || existenceYears[0] != 0 &&  existenceYears[1] != 0">
+						<legend hidden>Selected filters</legend>
+						<template v-if="existenceYears[0] != 0 &&  existenceYears[1] != 0">
+							<label class="facet">
+								<input type="checkbox" name="existence_years" :value="existenceYears[0]+ '-' + existenceYears[1]" aria-label="existence years" v-on:click="filterByYear('existence_years', existenceYears[0], existenceYears[1])" checked/> 
+								Years of existence: {{existenceYears[0] + '-' + existenceYears[1]}}
+							</label>
+						</template>
+						<template v-if="selectedFacets.length > 0">
+							<label v-for="(selectedFacet, index) in selectedFacets" v-bind:key="index" class="facet">
+								<template v-if="selectedFacet.category == 'with_royal_names'">
+									<input type="checkbox" v-bind:name="selectedFacet.category" value="Show only people with royal names" aria-label="Show only people with royal names" v-on:click="filter(selectedFacet.category, 'true')" checked/> Show only people with royal names
+								</template>
+								<template v-else-if="selectedFacet.category == 'with_multiple_identities'">
+									<input type="checkbox" v-bind:name="selectedFacet.category" value="Show only people with multiple identities" aria-label="Show only people with multiple identities" v-on:click="filter(selectedFacet.category, 'true')" checked/> Show only people with multiple identities
+								</template>
+								<template v-else>
+									<input type="checkbox" v-bind:name="selectedFacet.category" :value="selectedFacet.key" v-bind:aria-label="selectedFacet.key" v-on:click="filter(selectedFacet.category, selectedFacet.key)" checked/> 
+									{{ selectedFacet.key }}
+								</template>
+							</label>
+						</template>
+						<button class="clear-filters" v-on:click="clearFacets">Clear all filters</button>
+					</fieldset>
+					<div class="flex">
+						<div class="letterIndex">
+							<!-- TODO replace with a select dropdown in mobile version? -->
+							<button v-bind:class="['button-link', {'active': activeLetter == ''}]" v-on:click="filterByLetter('')">All</button>
+							<button v-for="(letter, i) in getEntityLetterIndex" v-bind:key="i" v-bind:class="['button-link', {'active': activeLetter == letter.name}, {'disabled': letter.missing}]" :aria-hidden="letter.missing" :disabled="letter.missing" v-on:click="filterByLetter(letter.name)">{{letter.name}}</button>
+						</div>
+						<button class="button-primary filter display-mobile" v-on:click="toggleFilters" aria-label="filter objects"><span hidden>Filter</span></button>
 					</div>
-					<button class="button-default filter display-mobile" v-on:click="toggleFilters" aria-label="filter objects"><span hidden>Filter</span></button>
-				</div>
-				<div class="list grey-column">
-					<div class="list-header">
-						<h2 v-if="activeLetter == ''">All people &amp; corporate bodies ({{getTotalAuthorityEntities}})</h2>
-						<h2 v-else>{{activeLetter}} ({{getTotalAuthorityEntities}})</h2>
-						<span class="details">
-							<span>Type</span>
-							<span>Existence dates</span>
-						</span>
+					<div class="list grey-column">
+						<div class="list-header">
+							<h2 v-if="activeLetter == ''">All people &amp; corporate bodies ({{getTotalAuthorityEntities}})</h2>
+							<h2 v-else>{{activeLetter}} ({{getTotalAuthorityEntities}})</h2>
+							<span class="details">
+								<span>Type</span>
+								<span>Existence dates</span>
+							</span>
+						</div>
+						<div v-if="getAuthorityEntities.length == 0" class="loader"></div>
+						<div v-for="(entity, i) in getAuthorityEntities" v-bind:key="i" class="list-row">
+							<!-- TODO change entity.entity_type.title to entity.entity_type -->
+							<span>
+								<router-link :to="'/people-and-corporate-bodies/'+(entity.id)" :aria-label="'entity type: '+(entity.entity_type.title)">{{entity.display_name}}</router-link>
+							</span>
+							<span class="details">
+								<span>{{entity.entity_type.title}}</span>
+								<!-- TODO change to entity.display_date_name_used -->
+								<span v-if="entity.display_date">{{entity.display_date}}</span>
+								<span v-else>---</span>
+							</span>
+						</div>
+						<div v-if="loadingMoreRecords" class="loader"></div>
+						<template v-else>
+							<button type="button" v-if="getAuthorityEntities && getAuthorityEntities.length < getTotalAuthorityEntities" class="button-primary" v-on:click="moreRecords()">
+								Show more people and corporate bodies
+							</button>
+						</template>
 					</div>
-					<div v-if="getAuthorityEntities.length == 0" class="loader"></div>
-					<div v-for="(entity, i) in getAuthorityEntities" v-bind:key="i" class="list-row">
-                        <!-- TODO change entity.entity_type.title to entity.entity_type -->
-						<span>
-							<router-link :to="'/people-and-corporate-bodies/'+(entity.id)" :aria-label="'entity type: '+(entity.entity_type.title)">{{entity.display_name}}</router-link>
-						</span>
-						<span class="details">
-							<span>{{entity.entity_type.title}}</span>
-							<!-- TODO change to entity.display_date_name_used -->
-							<span v-if="entity.display_date">{{entity.display_date}}</span>
-							<span v-else>---</span>
-						</span>
-					</div>
-					<div v-if="loadingMoreRecords" class="loader"></div>
-					<template v-else>
-						<button type="button" v-if="getAuthorityEntities.length != 0 && getAuthorityEntities.length < getTotalAuthorityEntities" class="button-default large" v-on:click="moreRecords()">
-							Show more entities
-						</button>
-					</template>
-				</div>
+				</template>
+				<div v-else class="loader"></div>
 			</div>
 		</div>
-        <div v-show="loadingRecords" class="loader"></div>
 	</div>
 </template>
 
@@ -171,48 +180,62 @@ export default {
 		return {
             loadingRecords: true,
 			loadingMoreRecords: false,
+
+			// existence year range filter
+			// dynamic values
 			minExistenceRange: 0,
 			maxExistenceRange: 0,
+			// static values onInit
 			existenceSlider: {
 				startMin: 0,
 				startMax: 0,
 				min: 0,
-				max: 0,
-				step: 1
+				max: 0
 			},
+
+			// see all buttons
 			relatedPlacesCheckbox: false,
 			languagesCheckbox: false,
 			genderCheckbox: false,
 			relatedEntitiesCheckbox: false,
-			selectedFacets: [],
+
+			// instant search
 			searchRelatedPlaces: '',
 			searchGenders: '',
 			searchRelatedEntities: '',
 			searchLanguages: '',
-            activeLetter: '',
-            pageNum: 1
+
+			// params
+			pageNum: 1,
+			selectedFacets: [],
+			existenceYears: [0,0],
+			activeLetter: ''
 		}
 	},
 	methods: {
-		initYearRange(min, max) {
-            if (this.minExistenceRange == 0) {
+		// year range filters
+      	initExistenceYearRange(min, max) {
+      		// init min and max year range dynamic toggles if they have not been updated based on the URL params
+			if (this.minExistenceRange == 0) {
 				this.minExistenceRange = min;
 			} 
 			if (this.maxExistenceRange == 0){
 				this.maxExistenceRange = max;
 			}
-
+      
+			// init static values
 			this.existenceSlider.startMin = this.minExistenceRange;
 			this.existenceSlider.startMax = this.maxExistenceRange;
 			this.existenceSlider.min = min;
-            this.existenceSlider.max = max;
-            
+			this.existenceSlider.max = max;
+
+			// init slider with static values
 			noUiSlider.create(this.$refs.existenceSlider, {
-			start: [this.existenceSlider.startMin, this.existenceSlider.startMax],
-				step: this.existenceSlider.step,
+				start: [this.existenceSlider.startMin, this.existenceSlider.startMax],
+				step: 1,
 				range: {
-					'min': this.existenceSlider.min,
-					'max': this.existenceSlider.max
+				'min': this.existenceSlider.min,
+				'max': this.existenceSlider.max
 				}
 			}); 
 					
@@ -223,23 +246,64 @@ export default {
 		updateExistenceSlider(min, max) {
 			this.$refs.existenceSlider.noUiSlider.set([min, max]);
 		},
-		filteredData (list, query, sortingOrder, checkbox) {
+
+		// check options in the facets based on selected facets
+		checkedOption(category, key) {
+			return this.selectedFacets.filter(obj => obj.key.toLowerCase().replace(/[’’']/g, "")===key.toLowerCase().replace(/[’’']/g, "") && obj.category===category).length > 0;
+		},
+
+		async filterByYear(facet, min_year, max_year) {
+			this.loadingRecords = true;
+
+			const setQuery = this.$route.query;
+			this.pageNum = 1;
+			setQuery['page'] = this.pageNum;
+			const yearString = min_year + '-' + max_year;
+			
+			if (setQuery[facet] && setQuery[facet] == yearString) {
+				// change values to default
+				this.existenceYears = [0,0];
+				this.minExistenceRange = this.existenceSlider.min;
+				this.maxExistenceRange = this.existenceSlider.max;
+				this.updateExistenceSlider(this.existenceSlider.min, this.existenceSlider.max);
+				delete setQuery[facet];
+			} else {
+				// set new values
+				this.existenceYears[0] = min_year;
+				this.existenceYears[1] = max_year;
+
+				// set dynamic values on the frontend
+				this.minExistenceRange = min_year;
+				this.maxExistenceRange = max_year;
+				setQuery[facet] = min_year + '-' + max_year;
+			}
+
+			this.$router.replace({ query: {} });
+			this.$router.push({query: setQuery});
+			await this.fetchAuthorityEntities({'pages': this.pageNum, 
+											'existence_years': JSON.parse(JSON.stringify(this.existenceYears)), 
+											'selectedFacets': JSON.parse(JSON.stringify(this.selectedFacets)), 
+											'letter': this.activeLetter});
+			this.loadingRecords = false;
+		},
+		// sort the list of options displayed in filters
+		sortedData (list, query, sortingOrder) {
 			query = query.toLowerCase();
-			var filteredList = list.slice().filter(function (item) {
-				var name = item.display_name.toLowerCase();
+			var sortedList = list.slice().filter(function (item) {
+				var name = item.key.toLowerCase();
 				return name.match(query);
 			})
 			if (sortingOrder == 'alphabetical')  {
-				filteredList.sort((a, b) => a.display_name.localeCompare(b.display_name));
+				sortedList.sort((a, b) => a.key.localeCompare(b.key));
 			} else if (sortingOrder == 'count') {
-				filteredList.sort((a, b) => b.count - a.count);
+				sortedList.sort((a, b) => b.doc_count - a.doc_count);
 			} 
-			if (!checkbox) {
-				return filteredList.slice(0,5);
-			}
-			return filteredList;
+			return sortedList;
 		},
+
 		async filterByLetter(letter) {
+			this.loadingRecords = true;
+
             this.activeLetter = letter;
             
             const setQuery = this.$route.query;
@@ -255,27 +319,22 @@ export default {
 			this.$router.replace({ query: {} });
 			this.$router.push({query: setQuery});
 			
-			await this.fetchAuthorityEntities({'pages': this.pageNum, 'selectedFacets': JSON.parse(JSON.stringify(this.selectedFacets)), 'letter': this.activeLetter});
+			await this.fetchAuthorityEntities({'pages': this.pageNum, 
+												'existence_years': JSON.parse(JSON.stringify(this.existenceYears)), 
+												'selectedFacets': JSON.parse(JSON.stringify(this.selectedFacets)), 
+												'letter': this.activeLetter});
+			this.loadingRecords = false;
 		},
-		async clearFacets() {
-            this.selectedFacets = [];
-            this.updateExistenceSlider(this.existenceSlider.min, this.existenceSlider.max);
-            this.pageNum = 1;
-			this.$router.replace({ query: {} });
-			this.activeLetter = '';
 
-			await this.fetchAuthorityEntities({'pages': this.pageNum, 'selectedFacets': [], 'letter': this.activeLetter});
-		},
 		async filter(facet, option) {
+			this.loadingRecords = true;
+			
             const setQuery = this.$route.query;
             this.pageNum = 1;
             setQuery['page'] = this.pageNum;
 
-			if (this.selectedFacets.filter(obj => obj.display_name===option && obj.category===facet).length > 0) {
-                if (facet == 'existence_years') {
-                    this.updateExistenceSlider(this.existenceSlider.min, this.existenceSlider.max);
-                }
-				this.selectedFacets = this.selectedFacets.filter(object => !(object.category === facet && object.display_name === option));
+			if (this.selectedFacets.filter(obj => obj.key===option && obj.category===facet).length > 0) {
+				this.selectedFacets = this.selectedFacets.filter(object => !(object.category === facet && object.key === option));
 				if (!Array.isArray(setQuery[facet])) {
 					delete setQuery[facet];
 				}
@@ -283,11 +342,7 @@ export default {
 					setQuery[facet].splice(setQuery[facet].indexOf(option),1);
 				}
 			} else {
-                if (facet == 'existence_years') {
-                    this.selectedFacets = this.selectedFacets.filter(object => !(object.category === facet));
-                    delete setQuery[facet];
-                }
-				this.selectedFacets.push({'category': facet, 'display_name': option});
+				this.selectedFacets.push({'category': facet, 'key': option});
 				if (setQuery[facet])  {
 					if (!Array.isArray(setQuery[facet])) {
 						setQuery[facet] = [setQuery[facet]];
@@ -301,19 +356,41 @@ export default {
 			this.$router.replace({ query: {} });
 			this.$router.push({query: setQuery});
 
-			await this.fetchAuthorityEntities({'pages': this.pageNum, 'selectedFacets': JSON.parse(JSON.stringify(this.selectedFacets)), 'letter': this.activeLetter}); 
+			await this.fetchAuthorityEntities({'pages': this.pageNum, 
+												'existence_years': JSON.parse(JSON.stringify(this.existenceYears)), 
+												'selectedFacets': JSON.parse(JSON.stringify(this.selectedFacets)), 
+												'letter': this.activeLetter}); 
+			this.loadingRecords = false;
 		},
-		toggleFilters() {
-			const filters = document.querySelector('.filters');
-			filters.classList.toggle('active');
+
+		async clearFacets() {
+			this.loadingRecords = true;
+			
+			this.pageNum = 1;
+			this.activeLetter = '';
+			this.selectedFacets = [];
+			this.existenceYears = [0,0];
+
+			// change dynamic toggles to static values and update year range sliders
+			this.minExistenceRange = this.existenceSlider.min;
+      		this.maxExistenceRange = this.existenceSlider.max;
+            this.updateExistenceSlider(this.existenceSlider.min, this.existenceSlider.max);
+            
+			this.$router.replace({ query: {} });
+			await this.fetchAuthorityEntities({'pages': this.pageNum, 
+												'existence_years': JSON.parse(JSON.stringify(this.existenceYears)), 
+												'selectedFacets': JSON.parse(JSON.stringify(this.selectedFacets)),
+												'letter': this.activeLetter});
+			this.loadingRecords = false;
 		},
+
 		async moreRecords() {
 			this.loadingMoreRecords = true;
 
-			this.pageNum = this.pageNum + 1;
+			this.pageNum = Number(this.pageNum) + 1;
 
 			const setQuery = this.$route.query;
-			setQuery['page'] = this.pageNum;
+			setQuery['page'] = Number(this.pageNum);
 			this.$router.replace({ query: {} });
 			this.$router.push({query: setQuery});
 
@@ -321,8 +398,21 @@ export default {
 
 			this.loadingMoreRecords = false;
 		},
+		toggleFilters() {
+			const filters = document.querySelector('.filters');
+			filters.classList.toggle('active');
+		},
 		...mapActions(['fetchAuthorityEntities','loadMoreAuthorityEntities'])
-    },
+	},
+	filters: {
+		capitalize: function (value) {
+			if (!value) {
+				return '';
+			}
+			value = value.toString();
+			return value.charAt(0).toUpperCase() + value.slice(1);
+		}
+	},
 	async created() {
 		// process query from URL and update selectedFacets and year range
 		const setQuery = this.$route.query;
@@ -334,27 +424,35 @@ export default {
 				case 'page':
 					this.pageNum = Number(setQuery[key]);
 					break;
+				case 'existence_years':
+					// init selected filters
+					this.existenceYears[0] = Number(setQuery[key].split('-')[0]);
+					this.existenceYears[1] = Number(setQuery[key].split('-')[1]);
+
+					// init dynamic year range values
+					this.minExistenceRange = Number(setQuery[key].split('-')[0]);
+					this.maxExistenceRange = Number(setQuery[key].split('-')[1]);
+					break;
 				default:
-                    if (key == 'existence_years') {
-                        this.minExistenceRange = setQuery[key].split('-')[0];
-                        this.maxExistenceRange = setQuery[key].split('-')[1];
-                    }
 					if (Array.isArray(setQuery[key])) {
 						for (var i in setQuery[key]) {
-						this.selectedFacets.push({'category': key, 'display_name': setQuery[key][i]});
+						this.selectedFacets.push({'category': key, 'key': setQuery[key][i]});
 						}
 					} else {
-						this.selectedFacets.push({'category': key, 'display_name': setQuery[key]});
+						this.selectedFacets.push({'category': key, 'key': setQuery[key]});
 					}
 			}
 		}
 
 		// get archival records
-		await this.fetchAuthorityEntities({'pages': this.pageNum, 'selectedFacets': JSON.parse(JSON.stringify(this.selectedFacets)), 'letter': this.activeLetter});
+		await this.fetchAuthorityEntities({'pages': this.pageNum, 
+											'existence_years': JSON.parse(JSON.stringify(this.existenceYears)), 
+											'selectedFacets': JSON.parse(JSON.stringify(this.selectedFacets)), 
+											'letter': this.activeLetter});
 
 		// set up the year range filter if existence years is sent in response
-		if (this.getEntityFacets.existence_years && this.getEntityFacets.existence_years.min_default > 0 && this.getEntityFacets.existence_years.max_default > 0) {
-			this.initYearRange(this.getEntityFacets.existence_years.min_default, this.getEntityFacets.existence_years.max_default);
+		if (this.getEntityFacets.existence_years && this.getEntityFacets.existence_years[0] > 0 && this.getEntityFacets.existence_years[1] > 0) {
+			this.initExistenceYearRange(this.getEntityFacets.existence_years[0], this.getEntityFacets.existence_years[1]);
 		}
 
 		this.loadingRecords = false;

@@ -43,8 +43,6 @@ export default {
 	},
 	async created() {
 		await this.fetchHomeStats();
-	},
-	mounted() {
 	}
 }
 </script>

@@ -21,8 +21,8 @@ export default {
   methods: {
 		...mapActions(['fetchPage'])
 	},
-	created() {
-		this.fetchPage();
+	async created() {
+		await this.fetchPage();
 	}
 }
 </script>

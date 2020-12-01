@@ -14,7 +14,7 @@ const getters = {
 
 const actions = {
     async fetchHomeStats({ commit }) {
-        // TODO: get stats from the backend
+        // medium priority TODO: get stats from the backend
         const response = {
             data: {
                 stats: [
@@ -39,14 +39,15 @@ const actions = {
         commit('setHomeStats', response.data.stats);
     },
     async fetchTimelineGroups({ commit }) {
-        // TODO: fetch timeline groups from the backend
+        // high priority TODO: fetch timeline groups from the backend
+        // You can ignore timeline group descriptions for now
         const response = {
             data: {
                 timelineGroups: [
                     {
                         id: 1,
                         title: 'Early Georgians',
-                        url: 'early-georgians',
+                        url_slug: 'early-georgians',
                         description: 'Collections related to George I, George II and their families',
                         collections: [
                             {id: 11, title: 'George II [collection]'},
@@ -65,7 +66,7 @@ const actions = {
                     },
                     {
                         id: 2,
-                        url: 'george-III-queen-charlotte-and-their-family',
+                        url_slug: 'george-III-queen-charlotte-and-their-family',
                         title: 'George III, Queen Charlotte and their family',
                         description: 'Introductions to published collections of George III, his Queen consort and their children',
                         collections: [
@@ -107,7 +108,7 @@ const actions = {
                     {
                         id: 3,
                         title: 'George III siblings',
-                        url: 'george-III-siblings',
+                        url_slug: 'george-III-siblings',
                         description: 'Papers of the brothers of George III',
                         collections: [
                         ],
@@ -131,7 +132,7 @@ const actions = {
                     {
                         id: 4,
                         title: 'George IV and Princess Charlotte of Wales',
-                        url: 'george-IV-and-princess-charlotte-of-wales',
+                        url_slug: 'george-IV-and-princess-charlotte-of-wales',
                         description: 'Introductions to his papers and financial records as Prince, Regent and King, as well as those of his only daughter',
                         collections: [
                         ],
@@ -145,7 +146,7 @@ const actions = {
                     {
                         id: 5,
                         title: 'William IV',
-                        url: 'william-iv',
+                        url_slug: 'william-iv',
                         description: 'Correspondence of the seafaring Prince and King',
                         collections: [
                             {id: 51, title: 'Letters from and to William IV and Queen Adelaide and papers concerning them'},

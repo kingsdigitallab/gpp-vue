@@ -1,9 +1,7 @@
 <template>
-	<main class="arch-records">
-		<div class="container">
-            <the-breadcrumbs :breadcrumbs="breadcrumbs" />
-			<entity-single />
-		</div>
+	<main class="arch-records container">
+		<the-breadcrumbs :breadcrumbs="breadcrumbs" />
+		<entity-single />
 	</main>
 </template>
 

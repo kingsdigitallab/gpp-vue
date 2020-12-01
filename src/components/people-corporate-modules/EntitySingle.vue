@@ -213,11 +213,7 @@ export default {
 		},
 		...mapActions(['fetchAuthority'])
 	},
-	created() {
-		this.loading = true;
-		// fetchIdentity?
-	},
-	async mounted() {
+	async created() {
 		await this.fetchAuthority(this.$route.params.id);
 		this.loading = false;
 		this.identity = this.getAuthority.identities[0];

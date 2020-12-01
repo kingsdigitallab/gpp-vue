@@ -6,8 +6,9 @@ body {
 h1 {
 	font-family: $font-secondary;
 	font-size: 1.8em;
-	color: $red-primary;
+	color: $primary;
 	font-weight: 300;
+	line-height: 1.4em;
 	&.page-title {
 		margin-top: 1em;
 	}
@@ -45,10 +46,6 @@ p {
 	font-weight: 600;
 }
 
-.red-highlight {
-	color: $red-primary;
-}
-
 input {
 	font-family: $font-primary;
 	font-size: 1em;
@@ -73,10 +70,7 @@ input {
 }
 
 @media only screen and (max-width: 800px) {
-	h1 {
-		font-size: 1.3em;
-	}
-	h2 {
+	h1, h2 {
 		font-size: 1.3em;
 	}
 	h3 {

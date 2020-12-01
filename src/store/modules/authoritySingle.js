@@ -15,8 +15,8 @@ const actions = {
             TODO: Please use the following structure of the response
             NB: in the response_placeholder below, I have structured description as a single object as it should be, 
             because only one description is allowed; 
-            if you comment out response above and change response_placeholder to response, you will get an error, 
-            because the Vue template is currently relying on an *array* of descriptions and not on a *single object*, 
+            if you test the response below, you will get an error, 
+            because the Vue template is currently relying on a *list* of descriptions and not on a *single object*, 
             but I will update the Vue template, once the response from the django backend is updated to send a *single object*.
         */ 
         const response_placeholder = {

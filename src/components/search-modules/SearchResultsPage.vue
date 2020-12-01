@@ -126,7 +126,7 @@
                                     {{selectedFacet.display_name}}
                                 </template>
                             </label>
-                            <button class="button-link clear dotted-underline"  v-on:click="clearFacets">Clear all filters</button>
+                            <button class="clear-filters"  v-on:click="clearFacets">Clear all filters</button>
                         </fieldset>
                         <div class="flex">
                             <div class="letterIndex">
@@ -134,7 +134,7 @@
                                 <button v-bind:class="['button-link', {'active': activeLetter == ''}]" v-on:click="filterByLetter('')">All</button>
                                 <button v-for="(letter, i) in getLetterIndex" v-bind:key="i" v-bind:class="['button-link', {'active': activeLetter == letter.name}, {'disabled': letter.missing}]" :aria-hidden="letter.missing" :disabled="letter.missing" v-on:click="filterByLetter(letter.name)">{{letter.name}}</button>
                             </div>
-                            <button class="button-default filter display-mobile" v-on:click="toggleFilters" aria-label="filter objects"><span hidden>Filter</span></button>
+                            <button class="button-primary filter display-mobile" v-on:click="toggleFilters" aria-label="filter objects"><span hidden>Filter</span></button>
                         </div>
                         <div class="list grey-column">
                             <div class="list-header">
@@ -159,7 +159,7 @@
                             </div>
                             <div v-if="loadingMoreRecords" class="loader"></div>
                             <template v-else>
-                                <button type="button" v-if="getSearchResults.length != 0 && getSearchResults.length < getTotalSearchResults" class="button-default large" v-on:click="moreRecords()">
+                                <button type="button" v-if="getSearchResults.length != 0 && getSearchResults.length < getTotalSearchResults" class="button-primary" v-on:click="moreRecords()">
                                     Show more results
                                 </button>
                             </template>

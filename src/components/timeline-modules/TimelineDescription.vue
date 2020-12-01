@@ -2,7 +2,7 @@
   <div class="timeline-description">
 		<div class="container">
 			<h1>{{getTimelineGroupDescription.title}}</h1>
-            <p>{{getTimelineGroupDescription.description}}</p>
+      <p>{{getTimelineGroupDescription.description}}</p>
 		</div>
   </div>
 </template>

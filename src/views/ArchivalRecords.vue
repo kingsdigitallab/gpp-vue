@@ -1,10 +1,8 @@
 <template>
-	<main class="records">
-		<div class="container">
-			<h1 class="page-title">{{getArchivalRecordsPageTitle}}</h1>
-			<p>{{getArchivalRecordsPageDescription}}</p>
-			<archive-list></archive-list>
-		</div>
+	<main class="records container">
+		<h1 class="page-title">{{getArchivalRecordsPageTitle}}</h1>
+		<p>{{getArchivalRecordsPageDescription}}</p>
+		<archive-list></archive-list>
 	</main>
 </template>
 

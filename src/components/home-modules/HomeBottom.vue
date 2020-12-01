@@ -10,7 +10,7 @@
 					<p>Hierarchically organised, our archival records include: diaries, writings, maps, correspondence, wills, commonplace books, financial records, and more!</p>
 				</div>
 				<div class="card-button">
-					<router-link to="/archival-records" class="link-button-default large">See all archival records <span class="arrow"></span></router-link>
+					<router-link to="/archival-records" class="link-button-primary large">See all archival records <span class="arrow"></span></router-link>
 				</div>
 			</div>
 			<div class="card">
@@ -22,7 +22,7 @@
 					<p>Our database contains information about over 1,500 people and corporate bodies from the Georgian era.</p>
 				</div>
 				<div class="card-button">
-					<router-link to="/people-and-corporate-bodies" class="link-button-default large">See all people &amp; corporate bodies <span class="arrow"></span></router-link>
+					<router-link to="/people-and-corporate-bodies" class="link-button-primary large">See all people &amp; corporate bodies <span class="arrow"></span></router-link>
 				</div>
 			</div>
 		</div>

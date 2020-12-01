@@ -1,10 +1,8 @@
 <template>
-	<main class="records">
-		<div class="container">
-			<h1 class="page-title">{{getAuthorityEntitiesPageTitle}}</h1>
-			<p>{{getAuthorityEntitiesPageDescription}}</p>
-			<entity-list></entity-list>
-		</div>
+	<main class="records container">
+		<h1 class="page-title">{{getAuthorityEntitiesPageTitle}}</h1>
+		<p>{{getAuthorityEntitiesPageDescription}}</p>
+		<entity-list></entity-list>
 	</main>
 </template>
 

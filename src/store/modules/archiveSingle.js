@@ -30,9 +30,9 @@ const actions = {
                             title: “DEBUDE”
                         }
                     ],
-                    creation_dates: “archive_creation_dates”,
-                    archival_level: “archive_archival_level”,
-                    extent: “archive_extent”, 
+                    creation_dates: “”,
+                    archival_level: “”,
+                    extent: “”, 
                     languages: [“English”, “French”],
                     administrative_history: “”,
                     related: {
@@ -60,9 +60,9 @@ const actions = {
                     },
                     provenance: "",
                     origin_location: [“”, “”],
-                    arrangement: “archive_arrangement”,
-                    notes: “archive_notes”,
-                    rights_declaration: “archive_rights_declaration”
+                    arrangement: “”,
+                    notes: “”,
+                    rights_declaration: “”
                 },
                 timelineGroup: ... [see below],
                 hierarchy: ... [see below]
@@ -270,7 +270,6 @@ const actions = {
         });
         response.data['media'] = images;
 
-        // TODO: change to  commit('setArchive', response.data.archive);
         commit('setArchive', response.data);
         commit('setTranscriptions', response_transcriptions.data.transcriptions);
     }

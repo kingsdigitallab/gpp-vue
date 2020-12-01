@@ -26,8 +26,8 @@
                     }
                     &:hover, &:focus {
                         &:after {
-                            border: 3px solid $red-primary;
-                            background-color: $red-primary;
+                            border: 3px solid $primary;
+                            background-color: $primary;
                         }
                     }
                 }
@@ -35,8 +35,8 @@
                     a {
                         color: black;
                         &:after {
-                            border: 3px solid $red-primary;
-                            background-color: $red-primary;
+                            border: 3px solid $primary;
+                            background-color: $primary;
                         }
                     }
                     
@@ -64,13 +64,16 @@
                         padding: 0.75em 2em;
                         text-align: left;
                         background-color: transparent;
+                        span {
+                            color: $primary;
+                        }
                         &:hover, &:focus {
                             background-color: lighten($grey-light, 30%);
                         }
                         &.active {
-                            background-color: $red-primary;
+                            background-color: $primary;
                             color: white;
-                            .red-highlight {
+                            span {
                                 color: white;
                             }
                         }

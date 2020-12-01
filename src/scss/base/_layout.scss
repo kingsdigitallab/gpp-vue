@@ -1,5 +1,5 @@
 body {
-	line-height: 1.35;
+	line-height: 1.35em;
 	padding: 0;
 	margin: 0;
 	min-height: 100vh;
@@ -10,30 +10,18 @@ body {
 	.mgn-right {
 		margin-right: 0.5em !important;
 	}
-	.expand-transition {
-		transition: all 0.5s ease;
-	  }
-	  /* .expand-enter defines the starting state for entering */
-	  /* .expand-leave defines the ending state for leaving */
-	  .expand-enter, .expand-leave {
-		height: 0;
-		opacity: 0;
-	  }
 	main {
 		min-height: 60vh;
+		padding-top: 6em;
 		.display-mobile {
 			display: none;
 		}
-		padding-top: 6em;
 	}
 	.container {
 		width: 90%;
 		max-width: 1600px;
 		margin: 0 auto;
 		box-sizing: border-box;
-		.slick-list {
-			z-index: 7;
-		}
 	}
 	.flex {
 		display: flex;
@@ -42,6 +30,7 @@ body {
 	div[class^="two-column"] {
 		display: grid;
 		column-gap: 6em;
+		row-gap: 3em;
 		align-items: flex-start;
 	}
 	.two-column-50-50 {
@@ -55,12 +44,10 @@ body {
 		grid-template-columns: 0.6fr 1fr;
 	}
 	.two-column-20-80 {
-		display: grid;
 		grid-template-columns: 0.27fr 1fr;
 		column-gap: 4em;
 	}
 	.two-column-70-30 {
-		display: grid;
 		grid-template-columns: 1fr 0.5fr;
 		column-gap: 4em;
 	}
@@ -101,7 +88,7 @@ body {
 	}
 	.inline-list {
 		margin-top: 2em;
-		border-bottom: 3px solid $red-primary;
+		border-bottom: 3px solid $primary;
 		display: flex;
 		align-items: center;
 		.inline-tabs {
@@ -117,11 +104,11 @@ body {
 				}
 				&:hover, &:focus {
 					background-color: $grey-background-dark;
-					color: $red-primary;
+					color: $primary;
 	
 				}
 				&.active {
-					background-color: $red-primary;
+					background-color: $primary;
 					color: white;
 				}
 			}
@@ -180,7 +167,7 @@ body {
 				}
 				.browsed-item {
 					background-color: $grey-background-dark;
-					border-left: 5px solid $red-primary;
+					border-left: 5px solid $primary;
 					border-top-left-radius: 0.2em;
 					border-bottom-left-radius: 0.2em;
 					padding: 2px 8px 0px 8px;
@@ -200,7 +187,7 @@ body {
 						color: $grey-primary;
 					}
 					&.active {
-						background-color: $red-primary;
+						background-color: $primary;
 						&:after{
 							font-family: $fontawesome;
 							content: "\f077";
@@ -269,23 +256,12 @@ body {
 		}
 	}
 
-	.loader {
-		border: 5px solid $grey-background-dark;
-		border-radius: 50%;
-		border-top: 5px solid $red-primary;
-		width: 3em;
-		height: 3em;
-		animation: spin 1.5s linear infinite;
-		margin: 0 auto;
-	}
-
 	input,
 	select,
 	textarea {
 		margin: 0;
 		border: 1px solid $grey-light;
 		background: white;
-		// border-radius: 0.2em;
 		&:hover, &:focus {
 			outline: none;
 		}
@@ -297,6 +273,16 @@ body {
 
 	input[type=checkbox] {
 		margin-right: 0.5em;
+	}
+	
+	.loader {
+		border: 5px solid $grey-background-dark;
+		border-radius: 50%;
+		border-top: 5px solid $primary;
+		width: 3em;
+		height: 3em;
+		animation: spin 1.5s linear infinite;
+		margin: 0 auto;
 	}
 }
 

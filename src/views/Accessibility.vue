@@ -1,11 +1,8 @@
 <template>
-  <section class="about" aria-label="about">
-    <div class="container">
-      <the-breadcrumbs :breadcrumbs="getBreadcrumbs" />
+  <main class="secondary container">
       <h1 class="page-title">{{getAccessibilityPage.title}}</h1>
-      <section class="rte" v-html="getAccessibilityPage.body" aria-label="description"></section>
-    </div>
-  </section>
+      <section v-html="getAccessibilityPage.body" aria-label="description"></section>
+  </main>
 
 </template>
 
@@ -34,8 +31,8 @@ export default {
   methods: {
 		...mapActions(['fetchAccessibilityPage'])
 	},
-	created() {
-		this.fetchAccessibilityPage();
+	async created() {
+		await this.fetchAccessibilityPage();
 	}
 }
 </script>

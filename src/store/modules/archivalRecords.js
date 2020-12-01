@@ -32,27 +32,23 @@ const actions = {
         commit('setPageDescription', response.data.pageDescription);
     },
     async fetchArchivalRecords({ commit }, params) {
-        console.log('fetch archival records with params: ', params);
         /*
             TODO: 
             /archival/records is currently returning too much data that we don't actually need on the Archival records page
             Please use the following structure of the response:
             data: {
-                count: [total number of records that can be returned with the specified params, e.g., 87],
                 results: [
                     {
                         id: 0,
                         title: “archival_record_title”,
                         archival_level: “archival_record_archival_level”,
-                        creators: [
-                            {
-                                id: 0,
-                                display_name: “writer_display_name”
-                            }
-                        ],
+                        creators: ["",""],
                         creation_dates: “archival_record_creation_dates”
                     }
                 ],
+                count: [see in the response_placeholder below],
+                next: ...,
+                previous: ...,
                 letterIndex: ...,
                 facets: ...
             }
@@ -62,6 +58,10 @@ const actions = {
         const response_placeholder = {
             data: {
                 count: 2994,
+                // previous and null are copied from ShaRC response
+                next:"http://localhost:8000/api/documents/?format=json&page=2",
+                previous:null,
+
                 letterIndex: [
                     { 
                         name: 'A',
@@ -173,62 +173,59 @@ const actions = {
                     }
                 ],
                 facets: {
-                    creation_years: {
-                        min_default: 1700,
-                        max_default: 2020
-                    },
+                    creation_years: [1700, 2020],
                     archival_level: [
-                        {display_name: "Collection", count: 19},
-                        {display_name: "Series", count: 84},
-                        {display_name: "File", count: 349},
-                        {display_name: "Item", count: 452},
+                        {key: "Collection", doc_count: 19},
+                        {key: "Series", doc_count: 84},
+                        {key: "File", doc_count: 349},
+                        {key: "Item", doc_count: 452},
                     ],
                     record_types: [
-                        {display_name: "Writings (documents)", count: 5},
-                        {display_name: "Correspondence", count: 4},
-                        {display_name: "Diaries", count: 2},
-                        {display_name: "Financial records", count: 9},
-                        {display_name: "Legal documents", count: 2},
-                        {display_name: "Registers (lists)", count: 2},
-                        {display_name: "Wills", count: 5},
-                        {display_name: "Commonplace books", count: 1},
+                        {key: "Writings (documents)", doc_count: 5},
+                        {key: "Correspondence", doc_count: 4},
+                        {key: "Diaries", doc_count: 2},
+                        {key: "Financial records", doc_count: 9},
+                        {key: "Legal documents", doc_count: 2},
+                        {key: "Registers (lists)", doc_count: 2},
+                        {key: "Wills", doc_count: 5},
+                        {key: "Commonplace books", doc_count: 1},
                     ],
                     creators: [
-                        {display_name: "George III, 1738-1820, King of Great Britain and Ireland", count: 541},
-                        {display_name: "Grafton, 3rd Duke of", count: 81},
-                        {display_name: "North, Frederick, Lord", count: 75},
-                        {display_name: "William, Prince (1765-1837)", count: 69},
-                        {display_name: "Conway, Henry Seymour (1721-1795)", count: 41},
-                        {display_name: "Rockingham, 2nd Marquess of", count: 38},
-                        {display_name: "Charlotte, Queen Consort to George III", count: 37},
-                        {display_name: "Baillie, Matthew (1761-1823)", count: 34},
-                        {display_name: "Chatham, 1st Earl of", count: 26},
-                        {display_name: "Rochford, 4th Earl of", count: 24},
-                        {display_name: "Basnett, William", count: 19},
-                        {display_name: "Parker and Perry; Glass Manufacturers", count: 18},
+                        {key: "George III, 1738-1820, King of Great Britain and Ireland", doc_count: 541},
+                        {key: "Grafton, 3rd Duke of", doc_count: 81},
+                        {key: "North, Frederick, Lord", doc_count: 75},
+                        {key: "William, Prince (1765-1837)", doc_count: 69},
+                        {key: "Conway, Henry Seymour (1721-1795)", doc_count: 41},
+                        {key: "Rockingham, 2nd Marquess of", doc_count: 38},
+                        {key: "Charlotte, Queen Consort to George III", doc_count: 37},
+                        {key: "Baillie, Matthew (1761-1823)", doc_count: 34},
+                        {key: "Chatham, 1st Earl of", doc_count: 26},
+                        {key: "Rochford, 4th Earl of", doc_count: 24},
+                        {key: "Basnett, William", doc_count: 19},
+                        {key: "Parker and Perry; Glass Manufacturers", doc_count: 18},
                     ],
                     persons_as_relations: [
-                        {display_name: "George III, 1738-1820, King of Great Britain and Ireland", count: 541},
-                        {display_name: "Grafton, 3rd Duke of", count: 81},
-                        {display_name: "North, Frederick, Lord", count: 75},
-                        {display_name: "William, Prince (1765-1837)", count: 69},
-                        {display_name: "Conway, Henry Seymour (1721-1795)", count: 41},
-                        {display_name: "Rockingham, 2nd Marquess of", count: 38},
-                        {display_name: "Charlotte, Queen Consort to George III", count: 37},
-                        {display_name: "Baillie, Matthew (1761-1823)", count: 34},
-                        {display_name: "Chatham, 1st Earl of", count: 26},
-                        {display_name: "Rochford, 4th Earl of", count: 24},
-                        {display_name: "Basnett, William", count: 19},
-                        {display_name: "Parker and Perry; Glass Manufacturers", count: 18}
+                        {key: "George III, 1738-1820, King of Great Britain and Ireland", doc_count: 541},
+                        {key: "Grafton, 3rd Duke of", doc_count: 81},
+                        {key: "North, Frederick, Lord", doc_count: 75},
+                        {key: "William, Prince (1765-1837)", doc_count: 69},
+                        {key: "Conway, Henry Seymour (1721-1795)", doc_count: 41},
+                        {key: "Rockingham, 2nd Marquess of", doc_count: 38},
+                        {key: "Charlotte, Queen Consort to George III", doc_count: 37},
+                        {key: "Baillie, Matthew (1761-1823)", doc_count: 34},
+                        {key: "Chatham, 1st Earl of", doc_count: 26},
+                        {key: "Rochford, 4th Earl of", doc_count: 24},
+                        {key: "Basnett, William", doc_count: 19},
+                        {key: "Parker and Perry; Glass Manufacturers", doc_count: 18}
                     ],
                     languages: [
-                        {display_name: "English", count: 2463},
-                        {display_name: "French", count: 124},
-                        {display_name: "German", count: 33},
-                        {display_name: "Italian", count: 8},
-                        {display_name: "Latin", count: 6}
+                        {key: "English", doc_count: 2463},
+                        {key: "French", doc_count: 124},
+                        {key: "German", doc_count: 33},
+                        {key: "Italian", doc_count: 8},
+                        {key: "Latin", doc_count: 6}
                     ],
-                    with_transcriptions: {display_name: 'Show only records with transcriptions',count: 10},
+                    with_transcriptions: {key: 'Show only records with transcriptions',doc_count: 10},
                 }
             }
         };

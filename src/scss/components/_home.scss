@@ -3,7 +3,7 @@
 	background-repeat: no-repeat;
 	padding: 11em 0em 3em 0em;
 	h2 {
-		color: $red-primary;
+		color: $primary;
 	}
 	.home-top {
 		padding-bottom: 10em;
@@ -23,7 +23,7 @@
 				.home-stats-num {
 					font-family: $font-secondary;
 					font-size: 1.6em;
-					color: $red-primary;
+					color: $primary;
 					margin-bottom: 0.2em;
 				}
 			}
@@ -35,7 +35,7 @@
 				width: 100%;
 				position: relative;
 				box-shadow: 1px 1px 2px lighten($grey-light, 10%);
-				// border-bottom: 2px solid $red-primary;
+				// border-bottom: 2px solid $primary;
 				margin-bottom: 0.5em;
 				input[type=search] {
 					width: 100%;
@@ -48,7 +48,7 @@
 					right: 0;
 					top: 0;
 					border: 0;
-					color: $red-dark;
+					color: $primary-dark;
 					font-family: $fontawesome;
 					font-weight: 600;
 					font-size: 18px;
@@ -70,15 +70,15 @@
 		.timeline-group {
 			padding: 2em 0em 3em 3em;
 			margin-left: 10px;
-			border-left: 2px dashed $red-primary;
+			border-left: 2px dashed $primary;
 			position: relative;
 			h2 {
 				margin-bottom: 0.5em;
-				color: $red-primary;
+				color: $primary;
 				&:hover, &:focus{
 					a:before {
-						background-color: $red-dark;
-						border: 3px solid $red-dark;
+						background-color: $primary-dark;
+						border: 3px solid $primary-dark;
 					}
 				}
 				a:before {
@@ -89,7 +89,7 @@
 					width: 13px;
 					height: 13px;
 					position: absolute;
-					top: 2.45em;
+					top: 2.1em;
 					left: -11px;
 					transition: 0.2s ease;
 				}

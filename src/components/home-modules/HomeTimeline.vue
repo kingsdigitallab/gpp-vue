@@ -2,11 +2,11 @@
 	<div class="home-timeline container">
 		<div v-for="(group, i) in getTimelineGroups" v-bind:key="i" class="timeline-group">
 			<h2>
-				<router-link :to="{name:'timeline', params: {subpage: group.url}}">{{group.title}} <span class="arrow"></span></router-link>
+				<router-link :to="{name:'timeline', params: {subpage: group.url_slug}}">{{group.title}} <span class="arrow"></span></router-link>
 			</h2>
 			<p>{{group.description}}</p>
 			<div class="featured-collections-series mobile-none">
-				<router-link :to="{name: 'collections-series', params: {id: collection.id}}" class="link-button-default small" v-for="(collection, i) in group.collections" v-bind:key="i">{{collection.title}}</router-link>
+				<router-link :to="{name: 'collections-series', params: {id: collection.id}}" class="link-button-primary small" v-for="(collection, i) in group.collections" v-bind:key="i">{{collection.title}}</router-link>
 			</div>
 			<div class="featured-files-items mobile-none" v-if="group.featuredRecords.length">
 				<h3>Featured files and items</h3>

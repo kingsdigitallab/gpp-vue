@@ -1,4 +1,4 @@
-.header {
+header {
 	padding: 1em 0em;
 	width: 100%;
 	box-sizing: border-box;
@@ -22,7 +22,7 @@
 				width: 200px;
 			}
 			&:focus, &:hover {
-				background-color: $red-dark;
+				background-color: $primary-dark;
 			}
 		}
 		.header__nav, .header__search {
@@ -41,15 +41,16 @@
 						text-decoration: none;
 						border-bottom: 0;
 						color: $grey-primary;
-						font-family: $font-secondary;
 						font-size: 1.2em;
+						
+						font-family: $font-secondary;
 						&.router-link-exact-active, &.router-link-active {
-							color: $red-dark;
-							border-bottom: 1px solid $red-dark;
+							color: $primary-dark;
+							border-bottom: 1px solid $primary-dark;
 						}
 						&:hover, &:focus {
-							color: $red-dark;
-							border-bottom: 1px solid $red-dark;
+							color: $primary-dark;
+							border-bottom: 1px solid $primary-dark;
 						}
 					}
 				}
@@ -59,6 +60,7 @@
 			}
 		}
 		.header__search {
+			line-height: 1.35;
 			position: relative;
 			.search-label:before, .search-button {
 			  font-family: $fontawesome;
@@ -73,7 +75,7 @@
 			  cursor: pointer;
 			  &:before {
 				content: '\f002';
-				color: $red-primary;
+				color: $primary;
 			  }
 			}
 			.search-field {
@@ -98,7 +100,7 @@
 					top: 0;
 					background: none;
 					border: 0;
-					color: $red-primary;
+					color: $primary;
 					z-index: 11;
 					display: none;
 					padding: 0.43em;
@@ -128,7 +130,7 @@
 					visibility: visible;
 					background-color: $grey-background-dark;
 					box-shadow: 1px 1px 2px lighten($grey-light, 10%);
-					// border-bottom: 2px solid $red-primary;
+					// border-bottom: 2px solid $primary;
 					padding: 0.7em 2.5em 0.7em 2.3em;
 					.search-button {
 						display: inline-block;
@@ -145,7 +147,7 @@
 			div {
 				width: 25px;
 				height: 3px;
-				background-color: $red-dark;
+				background-color: $primary-dark;
 				margin: 5px;
 				transition: all 0.3s ease;
 			}
@@ -180,7 +182,7 @@
 }
 
 @media only screen and (max-width: 1200px) {
-	.header {
+	header {
 		.container {
 			.header__nav {
 				.header__nav-list {
@@ -201,7 +203,7 @@
 }
 
 @media only screen and (max-width: 1050px) {
-	.header {
+	header {
 		padding: 0.5em 0em;
 		.container {
 			.header__logo {
@@ -215,7 +217,7 @@
 				right: 0px;
 				top: 69px;
 				min-width: 200px;
-				background-color: $red-dark;
+				background-color: $primary-dark;
 				transform: translateX(100%);
 				transition: transform 0.4s ease-in;
 				padding-top: 20px;
@@ -254,7 +256,7 @@
 }
 
 @media only screen and (max-width: 780px) {
-	.header {
+	header {
 		.container {
 			grid-template-columns: auto 1fr 40px;
 			column-gap: 2em;

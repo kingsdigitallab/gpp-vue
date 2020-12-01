@@ -22,27 +22,27 @@ const actions = {
                 timelineGroupTitles: [
                     {
                         id: 1,
-                        path: 'early-georgians',
+                        url_slug: 'early-georgians',
                         title: 'Early Georgians'
                     },
                     {
                         id: 2,
-                        path: 'george-III-queen-charlotte-and-their-family',
+                        url_slug: 'george-III-queen-charlotte-and-their-family',
                         title: 'George III, Queen Charlotte and their family'
                     },
                     {
                         id: 3,
-                        path: 'george-III-siblings',
+                        url_slug: 'george-III-siblings',
                         title: 'George III siblings'
                     },
                     {
                         id: 4,
-                        path: 'george-IV-and-princess-charlotte-of-wales',
+                        url_slug: 'george-IV-and-princess-charlotte-of-wales',
                         title: 'George IV and Princess Charlotte of Wales'
                     },
                     {
                         id: 5,
-                        path: 'william-iv',
+                        url_slug: 'william-iv',
                         title: 'William IV'
                     }
                 ]
@@ -51,7 +51,7 @@ const actions = {
         commit('setTimelineGroupTitles', response.data.timelineGroupTitles);
     },
     async fetchTimelineGroupDescription({ commit }, timelineGroup_path) {
-        // TODO fetch timelineGroup by path (see paths on line 21)
+        // low priority - TODO fetch timelineGroup by path (see all paths on line 21)
         const response = {
             data: {
                 timelineGroupDescription: {
@@ -65,7 +65,7 @@ const actions = {
         commit('setTimelineGroupDescription', response.data.timelineGroupDescription);
     },  
     async fetchTimelineGroup({ commit }, timelineGroup_path) {
-        // TODO fetch timelineGroup by path (see paths on line 21)
+        // high priority - TODO fetch timelineGroup by path (see all paths on line 21)
         const response = {
             data: {
                 timelineGroup: {
@@ -148,8 +148,9 @@ const actions = {
         commit('setTimelineGroup', response.data.timelineGroup);
     },
     async fetchHierarchy({ commit }, collection_id) {
+        // high priority TODO fetch the timeline hierarchy by the collection id
         // OL: I don't know how current collections are stored and if there is such a thing as a collection_id,
-        // if not, please let me know and I will update the fetch function accordingly
+        // if not, please let me know how the response is structured so that I could update Vue templates.
         const response = {
             data: {
                 hierarchy: {

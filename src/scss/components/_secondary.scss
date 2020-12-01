@@ -1,0 +1,11 @@
+.secondary {
+    p, ul {
+        font-size: 1.1em;
+    }
+    ul {
+        margin-left: 1em;
+        li {
+            list-style: unset;
+        }
+    }
+}
