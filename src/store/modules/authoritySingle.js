@@ -16,7 +16,7 @@ const actions = {
             NB: in the response_placeholder below, I have structured description as a single object as it should be, 
             because only one description is allowed; 
             if you test the response below, you will get an error, 
-            because the Vue template is currently relying on a *list* of descriptions and not on a *single object*, 
+            because the Vue template is currently relying on a *list* of descriptions sent from the response above and not on a *single object* as expected, 
             but I will update the Vue template, once the response from the django backend is updated to send a *single object*.
         */ 
         const response_placeholder = {
@@ -117,24 +117,24 @@ const actions = {
                         "related_records": 
                         [
                             {
-                                "id": 1,
+                                "pk": 1,
                                 "title": "record11",
                                 "related_as": "related_as11"
                             },
                             {
-                                "id": 2,
+                                "pk": 2,
                                 "title": "title12",
                                 "related_as": "related_as12"
                             }	
                         ],
                         "related_entities": [
                             {
-                                "id": 1,
+                                "pk": 1,
                                 "title": "title11",
                                 "related_as": "related_as11"
                             },
                             {
-                                "id": 2,
+                                "pk": 2,
                                 "title": "title12",
                                 "related_as": "related_as12"
                             }	
@@ -213,12 +213,12 @@ const actions = {
                         "related_records": 
                         [
                             {
-                                "id": 1,
+                                "pk": 1,
                                 "title": "record21",
                                 "related_as": "related_as21"
                             },
                             {
-                                "id": 2,
+                                "pk": 2,
                                 "title": "title22",
                                 "related_as": "related_as22"
                             }	

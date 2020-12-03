@@ -1,43 +1,83 @@
 import Api from '../../services/Api';
 
 const state = {
-    authority: {}
+    results: [],
+    resultsTotal: 0,
+    loadMoreResultsUrl: ''
 };
 
 const getters = {
-    getFacets: (state) => state.facets,
     getSearchResults: (state) => state.results,
-    getLetterIndex: (state) => state.letterIndex,
-    getTotalSearchResults: (state) => state.total
+    getSearchResultsTotal: (state) => state.resultsTotal,
+    getFacets: (state) => state.facets,
+    getLetterIndex: (state) => state.letterIndex
 };
 
 const actions = {
     async fetchSearchResults({ commit }, params) {
-        // filter is either:
-        //  'all' (search all over the website without returning filters), 
-        // 'entities' (search all over entities and return filters relevant to entities) 
-        // and 'archival_records' (search all over archival records and return filters relevant to archival records) 
+        // params:
+        // {
+        //     pages: 1,
+        //     searchTerm: ''
+        // }
         const response = {
             data: {
-                total: 0,
+                total: 5,
                 results: [
-
-                ],
-                facets: [
-
-                ],
-                letterIndex: [
-
+                    // pages from autharch
+                    {
+                        pk: 0,
+                        page: 'people-and-corporate-bodies',
+                        title: 'Object title',
+                        snippet: 'object snippet'
+                    },
+                    {
+                        pk: 1,
+                        page: 'collections-series',
+                        title: 'Object title',
+                        snippet: 'object snippet'
+                    },
+                    {
+                        pk: 2,
+                        page: 'files-items',
+                        title: 'Object title',
+                        snippet: 'object snippet'
+                    }
                 ]
             }
         };
 
         commit('setSearchResults', response.data.results);
-        commit('setFacets', response.data.facets);
-        commit('setLetterIndex', response.data.letterIndex);
-        commit('setTotalSearchResults', response.data.total);
+        // commit('setFacets', response.data.facets);
+        // commit('setLetterIndex', response.data.letterIndex);
+        commit('setSearchResultsTotal', response.data.total);
     },
-    async loadMoreSearchResults({ commit }) {
+    // TODO add load more records
+    async loadMoreSearchResults({commit}) {
+        // await Api.getUrl(state.loadMoreResultsUrl)
+        const response = {
+            data: {
+                next: '',
+                results: [
+                    {
+                        pk: 0,
+                        page: 'people-and-corporate-bodies',
+                        title: 'Object title',
+                        snippet: 'object snippet'
+                    },
+                    {
+                        pk: 1,
+                        page: 'collections-series',
+                        title: 'Object title',
+                        snippet: 'object snippet'
+                    }
+                ]
+
+            }
+        };
+
+        commit('setloadMoreResultsUrl', response.data.next);
+        commit('setMoreSearchResults', response.data.results);
     }
 };
 
@@ -45,7 +85,9 @@ const mutations = {
     setSearchResults: (state, results) => (state.results = results),
     setFacets: (state, facets) => (state.facets = facets),
     setLetterIndex: (state, letterIndex) => (state.letterIndex = letterIndex),
-    setTotalSearchResults: (state, total) => (state.total = total),
+    setSearchResultsTotal: (state, resultsTotal) => (state.resultsTotal = resultsTotal),
+    setloadMoreResultsUrl: (state, nextUrl) => (state.loadMoreResultsUrl = nextUrl),
+    setMoreSearchResults: (state, moreSearchResults) => moreSearchResults.forEach(element => state.results.push(element))
 };
 
 export default {

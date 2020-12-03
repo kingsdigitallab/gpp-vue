@@ -8,8 +8,9 @@ import CollectionsSeries from './views/CollectionsSeries.vue'
 import FilesItems from './views/FilesItems.vue'
 import Entity from './views/Entity.vue'
 import Entities from './views/Entities.vue'
-import Accessibility from './views/Accessibility.vue'
+import Secondary from './views/Secondary.vue'
 import SearchResults from './views/SearchResults.vue'
+import PageNotFound from './views/PageNotFound.vue'
 
 Vue.use(Router)
 
@@ -68,8 +69,8 @@ export default new Router({
     },
     {
       path: '/accessibility-statement',
-      name: 'Accessibility',
-      component: Accessibility
+      name: 'accessibility',
+      component: Secondary
     },
     {
       path: '/about',
@@ -79,24 +80,23 @@ export default new Router({
       // which is lazy-loaded when the route is visited.
       component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
     },
+    {
+      path: "*", 
+      name:'not-found',
+      component: PageNotFound 
+    }
   ],
-  // scrollBehavior () {
-  //   // TODO update scroll behaviour on the archival records and people and corporate bodies list
+  // scrollBehavior() {
   //   return { x: 0, y: 0 }
   // }
   scrollBehavior (to, from, savedPosition) {
-    // Exists when Browser's back/forward pressed
     if (savedPosition) {
       return savedPosition
-    // For anchors
     } else if (to.hash) {
       return { selector: to.hash }
-    // By changing queries we are still in the same component, so "from.path" === "to.path" (new query changes just "to.fullPath", but not "to.path").
     } else if (from.path === to.path) {
       return {}
     }
-
-    // Scroll to top
     return { x: 0, y: 0 }
   }
 })

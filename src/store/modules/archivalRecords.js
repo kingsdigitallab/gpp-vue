@@ -39,7 +39,7 @@ const actions = {
             data: {
                 results: [
                     {
-                        id: 0,
+                        pk: 0,
                         title: “archival_record_title”,
                         archival_level: “archival_record_archival_level”,
                         creators: ["",""],

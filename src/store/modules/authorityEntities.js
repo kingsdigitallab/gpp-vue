@@ -39,7 +39,7 @@ const actions = {
             data: {
                 results: [
                     {
-                        id: 0,
+                        pk: 0,
                         display_name: “”,
                         entity_type: “entity_type”,
                         display_date_name_used: “entity_display_date_name_used”

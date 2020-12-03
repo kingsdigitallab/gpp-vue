@@ -21,27 +21,27 @@ const actions = {
             data: {
                 timelineGroupTitles: [
                     {
-                        id: 1,
+                        pk: 1,
                         url_slug: 'early-georgians',
                         title: 'Early Georgians'
                     },
                     {
-                        id: 2,
+                        pk: 2,
                         url_slug: 'george-III-queen-charlotte-and-their-family',
                         title: 'George III, Queen Charlotte and their family'
                     },
                     {
-                        id: 3,
+                        pk: 3,
                         url_slug: 'george-III-siblings',
                         title: 'George III siblings'
                     },
                     {
-                        id: 4,
+                        pk: 4,
                         url_slug: 'george-IV-and-princess-charlotte-of-wales',
                         title: 'George IV and Princess Charlotte of Wales'
                     },
                     {
-                        id: 5,
+                        pk: 5,
                         url_slug: 'william-iv',
                         title: 'William IV'
                     }
@@ -55,7 +55,7 @@ const actions = {
         const response = {
             data: {
                 timelineGroupDescription: {
-                    id: 1,
+                    pk: 1,
                     title: 'Early Georgians',
                     description: 'Early Georgians - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
                 }
@@ -69,76 +69,82 @@ const actions = {
         const response = {
             data: {
                 timelineGroup: {
-                    id: 1,
-                    entities: [
-                        {id: 11, title: 'George I, King'},
-                        {id: 12, title: 'George II, King'},
-                        {id: 13, title: 'Caroline, Queen Consort to George II (1683-1737)'},
-                        {id: 14, title: 'Frederick, Prince of Wales'},
+                    pk: 1,
+                    related_entities: [
+                        {pk: 11, title: 'George I, King'},
+                        {pk: 12, title: 'George II, King'},
+                        {pk: 13, title: 'Caroline, Queen Consort to George II (1683-1737)'},
+                        {pk: 14, title: 'Frederick, Prince of Wales'},
                     ],
-                    collections: [
+                    related_collections: [
                         {
-                            id: 21, 
+                            pk: 21, 
                             title: 'Additional papers relating to George III and Queen Charlotte',
                             children_desc: '12 series'
                         },
                         {   
-                            id: 22, 
+                            pk: 22, 
                             title: 'George III Calendar',
                             children_desc: '12 series'
                         },
                         {
-                            id: 23, 
+                            pk: 23, 
                             title: 'George III Essays',
                             children_desc: '12 series'
                         },
                         {
-                            id: 24, 
+                            pk: 24, 
                             title: 'Diaries, essays and notes of Queen Charlotte',
                             children_desc: '12 series'
                         },
                         {
-                            id: 25, 
+                            pk: 25, 
                             title: 'Papers of Charlotte, Queen Consort to George III',
                             children_desc: '12 series'
                         },
                         {
-                            id: 26, 
+                            pk: 26, 
                             title: 'Letters from and concerning Princess Augusta Sophia',
                             children_desc: '12 series'
                         },
                         {
-                            id: 27, 
+                            pk: 27, 
                             title: 'Papers of Charlotte, Queen Consort to George III',
                             children_desc: '12 series'
                         },
                         {
-                            id: 28, 
+                            pk: 28, 
                             title: 'Papers relating to Lady Charlotte Finch',
                             children_desc: '12 series'
                         },
                     ],
-                    featuredRecords: [
+                    featured_series: [
                         {
-                            id: 21, 
+                            pk: 28, 
+                            title: 'Featured series'
+                        }
+                    ],
+                    featured_files_items: [
+                        {
+                            pk: 21, 
                             src: require("@/assets/images/record-placeholder.png"), 
                             date: '7 January 1766', 
                             title: 'Letter from George III to Sir Joseph Yorke on the possibility of the Hereditary Prince of Brunswick [Charles William Ferdinand, Duke of Brunswick-Wolfenbüttel] being put into the service of the Prince of Orange [William V]', 
-                            collection: {id: 211, title: 'Collection'}
+                            collection: {pk: 211, title: 'Collection'}
                         },
                         {
-                            id: 22, 
+                            pk: 22, 
                             src: require("@/assets/images/record-placeholder.png"), 
                             date: '1746-1805', 
                             title: 'Essay on government', 
-                            collection: {id: 212, title: 'George III Essays'}
+                            collection: {pk: 212, title: 'George III Essays'}
                         },
                         {
-                            id: 22, 
+                            pk: 22, 
                             src: require("@/assets/images/record-placeholder.png"), 
                             date: '1746-1805', 
                             title: 'Essay on government', 
-                            collection: {id: 212, title: 'George III Essays'}
+                            collection: {pk: 212, title: 'George III Essays'}
                         },
                     ],
                 }
@@ -154,7 +160,7 @@ const actions = {
         const response = {
             data: {
                 hierarchy: {
-                    id: 1,
+                    pk: 1,
                     is_selected: false,
                     title: '<Collection: Papers of General Jacob de Budé.>', 
                     archival_level: 'Collection',
@@ -163,7 +169,7 @@ const actions = {
                     children_desc: '(7 series)', 
                     children: [
                         {
-                            id: 3,
+                            pk: 3,
                             is_selected: false, 
                             title: '<Series 3: Correspondence principally between General Jacob de Budé and King George III and Queen Charlotte.>', 
                             archival_level: 'Series',
@@ -173,7 +179,7 @@ const actions = {
                             children: []
                         },
                         {
-                            id: 4,
+                            pk: 4,
                             is_selected: false, 
                             title: '<Series 4: Correspondence principally between General Jacob de Budé and King George III and Queen Charlotte.>', 
                             archival_level: 'Series',
@@ -183,7 +189,7 @@ const actions = {
                             children: []
                         },
                         {
-                            id: 2,
+                            pk: 2,
                             is_selected: false, 
                             title: '<Series: Correspondence principally between General Jacob de Budé and King George III and Queen Charlotte.>', 
                             archival_level: 'Series',
@@ -192,7 +198,7 @@ const actions = {
                             children_desc: '(7 series)',
                             children: [
                                 {
-                                    id: 2,
+                                    pk: 2,
                                     is_selected: true, 
                                     title: '<Series: Correspondence principally between General Jacob de Budé and King George III and Queen Charlotte.>', 
                                     archival_level: 'Series',
@@ -204,7 +210,7 @@ const actions = {
                             ]
                         },
                         {
-                            id: 2,
+                            pk: 2,
                             is_selected: false, 
                             title: '<Series: Correspondence principally between General Jacob de Budé and King George III and Queen Charlotte.>', 
                             archival_level: 'Series',
@@ -213,7 +219,7 @@ const actions = {
                             children_desc: '(7 series)',
                             children: [
                                 {
-                                    id: 2,
+                                    pk: 2,
                                     is_selected: false, 
                                     title: '<Series: Correspondence principally between General Jacob de Budé and King George III and Queen Charlotte.>', 
                                     archival_level: 'Series',

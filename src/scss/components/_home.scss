@@ -35,19 +35,23 @@
 				width: 100%;
 				position: relative;
 				box-shadow: 1px 1px 2px lighten($grey-light, 10%);
-				// border-bottom: 2px solid $primary;
 				margin-bottom: 0.5em;
 				input[type=search] {
 					width: 100%;
-					border: 0;
+					border: 1px solid $grey-background-dark;
 					background-color: $grey-background-dark;
 					padding: 0.7em 2.3em 0.7em 0.7em;
+					&:hover, &:focus {
+						border: 1px solid $grey-primary;
+						outline: none;
+					}
 				}
 				.search-button {
 					position: absolute;
 					right: 0;
 					top: 0;
 					border: 0;
+					border-radius: 0;
 					color: $primary-dark;
 					font-family: $fontawesome;
 					font-weight: 600;
@@ -93,24 +97,6 @@
 					left: -11px;
 					transition: 0.2s ease;
 				}
-			}
-			.featured-collections-series {
-				display: flex;
-				flex-wrap: wrap;
-				margin-top: 2em;
-				margin-bottom: 1.5em;
-			}
-			.featured-files-items {
-				position: relative;
-				margin-bottom: 3em;
-				h3 {
-					display: block;
-				}
-			}
-			.featured-people-corporate-bodies {
-				display: flex;
-				flex-wrap: wrap;
-				margin-top: 1.5em;
 			}
 		}
 	}
@@ -220,7 +206,7 @@
 		}
 		.home-timeline {
 			.timeline-group {
-				.featured-files-items {
+				.related-records {
 					margin-bottom: 2em;
 				}
 			}

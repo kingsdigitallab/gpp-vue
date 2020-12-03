@@ -2,7 +2,7 @@
 	<div>
         <div class="record" v-if="!loading">	
 			<h1 class="page-title">{{getArchive.title}}</h1>
-            <p class="related-to">in collection: <router-link :to="{name: 'collections-series', params: {id: collection.id}}">{{collection.title}}</router-link></p>
+            <p class="related-to" v-if="getArchive.parentCollection">in collection: <router-link :to="{name: 'collections-series', params: {id: getArchive.parentCollection.pk}}">{{getArchive.parentCollection.title}}</router-link></p>
             <div class="two-column-70-30">
                 <div>
                     <p>{{getArchive.description}}</p>
@@ -46,7 +46,7 @@
             </div>
             <input type="checkbox" id="show-transcriptions" />
             <label for="show-transcriptions" class="show-button">Show/Hide transcriptions</label>
-            <div v-if="hasTranscription" class="transcriptions">
+            <div v-if="hasMedia" class="transcriptions">
                 <div class="image">
                     <div class="image-section">
                         <div id="openseadragon" ref="openSeaDragon" class="image"></div>
@@ -69,12 +69,12 @@
                 </div>
                 <div class="transcription">
                     <div class="transcription-section">
-                        <div v-for="(transcription, i) in getTranscriptions" v-bind:key="i" v-bind:id="'transcription-' + i" v-html="transcription.transcription" v-bind:class="['transcription', {'active':activeTranscription == i}]">
+                        <div v-for="(transcription, i) in getTranscriptions.transcriptions" v-bind:key="i" v-bind:id="'transcription-' + i" v-html="transcription.transcription" v-bind:class="['transcription', {'active':activeTranscription == i}]">
                             {{transcription.transcription}}
                         </div>
                     </div>
                     <div class="pagination-pane">
-                        <paginate :page-count="getArchive.media.length" :click-handler="page" :prev-text="'Prev'" :next-text="'Next'"></paginate>
+                        <paginate :page-count="getTranscriptions.media.length" :click-handler="page" :prev-text="'Prev'" :next-text="'Next'"></paginate>
                     </div>
                 </div>
             </div>
@@ -84,6 +84,7 @@
                     <div class="two-column-40-60" v-if="getArchive.creators && getArchive.creators.length > 0">
                         <h4>{{ 'Writer' | pluralize(getArchive.creators.length) }}</h4>
                         <ul class="flex">
+                            <!-- TODO: change id to pk -->
                             <li v-for="(writer, i) in getArchive.creators" v-bind:key="i">
                                 <router-link :to="{name: 'entity', params: {id: writer.id}}">{{writer.display_name}}</router-link><template v-if="i != getArchive.creators.length - 1">; </template>
                             </li>
@@ -92,6 +93,7 @@
                     <div class="two-column-40-60" v-if="getArchive.persons_as_relations && getArchive.persons_as_relations.length > 0">
                         <h4>{{ 'Addressee' | pluralize(getArchive.persons_as_relations.length) }}</h4>
                         <ul class="flex">
+                             <!-- TODO: change id to pk -->
                             <li v-for="(addressee, i) in getArchive.persons_as_relations" v-bind:key="i">
                                 <router-link :to="{name: 'entity', params: {id: addressee.id}}">{{addressee.display_name}}</router-link><template v-if="i != getArchive.persons_as_relations.length - 1">; </template>
                             </li>
@@ -179,7 +181,7 @@
                         <br>
                         <ol>
                             <li v-for="(related_material, i) in getArchive.related_materials" v-bind:key="i">
-                                <!-- TODO forward to the gpp website with the ra reference stored in related_material.id -->
+                                <!-- TODO forward to the gpp website with the ra reference stored in related_material.pk -->
                                 <a :href="{}">
                                     {{related_material.label}}
                                 </a>
@@ -279,32 +281,36 @@ export default {
 	data: function() {
 		return {
             loading: true,
-            collection: {
-                id: 1,
-                title: 'George III essays'
-            },
             activeTranscription: 0,
             viewer: '',
-            hasTranscription: true
+            hasMedia: true
 		}
 	},
 	methods: {
         initOpenSeaDragon() {
-            //
             // TODO make sure that transcription images follow the order of transcriptions
-            if (this.getArchive.media.length > 0) {
-                for (let index in this.getArchive.media) {
+            if (this.getTranscriptions.media.length > 0) {
+                for (let index in this.getTranscriptions.media) {
                     tileSources.push({
                         type: 'image',
-                        url: this.getArchive.media[index].url
+                        "@context": "http://iiif.io/api/image/2/context.json",
+                        "@id": this.getTranscriptions.media[index].iiif_url,
+                        "profile": "http://iiif.io/api/image/2/level1.json",
+                        "height": 7200,
+                        "width": 5233,
+                        "protocol": "http://iiif.io/api/image",
+                        "tiles": [{
+                            "scaleFactors": [ 1, 2, 4, 8, 16, 32 ],
+                            "width": 1024
+                        }],
                     })
                 }
             }
             // TO TEST OPENSEADRAGON 
-            tileSources.push({
-                type: 'image',
-                url: require('@/assets/images/Masked-Ball-Louis-XV-court.jpg')
-            });
+            // tileSources.push({
+            //     type: 'image',
+            //     url: require('@/assets/images/Masked-Ball-Louis-XV-court.jpg')
+            // });
             startOpenSeaDragon(0);
         },
         page(pageNum) {
@@ -315,7 +321,7 @@ export default {
 	},
 	async created() {
         await this.fetchFilesItems(this.$route.params.id);
-        this.hasTranscription = this.getTranscriptions.length > 0;
+        this.hasMedia = this.getTranscriptions.media.length > 0;
         
         // TODO  - order returned transcriptions?
         

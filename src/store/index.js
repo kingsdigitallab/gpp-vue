@@ -7,7 +7,7 @@ import archivalRecords from './modules/archivalRecords';
 import archiveSingle from './modules/archiveSingle';
 import authorityEntities from './modules/authorityEntities';
 import authoritySingle from './modules/authoritySingle';
-import accessibility from './modules/accessibility';
+import secondaryPage from './modules/secondary_page';
 import timeline from './modules/timeline';
 import searchResults from './modules/searchResults';
 
@@ -22,7 +22,7 @@ export default new Vuex.Store({
         archiveSingle,
         authorityEntities,
         authoritySingle,
-        accessibility,
+        secondaryPage,
         timeline,
         searchResults
     }

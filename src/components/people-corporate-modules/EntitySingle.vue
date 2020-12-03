@@ -13,7 +13,7 @@
 					<!-- TODO send authorised name form -->
 					<h1>{{identity.name_entries[0].display_name}}</h1>
 					<p v-if="identity.name_entries && identity.name_entries.length > 1">
-						<b>Also known as:</b> 
+						<span class="highlight">Also known as:</span> 
 						<span v-for="(name_entry, i) in identity.name_entries.slice(1)" v-bind:key="i">
 							<!-- TODO change name_entry.date_from - .date_to to .display_date -->
 							{{name_entry.display_name}}<template v-if="name_entry.display_date"> (name used: {{name_entry.display_date}})</template><template v-if="i != identity.name_entries.length-2">;</template>

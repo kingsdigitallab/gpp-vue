@@ -2,83 +2,82 @@ import Api from '../../services/Api';
 
 const state = {
     archive: {},
-    timelineGroup: {},
     hierarchy: {},
     transcriptions: []
 };
 
 const getters = {
     getArchive: (state) => state.archive,
-    getArchiveTimelineGroup: (state) => state.timelineGroup,
     getArchiveHierarchy: (state) => state.hierarchy,
     getTranscriptions: (state) => state.transcriptions
 };
 
 const actions = {
     async fetchCollectionsSeries({ commit }, id) {
+        const response = await Api.getSingle('/archival/records/',id);
         /* 
-            TODO: Please use the following structure of the response:
-            data: {
-                archive: {
-                    id: 0,
-                    title: “archive_title”,
-                    repository: “archive_repository_title”,
-                    description: “archive_description”,
+            TODO: Please use the structure of the response provided below (as much as possible, I can adjust the Vue templates to any changes needed)
+            Please note that I need to update Vue template to use the fields below. 
+            Currently, the Vue template is guided by the response I receive from /archival/records/:id, which is quite unnormalised
+            const response = {
+                data: {
+                    pk: 0,
+                    title: "archive_title",
+                    repository: "archive_repository_title",
+                    description: "archive_description",
                     ra_references: [
                         {
-                            id: 0,
-                            title: “DEBUDE”
+                            pk: 0,
+                            title: "DEBUDE"
                         }
                     ],
-                    creation_dates: “”,
-                    archival_level: “”,
-                    extent: “”, 
-                    languages: [“English”, “French”],
-                    administrative_history: “”,
+                    creation_dates: "",
+                    archival_level: "",
+                    extent: "", 
+                    languages: ["English", "French"],
+                    administrative_history: "",
                     related: {
-                        subjects: [“”, “”],
-                        places_as_subjects: [“”, “”],
+                        subjects: ["", ""],
+                        places_as_subjects: ["", ""],
                         persons_as_subjects: [
                             {
-                                id: 0,
-                                display_name: “”
+                                pk: 0,
+                                display_name: ""
                             }
                         ],
                         organisations_as_subjects: [
                             {
-                                id: 0,
-                                display_name: “”
+                                pk: 0,
+                                display_name: ""
                             }
                         ],
                         related_materials: [
-                            {// id here refers to an RA reference
-                                id: 0,
-                                label: “”
+                            {// pk here refers to an RA reference
+                                pk: 0,
+                                label: ""
                             }
                         ],
-                        publications: “”,
+                        publications: "",
                     },
                     provenance: "",
-                    origin_location: [“”, “”],
-                    arrangement: “”,
-                    notes: “”,
-                    rights_declaration: “”
-                },
-                timelineGroup: ... [see below],
-                hierarchy: ... [see below]
-            }
+                    origin_location: ["", ""],
+                    arrangement: "",
+                    notes: "",
+                    rights_declaration: ""
+                    timelineGroup: (see below),
+                    hierarchy: (see below)
+                }
+            };
         */
-        
-        const response = await Api.getSingle('/archival/records/',id);
         const response_extra = {
             data: {
                 timelineGroup: {
-                    id: 1,
-                    url: 'george-III-queen-charlotte-and-their-family',
-                    name: 'George III, Queen Charlotte and their family'
+                    pk: 1,
+                    url_slug: 'george-III-queen-charlotte-and-their-family',
+                    title: 'George III, Queen Charlotte and their family'
                 },
                 hierarchy: {
-                    id: 1,
+                    pk: 1,
                     is_selected: false,
                     title: '<Collection: Papers of General Jacob de Budé.>', 
                     archival_level: 'Collection',
@@ -87,7 +86,7 @@ const actions = {
                     children_desc: '(7 series)', 
                     children: [
                         {
-                            id: 3,
+                            pk: 3,
                             is_selected: false, 
                             title: '<Series 3: Correspondence principally between General Jacob de Budé and King George III and Queen Charlotte.>', 
                             archival_level: 'Series',
@@ -97,7 +96,7 @@ const actions = {
                             children: []
                         },
                         {
-                            id: 4,
+                            pk: 4,
                             is_selected: false, 
                             title: '<Series 4: Correspondence principally between General Jacob de Budé and King George III and Queen Charlotte.>', 
                             archival_level: 'Series',
@@ -107,7 +106,7 @@ const actions = {
                             children: []
                         },
                         {
-                            id: 2,
+                            pk: 2,
                             is_selected: false, 
                             title: '<Series: Correspondence principally between General Jacob de Budé and King George III and Queen Charlotte.>', 
                             archival_level: 'Series',
@@ -116,7 +115,7 @@ const actions = {
                             children_desc: '(7 series)',
                             children: [
                                 {
-                                    id: 2,
+                                    pk: 2,
                                     is_selected: true, 
                                     title: '<Series: Correspondence principally between General Jacob de Budé and King George III and Queen Charlotte.>', 
                                     archival_level: 'Series',
@@ -128,7 +127,7 @@ const actions = {
                             ]
                         },
                         {
-                            id: 2,
+                            pk: 2,
                             is_selected: false, 
                             title: '<Series: Correspondence principally between General Jacob de Budé and King George III and Queen Charlotte.>', 
                             archival_level: 'Series',
@@ -137,7 +136,7 @@ const actions = {
                             children_desc: '(7 series)',
                             children: [
                                 {
-                                    id: 2,
+                                    pk: 2,
                                     is_selected: false, 
                                     title: '<Series: Correspondence principally between General Jacob de Budé and King George III and Queen Charlotte.>', 
                                     archival_level: 'Series',
@@ -149,99 +148,90 @@ const actions = {
                             ]
                         }
                     ]
-                },
+                }
             }
         };
-        let images = [];
-        response.data['media'].forEach(element => {
-            images.push({type:'image', url: element['resource'], buildPyramid: false});
-        });
-        response.data['media'] = images;
-        // TODO: change to  commit('setArchive', response.data.archive);
         commit('setArchive', response.data);
-        commit('setTimelineGroup', response_extra.data.timelineGroup);
         commit('setHierarchy', response_extra.data.hierarchy);
     },
     async fetchFilesItems({ commit }, id) {
+        const response = await Api.getSingle('/archival/records/',id);
         /*
-            TODO: Please use the following structure of the response:
+            TODO: Please use the structure of the response provided below (as much as possible, I can adjust the Vue templates to any changes needed)
+            Please note that I need to update Vue template to use the fields below. 
+            Currently, the Vue template is guided by the response I receive from /archival/records/:id, which is quite unnormalised
             data: {
-                archive: {
-                    id: 0,
-                    // can’t find a record with media but this seems to have been set up by the previous team
-                    media: …
-                    title: “archive_title”,
-                    collection: {
-                        id: 0,
-                        title: “archive_collection_title”
+                    pk: 0,
+                    title: "archive_title",
+                    parentCollection: {
+                        pk: 0,
+                        title: "archive_collection_title"
                     },
-                    repository: “archive_repository_title”,
-                    description: “archive_description”,
-                    physical_description: “archive_physical_description”,
+                    repository: "archive_repository_title",
+                    description: "archive_description",
+                    physical_description: "archive_physical_description",
                     ra_references: [
                         {
-                            id: 0,
-                            title: “DEBUDE”
+                            pk: 0,
+                            title: "DEBUDE"
                         }
                     ],
-                    creation_dates: “archive_creation_dates”,
-                    archival_level: “archive_archival_level”,
-                    extent: “archive_extent”, 
-                    languages: [“English”, “French”],
+                    creation_dates: "archive_creation_dates",
+                    archival_level: "archive_archival_level",
+                    extent: "archive_extent", 
+                    languages: ["English", "French"],
                     creators: [
                         {
-                            id: 0,
-                            display_name: “”
+                            pk: 0,
+                            display_name: ""
                         }
                     ],
                     // currently persons_as_relations is sending dates for some reason
                     persons_as_relations: [
                         {
-                            id: 0,
-                            display_name: “”
+                            pk: 0,
+                            display_name: ""
                         }
                     ],
-                    creation_places: [“”, “”],
-                    places_as_relations: [“”, “”],
+                    creation_places: ["", ""],
+                    places_as_relations: ["", ""],
                     related: {
-                        subjects: [“”, “”],
-                        places_as_subjects: [“”, “”],
+                        subjects: ["", ""],
+                        places_as_subjects: ["", ""],
                         persons_as_subjects: [
                             {
-                                id: 0,
-                                display_name: “”
+                                pk: 0,
+                                display_name: ""
                             }
                         ],
                         organisations_as_subjects: [
                             {
-                                id: 0,
-                                display_name: “”
+                                pk: 0,
+                                display_name: ""
                             }
                         ],
                         related_materials: [
                             {
-                                // id here refers to an RA reference
-                                id: 0,
-                                label: “”
+                                // pk here refers to an RA reference
+                                pk: 0,
+                                label: ""
                             }
                         ],
-                        publications: “”,
+                        publications: "",
                     },
-                    provenance: “”,
-                    origin_location: [“”, “”],
+                    provenance: "",
+                    origin_location: ["", ""],
                     // make sure we are pulling the right URL - it should be related to https://gpp.rct.uk/ 
-                    url:””,
-                    withheld: “”,
-                    publication_permission: “”,
-                    copyright_status: “”,
-                    notes: “archive_notes”,
-                    rights_declaration: “archive_rights_declaration”
-                },
-                transcriptions: ... [see below]
+                    url:"",
+                    withheld: "",
+                    publication_permission: "",
+                    copyright_status: "",
+                    notes: "archive_notes",
+                    rights_declaration: "archive_rights_declaration"
+                    transcriptions: (see below),
+                    media: (see below)
             }
         */
-
-        const response = await Api.getSingle('/archival/records/',id);
         const response_transcriptions = {
             data: {
                 transcriptions: [
@@ -254,30 +244,28 @@ const actions = {
                         transcription: `transcription 2`
                     }
                 ],
+                // please follow up with Elliott on how to get IIIF images without CORS errors
+                media: [
+                    {
+                         title:"Test image",iiif_url:"https://rct.resourcespace.com/iiif/732115a/manifest",thumbnail_url:"https://rct.resourcespace.com/iiif/image/34658/full/thm/0/default.jpg"
+                     },
+                     {
+                         title:"Test image",iiif_url:"https://rct.resourcespace.com/iiif/732115a/",thumbnail_url:"https://rct.resourcespace.com/iiif/image/34658/full/thm/0/default.jpg"
+                     },
+                     {
+                         title:"Test image",iiif_url:"https://rct.resourcespace.com/iiif/732115a/",thumbnail_url:"https://rct.resourcespace.com/iiif/image/34658/full/thm/0/default.jpg"
+                     },
+                ],
             }
         }
 
-        // IMPORTANT TBD and TODO:
-        // how can we make sure that the transcriptions load with their respective images? Can we attach an image to each transcription above?
-        // could there be a case when we have an image of a manuscript but no transcription and vice versa?
-        let images = [];
-        response.data['media'].forEach(element => {
-            images.push({
-                type:'image', 
-                url: element['resource'], 
-                buildPyramid: false
-            });
-        });
-        response.data['media'] = images;
-
         commit('setArchive', response.data);
-        commit('setTranscriptions', response_transcriptions.data.transcriptions);
+        commit('setTranscriptions', response_transcriptions.data);
     }
 };
 
 const mutations = {
     setArchive: (state, archive) => (state.archive = archive),
-    setTimelineGroup: (state, timelineGroup) => (state.timelineGroup = timelineGroup),
     setHierarchy: (state, hierarchy) => (state.hierarchy = hierarchy),
     setTranscriptions: (state, transcriptions) => (state.transcriptions = transcriptions)
 };

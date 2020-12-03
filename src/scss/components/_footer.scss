@@ -23,7 +23,7 @@ footer {
 	a {
 		color: white;
 		&:hover, &:focus {
-			background-color: transparent;
+			background-color: $primary-dark;
 		}
 	}
 }

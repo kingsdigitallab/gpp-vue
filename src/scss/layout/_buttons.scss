@@ -197,11 +197,14 @@ a {
 
 .slick-arrow {
 	z-index: 8;
+	&.slick-prev, &.slick-next {
+		height: 0;
+	}
 	&.slick-prev:before, &.slick-next:before {
 		position: absolute;
 		transition: 0.2s ease;
 		color: $secondary;
-		top: -0.3em;
+		top: -0.8em;
 		background-color: white;
 		border-radius: 50%;
 		font-family: $fontawesome;
@@ -220,7 +223,7 @@ a {
 		padding: 0.01em 0.27em 0.01em 0.35em;
 	}
 	&:hover, &:focus {
-		&.slick-prev:before, &.slick-next:before {
+		&.slick-prev, &.slick-prev:before, &.slick-next, &.slick-next:before {
 			color: white;
 			background-color: $primary-dark;
 			outline: none;

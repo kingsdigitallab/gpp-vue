@@ -12,10 +12,10 @@
 						<router-link to="/timeline" class="header__link js-timeline">Timeline</router-link>
 					</li>
 					<li class="header__nav-item" v-on:click="toggleMenu">
-						<router-link to="/archival-records" class="header__link js-archive-link">Archival records</router-link>
+						<router-link to="/archival-records" class="header__link js-archival-records">Archival records</router-link>
 					</li>
 					<li class="header__nav-item" v-on:click="toggleMenu">
-						<router-link to="/people-and-corporate-bodies" class="header__link js-people-link">People and corporate bodies</router-link>
+						<router-link to="/people-and-corporate-bodies" class="header__link js-entities">People and corporate bodies</router-link>
 					</li>
 					<li class="header__nav-item" v-on:click="toggleMenu">
 						<router-link to="/about" class="header__link js-about">About</router-link>
@@ -26,8 +26,7 @@
 				<input type="checkbox" aria-label="Search button" id="search-icon" v-on:click="toggleSearch"/>
 				<label class="search-label" for="search-icon"><span hidden>Expand search bar</span></label>
 				<form @submit.prevent="submit" class="search-field">
-					<!-- name, date, category, creator -->
-					<input type="search" v-model="searchQuery" name="search" aria-label="Search" placeholder="e.g., Chevalier d’Eon" onfocus="this.placeholder=''" onblur="this.placeholder='e.g., Chevalier d’Eon'"/>
+					<input type="search" v-model="searchTerm" name="search" aria-label="Search" placeholder="e.g., Chevalier d’Eon" onfocus="this.placeholder=''" onblur="this.placeholder='e.g., Chevalier d’Eon'"/>
 					<input type="submit" class="search-button" aria-label="Search button" value=""/>
 				</form>
 			</div>
@@ -48,59 +47,7 @@ export default {
 	components: {},
 	data: function() {
 		return {
-			searchQuery: null
-		}
-	},
-	watch: {
-		$route(to, from) {
-			switch(to.name) {
-				case 'search-results':
-					break;
-				case 'timeline':
-					setTimeout(function() {
-						document.querySelector('.js-timeline').classList.add('router-link-exact-active');
-					}, 100);
-					break;
-				case 'archival-records':
-					setTimeout(function() {
-						document.querySelector('.js-archive-link').classList.add('router-link-exact-active');
-					}, 100);
-					break;
-				// case 'archival-record':
-				// 	setTimeout(function() {
-				// 		document.querySelector('.js-archive-link').classList.add('router-link-exact-active');
-				// 	}, 100);
-				// 	break;
-				case 'collections-series':
-					setTimeout(function() {
-						document.querySelector('.js-archive-link').classList.add('router-link-exact-active');
-					}, 100);
-					break;
-				case 'files-items':
-					setTimeout(function() {
-						document.querySelector('.js-archive-link').classList.add('router-link-exact-active');
-					}, 100);
-					break;
-				case 'entities':
-					setTimeout(function() {
-						document.querySelector('.js-people-link').classList.add('router-link-exact-active');
-					}, 100);
-					break;
-				case 'entity':
-					setTimeout(function() {
-						document.querySelector('.js-people-link').classList.add('router-link-exact-active');
-					}, 100);
-					break;
-				case 'about':
-					setTimeout(function() {
-						document.querySelector('.js-about').classList.add('router-link-exact-active');
-					}, 100);
-					break;
-				default:
-					setTimeout(function() {
-						document.querySelector('.js-home').classList.add('router-link-exact-active');
-					}, 100);
-			}
+			searchTerm: ''
 		}
 	},
 	methods: {
@@ -115,15 +62,39 @@ export default {
 			document.querySelector('.mobile__nav').classList.remove('toggle');
 			document.querySelector('.header__nav').classList.remove('nav-active');
 		},
-		showModal() {
-			this.advancedSearchShow = true;
+		setPage(to) {
+			switch(to.name) {
+				case 'search-results':
+					break;
+				case 'not-found':
+					break;
+				case 'accessibility-statement':
+					break;
+				case 'collections-series':
+					this.setActivePage('archival-records');
+					break;
+				case 'files-items':
+					this.setActivePage('archival-records');
+					break;
+				case 'entity':
+					setTimeout(function() {
+						document.querySelector('.js-people-link').classList.add('router-link-exact-active');
+					}, 100);
+					break;
+				default: 
+					this.setActivePage(to.name);
+				}
 		},
-		closeModal() {
-			this.advancedSearchShow = false;
+		setActivePage(pageName) {
+			setTimeout(function() {
+				if(document.querySelector('.js-'+pageName)) {
+				document.querySelector('.js-'+pageName).classList.add('router-link-exact-active');
+				}
+			}, 100);
 		},
 		submit(){
-			if (this.searchQuery && this.searchQuery != '') {
-				this.$router.push("/search?q="+this.searchQuery);
+			if (this.searchTerm != '') {
+				this.$router.push("/search?q="+this.searchTerm);
 			}
 		}
 	}

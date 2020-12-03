@@ -10,12 +10,11 @@
                         <p>
                             <span class="highlight">{{record.date}}</span>
                             <br><br>
-                            <!-- set word limit -->
-                            {{record.title}}
+                            {{record.title | truncate(200)}}
                             <br>
-                            <router-link :to="{name:'files-items', params:{id: record.id}}" class="dotted-underline">See record<span class="arrow"></span></router-link>
+                            <router-link :to="{name:'files-items', params:{id: record.pk}}" class="dotted-underline" :aria-label="'link to ' + record.title">See record<span class="arrow"></span></router-link>
                         </p>
-                        <p>in <router-link :to="{name:'collections-series', params:{id: record.collection.id}}" class="dotted-underline">{{record.collection.title}}</router-link></p>
+                        <p>in <router-link :to="{name:'collections-series', params:{id: record.collection.pk}}" class="dotted-underline" :aria-label="'link to ' + record.collection.title">{{record.collection.title}}</router-link></p>
                     </div>
                 </div>
             </div>

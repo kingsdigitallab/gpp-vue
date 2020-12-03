@@ -45,17 +45,7 @@
         }
     }
     .timeline-group {
-        .related-collections, .related-files-items {
-            margin: 4em 0;
-        }
-        .related-people-corporate-bodies {
-            display: flex;
-            flex-wrap: wrap;
-            h3 {
-                width: 100%;
-            }
-        }
-        .related-collections {
+        .related-records {
             .grey-column {
                 padding: 1.5em 0;
                 .collections {

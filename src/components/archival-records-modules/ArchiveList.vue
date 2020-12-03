@@ -133,6 +133,7 @@
 						</div>
 						<div v-if="getArchivalRecords.length == 0" class="loader"></div>
 						<div v-for="(item, i) in getArchivalRecords" v-bind:key="i" class="list-row">
+							<!-- TODO: update to archival_level -->
 							<span>
 								<router-link :to="item.metadata[1].content.toLowerCase() == 'collection' || item.metadata[1].content.toLowerCase() == 'series' ? '/archival-records/collections-series/'+(item.id) : '/archival-records/files-items/'+(item.id)" :aria-label="'document from '+(item.metadata[1].content)">{{item.title}}</router-link>
 							</span>

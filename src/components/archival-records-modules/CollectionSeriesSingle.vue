@@ -2,7 +2,7 @@
 	<div>
 		<div class="record" v-if="!loading">
 			<h1 class="page-title">{{getArchive.title}}</h1>
-            <p v-if="getArchiveTimelineGroup && getArchiveTimelineGroup.name != ''" class="related-to">related to: <router-link :to="{name: 'timeline', params: {subpage: getArchiveTimelineGroup.url}}">{{getArchiveTimelineGroup.name}}</router-link></p>
+            <p v-if="getArchive.timelineGroup && getArchive.timelineGroup.title != ''" class="related-to">related to: <router-link :to="{name: 'timeline', params: {subpage: getArchive.timelineGroup.url_slug}}">{{getArchive.timelineGroup.title}}</router-link></p>
             <div class="two-column-70-30">
                 <p v-if="getArchive.description">{{getArchive.description}}</p>
                 <div class="grey-column">
@@ -144,7 +144,7 @@
                             <br>
                             <ol>
                                 <li v-for="(related_material, i) in getArchive.related_materials" v-bind:key="i">
-                                    <!-- TODO forward to the gpp website with the ra reference stored in related_material.id -->
+                                    <!-- TODO forward to the gpp website with the ra reference stored in related_material.pk -->
                                     <a :href="{}">
                                         {{related_material.label}}
                                     </a>
@@ -159,12 +159,13 @@
                     </div>
                 </div>
             </div>
-            <div v-if="getArchive.repository.title || getArchive.origin_location && getArchive.origin_location.length > 0 || getArchive.arrangement || getArchive.provenance">
+             <!-- TODO change to getArchive.repository -->
+            <div v-if="getArchive.repository || getArchive.origin_location && getArchive.origin_location.length > 0 || getArchive.arrangement || getArchive.provenance">
                 <h2>Arrangement &amp; custodial history</h2>
                 <div class="two-column-30-70">
                     <div>
                         <!-- TODO change to getArchive.repository -->
-                        <template v-if="getArchive.repository.title">
+                        <template v-if="getArchive.repository">
                             <span class="highlight">Repository:</span> {{getArchive.repository.title}}<br>
                         </template>
                         <template v-if="getArchive.origin_location && getArchive.origin_location.length > 0">
@@ -202,7 +203,7 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
 	name: 'CollectionSeriesSingle',
 	components: {HierarchyTemplate},
-	computed: mapGetters(['getArchive', 'getArchiveTimelineGroup', 'getArchiveHierarchy']),
+	computed: mapGetters(['getArchive', 'getArchiveHierarchy']),
 	data: function() {
 		return {
             loading: true,

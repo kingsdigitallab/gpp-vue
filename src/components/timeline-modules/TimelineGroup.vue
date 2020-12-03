@@ -1,25 +1,24 @@
 <template>
   <div class="timeline-group">
 		<div class="container" v-if="!loadingTimelineGroup">
-            <div class="related-people-corporate-bodies" v-if="getTimelineGroup.entities">
+            <div class="related-flex" v-if="getTimelineGroup.related_entities">
                 <h3>Related people &amp; corporate bodies</h3>
-                <router-link v-for="(entity, i) in getTimelineGroup.entities" v-bind:key="i" :to="{name: 'entity', params: {id: entity.id}}" class="link-button-grey small"><span class="dotted-underline">{{entity.title}}</span></router-link>
-                <!-- TODO ADD SEE ALL IF MORE THAN 5 -->
+                <router-link v-for="(entity, i) in getTimelineGroup.related_entities" v-bind:key="i" :to="{name: 'entity', params: {id: entity.pk}}" class="link-button-grey small"><span class="dotted-underline">{{entity.title}}</span></router-link>
             </div>
-            <div class="related-collections" v-if="getTimelineGroup.collections">
+            <div class="related-records" v-if="getTimelineGroup.related_collections">
                 <h3>Related collections</h3>
                 <div class="two-column-30-70">
                     <div class="grey-column">
                         <div v-if="!mobile" class="collections">
-                            <button v-for="(collection, i) in getTimelineGroup.collections" v-bind:key="i" v-bind:class="[{active: collection.id === activeCollection}, 'collection']" v-on:click="setHierarchy(collection.id, collection.title)">
+                            <button v-for="(collection, i) in getTimelineGroup.related_collections" v-bind:key="i" v-bind:class="[{active: collection.pk === activeCollection}, 'collection']" v-on:click="setHierarchy(collection.pk, collection.title)">
                                 <span>{{collection.title}}</span> ({{collection.children_desc}})
                             </button>
                         </div>
                         <div v-if="mobile" class="collections">
-                            <button v-for="(collection, i) in collectionSubset" v-bind:key="i" v-bind:class="[{active: collection.id === activeCollection}, 'collection']" v-on:click="setHierarchy(collection.id, collection.title)">
+                            <button v-for="(collection, i) in collectionSubset" v-bind:key="i" v-bind:class="[{active: collection.pk === activeCollection}, 'collection']" v-on:click="setHierarchy(collection.pk, collection.title)">
                                 <span>{{collection.title}}</span> ({{collection.children_desc}})
                             </button>
-                            <input type="checkbox" class="show-checkbox" id="show-all-collections" :checked="collectionSubset == getTimelineGroup.collections" v-on:click="collectionSubset == getTimelineGroup.collections ? collectionSubset =  getTimelineGroup.collections.slice().splice(0,3) : collectionSubset =  getTimelineGroup.collections"/>
+                            <input type="checkbox" class="show-checkbox" id="show-all-collections" :checked="collectionSubset == getTimelineGroup.related_collections" v-on:click="collectionSubset == getTimelineGroup.related_collections ? collectionSubset =  getTimelineGroup.related_collections.slice().splice(0,3) : collectionSubset =  getTimelineGroup.related_collections"/>
                             <label for="show-all-collections" class="show-all dotted-underline">
                                 collections
                             </label>
@@ -42,9 +41,14 @@
                     </div>
                 </div>
             </div>
-            <div class="related-files-items" v-if="getTimelineGroup.featuredRecords">
+            <div class="related-flex" v-if="getTimelineGroup.featured_series">
+                <h3>Featured series</h3>
+                <router-link v-for="(series, i) in getTimelineGroup.featured_series" v-bind:key="i" :to="{name: 'collections-series', params: {id: series.pk}}" class="link-button-grey small"><span class="dotted-underline">{{series.title}}</span></router-link>
+                <!-- TODO ADD SEE ALL IF MORE THAN 5 -->
+            </div>
+            <div class="related-records" v-if="getTimelineGroup.featured_files_items">
                  <h3>Featured files &amp; items</h3>
-                 <carousel-template v-bind:featuredRecords="getTimelineGroup.featuredRecords"></carousel-template>
+                 <carousel-template v-bind:featuredRecords="getTimelineGroup.featured_files_items"></carousel-template>
             </div>
 		</div>
         <div v-else class="loader"></div>
@@ -85,16 +89,16 @@ export default {
         if (timelineGroup) {
             await this.fetchTimelineGroup(timelineGroup);
             this.loadingTimelineGroup = false;
-            this.setHierarchy(this.getTimelineGroup.collections[0].id, this.getTimelineGroup.collections[0].title);
+            this.setHierarchy(this.getTimelineGroup.related_collections[0].pk, this.getTimelineGroup.related_collections[0].title);
         }
     },
     mounted() {
             if (window.innerWidth < 1150) {
                 this.mobile = true;
                 if (this.getTimelineGroup.collections.length > 3) {
-                    this.collectionSubset = this.getTimelineGroup.collections.slice().splice(0,3);
+                    this.collectionSubset = this.getTimelineGroup.related_collections.slice().splice(0,3);
                 } else {
-                    this.collectionSubset = this.getTimelineGroup.collections;
+                    this.collectionSubset = this.getTimelineGroup.related_collections;
                 }
             } else {
                 this.mobile = false;

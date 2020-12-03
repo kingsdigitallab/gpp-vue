@@ -51,6 +51,16 @@ body {
 		grid-template-columns: 1fr 0.5fr;
 		column-gap: 4em;
 	}
+	.related-records {
+		margin: 4em 0;
+	}
+	.related-flex {
+		display: flex;
+		flex-wrap: wrap;
+		h3 {
+			width: 100%;
+		}
+	}
 	.grey-column {
 		background-color: $grey-background-light;
 		box-shadow: 0px 2px 2px lighten($grey-light, 20%);
@@ -262,9 +272,6 @@ body {
 		margin: 0;
 		border: 1px solid $grey-light;
 		background: white;
-		&:hover, &:focus {
-			outline: none;
-		}
 	}
 
 	input[type=text], input[type=number], textarea {
