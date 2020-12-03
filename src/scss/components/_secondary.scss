@@ -1,7 +1,11 @@
 .secondary {
     .secondary-page {
-        p, ul {
-            font-size: 1.1em;
+        .loader {
+            margin: 5em auto;
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 1em;
         }
         ul {
             margin-left: 1em;
@@ -11,5 +15,4 @@
             }
         }
     }
-    
 }

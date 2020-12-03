@@ -1,8 +1,9 @@
 <template>
   <main class="about-page container">
+      <the-breadcrumbs :breadcrumbs="breadcrumbs"/>
       <h1 class="page-title">{{getPage.title}}</h1>
       <p class="introduction">{{getPage.introduction}}</p>
-      <img :src="getImageURL" alt="">
+      <img v-if="getImageURL" :src="getImageURL.resource" :alt="getImageURL.alt">
       <p v-html="getPage.body"></p>
   </main>
 
@@ -10,23 +11,26 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import TheBreadcrumbs from '../components/TheBreadcrumbs.vue'
 
 export default {
   name: 'About',
-  components: {
-  },
   computed: {
     ...mapGetters(['getPage','getImageURL'])
   },
+  components: {
+    TheBreadcrumbs,
+  },
+  data: function() {
+		return {
+			breadcrumbs: []
+		}
+	},
   methods: {
-		...mapActions(['fetchPage'])
+		...mapActions(['fetchSecondaryPage'])
 	},
 	async created() {
-		await this.fetchPage();
+		await this.fetchSecondaryPage('about');
 	}
 }
 </script>
-
-<style>
-
-</style>

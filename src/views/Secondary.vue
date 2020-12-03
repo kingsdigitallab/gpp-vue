@@ -15,22 +15,33 @@ export default {
 	name: 'Secondary',
 	components: {
 		TheBreadcrumbs,
-        SecondaryPage
+    SecondaryPage
 	},
 	data: function() {
 		return {
-			breadcrumbs: [
+			breadcrumbs: []
+		}
+	},
+	methods: {
+		updatePage() {
+			this.breadcrumbs = [
 				{ text: 'Home', url: '/' },
-			]
+			];
+			if (this.$route.meta.breadcrumb) {
+				this.breadcrumbs.push( {
+					text: this.$route.meta.breadcrumb,
+					url: '/'+ this.$route.meta.breadcrumb.toLowerCase()
+				});
+			}
 		}
 	},
 	created() {
-		if (this.$route.meta.breadcrumb) {
-			this.breadcrumbs.push( {
-				text: this.$route.meta.breadcrumb,
-				url: '/'+ this.$route.meta.breadcrumb.toLowerCase()
-			});
+		this.updatePage();
+	},
+	watch: {
+		$route(to, from) {
+			this.updatePage();
 		}
-	}
+ 	}
 }
 </script>
