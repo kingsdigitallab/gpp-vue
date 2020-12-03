@@ -8,6 +8,14 @@
             <div v-else>
                 <h1 class="page-title">Search results</h1>
                 <p>{{getSearchResultsTotal}} {{'result' | pluralize(getSearchResultsTotal)}} found for: "<strong>{{searchTerm}}</strong>"</p>
+                <div class="inline-list">
+                    <strong>Results:</strong>
+                    <ul class="inline-tabs">
+                        <li role="button" v-on:click="getResults('all')" v-bind:class="['inline-tab', {'active': activeSearchTab == 'all'}]">All results</li>
+                        <li role="button" v-on:click="getResults('archival_records')" v-bind:class="['inline-tab', {'active': activeSearchTab == 'archival_records'}]">Archival records</li>
+                        <li role="button" v-on:click="getResults('entities')" v-bind:class="['inline-tab', {'active': activeSearchTab == 'entities'}]">People and corporate bodies</li>
+                    </ul>
+                </div>
                 <div v-for="(result, i) in getSearchResults" v-bind:key="i" class="result">
                     <router-link v-if="result.page == 'people-and-corporate-bodies'" :to="'people-and-corporate-bodies/'+result.pk" class="result-page">{{result.title}}</router-link>
                     <router-link v-else-if="result.page == 'files-items'|| result.page == 'collections-series'" :to="'archival-records/'+result.page+'/' + result.pk" class="result-page">{{result.title}}</router-link>
@@ -37,28 +45,50 @@ export default {
             loading: true,
             loadingMoreRecords: false,
             searchTerm: '',
-            pageNum: 1
+            pageNum: 1,
+            activeSearchTab: ''
         }
     },
     methods: {
+        async getResults(filter) {
+            this.loading = true;
+
+            const setQuery = this.$route.query;
+            this.activeSearchTab = filter;
+            this.pageNum = 1;
+
+            setQuery['page'] = this.pageNum;
+            setQuery['filter'] = filter;
+
+            this.$router.replace({ query: {} });
+			this.$router.push({query: setQuery});
+
+            await this.fetchSearchResults({filter: this.activeSearchTab, pages: this.pageNum, searchTerm: this.searchTerm});
+            
+            this.loading = false;
+        },
         async updatePage() {
             this.loading = true;
 
             const setQuery = this.$route.query;
+            this.activeSearchTab = 'all';
             this.pageNum = 1;
 
             for (var key in setQuery) {
                 switch (key){
+                    case 'filter':
+                        this.activeSearchTab = setQuery[key];
+                        break;
                     case 'q':
                         this.searchTerm = setQuery[key];
-                    break;
+                        break;
                     case 'page':
                         this.pageNum = Number(setQuery[key]);
-                    break;
+                        break;
                 }
             }
             
-            await this.fetchSearchResults({pages: this.pageNum, searchTerm: this.searchTerm});
+            await this.fetchSearchResults({filter: this.activeSearchTab, pages: this.pageNum, searchTerm: this.searchTerm});
             this.loading = false;
         },
         async moreRecords() {
@@ -71,7 +101,6 @@ export default {
             this.$router.replace({ query: {} });
             this.$router.push({query: setQuery});
 
-            // ?: change to await this.fetchSearchResults(...);	
             await this.loadMoreSearchResults();
 
             this.loadingMoreRecords = false;
@@ -79,6 +108,7 @@ export default {
         ...mapActions(['fetchSearchResults', 'loadMoreSearchResults']),
     },
     created() {
+        
         this.updatePage();
     },
     watch: {

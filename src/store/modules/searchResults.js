@@ -15,11 +15,17 @@ const getters = {
 
 const actions = {
     async fetchSearchResults({ commit }, params) {
+        console.log(params);
         // params:
         // {
         //     pages: 1,
-        //     searchTerm: ''
+        //     searchTerm: '',
+        //     filter: ''
         // }
+        // filter is either:
+        //  'all' (search all over the website without returning filters), 
+        // or 'entities' (search all entities) 
+        // or 'archival_records' (search all archival records) 
         const response = {
             data: {
                 total: 5,
@@ -29,6 +35,7 @@ const actions = {
                         pk: 0,
                         page: 'people-and-corporate-bodies',
                         title: 'Object title',
+                        // snippet should include where the keyword was found, e.g., category, creators, etc.
                         snippet: 'object snippet'
                     },
                     {

@@ -192,6 +192,11 @@
 					&:first-of-type {
 						margin-right: 1em;
 					}
+					&.active {
+						background-color: $primary;
+						color: white;
+						border-radius: 0.2em;
+					}
 				}
 			}
 			button.filter {
