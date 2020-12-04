@@ -3,7 +3,6 @@ import Api from '../../services/Api';
 const state = {
     timelineGroupTitles: [],
     timelineGroup: {},
-    timelineGroupDescription: {},
     hierarchy: {}
 };
 
@@ -50,26 +49,15 @@ const actions = {
         };
         commit('setTimelineGroupTitles', response.data.timelineGroupTitles);
     },
-    async fetchTimelineGroupDescription({ commit }, timelineGroup_path) {
-        // low priority - TODO fetch timelineGroup by path (see all paths on line 21)
-        const response = {
-            data: {
-                timelineGroupDescription: {
-                    pk: 1,
-                    title: 'Early Georgians',
-                    description: 'Early Georgians - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-                }
-            }
-        };
-
-        commit('setTimelineGroupDescription', response.data.timelineGroupDescription);
-    },  
     async fetchTimelineGroup({ commit }, timelineGroup_path) {
         // high priority - TODO fetch timelineGroup by path (see all paths on line 21)
         const response = {
             data: {
                 timelineGroup: {
                     pk: 1,
+                    title: 'Early Georgians',
+                    url_slug: 'early-georgians',
+                    description: 'Early Georgians - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
                     related_entities: [
                         {pk: 11, title: 'George I, King'},
                         {pk: 12, title: 'George II, King'},
@@ -242,7 +230,6 @@ const actions = {
 const mutations = {
     setTimelineGroupTitles: (state, timelineGroupTitles) => (state.timelineGroupTitles = timelineGroupTitles),
     setTimelineGroup: (state, timelineGroup) => (state.timelineGroup = timelineGroup),
-    setTimelineGroupDescription: (state, timelineGroupDescription) => (state.timelineGroupDescription = timelineGroupDescription),
     setHierarchy: (state, hierarchy) => (state.hierarchy = hierarchy),
 };
 

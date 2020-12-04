@@ -1,6 +1,8 @@
 <template>
   <div class="timeline-group">
 		<div class="container" v-if="!loadingTimelineGroup">
+            <h1>{{getTimelineGroup.title}}</h1>
+            <p>{{getTimelineGroup.description}}</p>
             <div class="related-flex" v-if="getTimelineGroup.related_entities">
                 <h3>Related people &amp; corporate bodies</h3>
                 <router-link v-for="(entity, i) in getTimelineGroup.related_entities" v-bind:key="i" :to="{name: 'entity', params: {id: entity.pk}}" class="link-button-grey small"><span class="dotted-underline">{{entity.title}}</span></router-link>
