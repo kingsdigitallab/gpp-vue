@@ -39,8 +39,7 @@ const actions = {
         commit('setHomeStats', response.data.stats);
     },
     async fetchTimelineGroups({ commit }) {
-        // high priority TODO: fetch timeline groups from the backend
-        // You can ignore timeline group descriptions for now
+        // high priority TODO: get the timeline groups from the backend
         const response = {
             data: {
                 timelineGroups: [

@@ -15,7 +15,6 @@ const getters = {
 
 const actions = {
     async fetchSearchResults({ commit }, params) {
-        console.log(params);
         // params:
         // {
         //     pages: 1,
