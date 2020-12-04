@@ -17,8 +17,8 @@ const actions = {
         const response = await Api.getSingle('/archival/records/',id);
         /* 
             TODO: Please use the structure of the response provided below (as much as possible, I can adjust the Vue templates to any changes needed)
-            Please note that I need to update Vue template to use the fields below. 
-            Currently, the Vue template is guided by the response I receive from /archival/records/:id, which is quite unnormalised
+            Please note that I need to update Vue template once the data response is updated.
+            Currently, the Vue template follows the response I receive from /archival/records/:id, which is quite unnormalised
             const response = {
                 data: {
                     pk: 0,
@@ -158,8 +158,8 @@ const actions = {
         const response = await Api.getSingle('/archival/records/',id);
         /*
             TODO: Please use the structure of the response provided below (as much as possible, I can adjust the Vue templates to any changes needed)
-            Please note that I need to update Vue template to use the fields below. 
-            Currently, the Vue template is guided by the response I receive from /archival/records/:id, which is quite unnormalised
+            Please note that I need to update Vue template once the data response is updated.
+            Currently, the Vue template follows the response I receive from /archival/records/:id, which is quite unnormalised
             data: {
                     pk: 0,
                     title: "archive_title",
@@ -244,7 +244,7 @@ const actions = {
                         transcription: `transcription 2`
                     }
                 ],
-                // please follow up with Elliott on how to get IIIF images without CORS errors
+                // please check with Elliott on how to get IIIF images without CORS errors
                 media: [
                     {
                          title:"Test image",iiif_url:"https://rct.resourcespace.com/iiif/732115a/manifest",thumbnail_url:"https://rct.resourcespace.com/iiif/image/34658/full/thm/0/default.jpg"

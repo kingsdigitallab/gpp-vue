@@ -34,8 +34,6 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 
-// TODO fetch search results
-
 export default {
     name: 'SearchResultsPage',
     components: {},

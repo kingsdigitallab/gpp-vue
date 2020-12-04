@@ -29,10 +29,10 @@
 		<div class="two-column-50-50">
 			<div class="about">
 				<h2>About</h2>
-				<p v-html="getAboutDescription.description"></p>
+				<p v-html="getAboutDescription.body"></p>
 			</div>
 			<div>
-				<img v-bind:src="getAboutDescription.image_src" v-bind:alt="getAboutDescription.image_alt_text" class="image-fill"/>
+				<img v-bind:src="getAboutImageUrl.resource" v-bind:alt="getAboutImageUrl.alt" class="image-fill"/>
 			</div>
 		</div>
 	</div>
@@ -43,7 +43,7 @@ import { mapGetters, mapActions } from 'vuex';
 
 export default {
 	name: 'HomeBottom',
-	computed: mapGetters(['getAboutDescription']),
+	computed: mapGetters(['getAboutImageUrl', 'getAboutDescription']),
 	methods: {
 		...mapActions(['fetchAboutDescription'])
 	},

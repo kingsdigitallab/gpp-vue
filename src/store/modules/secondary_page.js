@@ -19,8 +19,6 @@ const wagtailPageIds = {
 
 const actions = {
     async fetchSecondaryPage({ commit }, page_name) {
-
-        // TODO once the ShaRC site is linked to the ShaRC Wagtail root page, please change 4 to id
         const response = await Api.getSingle('/wagtail/pages/',wagtailPageIds[page_name]);
         let image = {}
         if (response.data.image) {

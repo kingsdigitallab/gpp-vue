@@ -1,7 +1,6 @@
 import Api from '../../services/Api';
 
 const state = {
-    title: '',
     description: '',
     archivalRecords: [],
     loadMoreUrl: '',
@@ -11,7 +10,6 @@ const state = {
 };
 
 const getters = {
-    getArchivalRecordsPageTitle: (state) => state.title,
     getArchivalRecordsPageDescription: (state) => state.description,
     getArchivalRecords: (state) => state.archivalRecords,
     getTotalArchives: (state) => state.total,
@@ -21,15 +19,10 @@ const getters = {
 
 const actions = {
     async fetchArchivalRecordsPageDescription ({ commit }) {
-        // TODO add description to Wagtail (very low priority)
-        const response = {
-            data: {
-                pageTitle: 'Archival records',
-                pageDescription: '',
-            }
-        };
-        commit('setPageTitle', response.data.pageTitle);
-        commit('setPageDescription', response.data.pageDescription);
+        const response = await Api.getSingle('/wagtail/pages/',15);
+        if (response.data.introduction != '') {
+            commit('setPageDescription', response.data.introduction);
+        }
     },
     async fetchArchivalRecords({ commit }, params) {
         /*
@@ -246,7 +239,6 @@ const actions = {
 
 const mutations = {
     setArchivalRecords: (state, archivalRecords) => (state.archivalRecords = archivalRecords),
-    setPageTitle: (state, title) => (state.title = title),
     setPageDescription: (state, description) => (state.description = description),
     setLoadMoreUrl: (state, nextUrl) => (state.loadMoreUrl = nextUrl),
     setFacets: (state, facets) => (state.facets = facets),

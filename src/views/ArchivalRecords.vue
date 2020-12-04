@@ -1,6 +1,6 @@
 <template>
 	<main class="records container">
-		<h1 class="page-title">{{getArchivalRecordsPageTitle}}</h1>
+		<h1 class="page-title">Archival records</h1>
 		<p>{{getArchivalRecordsPageDescription}}</p>
 		<archive-list></archive-list>
 	</main>
@@ -12,7 +12,7 @@ import ArchiveList from '../components/archival-records-modules/ArchiveList.vue'
 
 export default {
 	name: 'ArchivalRecords',
-	computed: mapGetters(['getArchivalRecordsPageTitle', 'getArchivalRecordsPageDescription']),
+	computed: mapGetters(['getArchivalRecordsPageDescription']),
 	components: {
 		ArchiveList
 	},

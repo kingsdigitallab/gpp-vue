@@ -2,7 +2,6 @@ import Api from '../../services/Api';
 
 const state = {
     authorityEntities: [],
-    title: '',
     description: '',
     loadMoreUrl: '',
     facets: [],
@@ -11,7 +10,6 @@ const state = {
 };
 
 const getters = {
-    getAuthorityEntitiesPageTitle: (state) => state.title,
     getAuthorityEntitiesPageDescription: (state) => state.description,
     getAuthorityEntities: (state) => state.authorityEntities,
     getTotalAuthorityEntities: (state) => state.total,
@@ -21,15 +19,10 @@ const getters = {
 
 const actions = {
     async fetchEntityPageDescription ({ commit }) {
-        // TODO: add page descriptions to Wagtail (very low priority)
-        const response = {
-            data: {
-                pageTitle: 'People & corporate bodies',
-                pageDescription: '',
-            }
-        };
-        commit('setPageTitle', response.data.pageTitle);
-        commit('setPageDescription', response.data.pageDescription);
+        const response = await Api.getSingle('/wagtail/pages/',16);
+        if (response.data.introduction != '') {
+            commit('setPageDescription', response.data.introduction);
+        }
     },
     async fetchAuthorityEntities({ commit }, params) {
         /*
@@ -238,7 +231,6 @@ const actions = {
 };
 
 const mutations = {
-    setPageTitle: (state, title) => (state.title = title),
     setPageDescription: (state, description) => (state.description = description),
     setAuthorityEntities: (state, authorityEntities) => (state.authorityEntities = authorityEntities),
     setLoadMoreUrl: (state, nextUrl) => (state.loadMoreUrl = nextUrl),

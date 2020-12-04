@@ -12,8 +12,8 @@ const actions = {
     async fetchAuthority({ commit }, id) {
         const response = await Api.getSingle('/authority/entities/',id);
         /*
-            TODO: Please use the following structure of the response
-            NB: in the response_placeholder below, I have structured description as a single object as it should be, 
+            TODO: Please use the response structure set below.
+            NB: in the response_placeholder, I have structured description as a single object as it should be, 
             because only one description is allowed; 
             if you test the response below, you will get an error, 
             because the Vue template is currently relying on a *list* of descriptions sent from the response above and not on a *single object* as expected, 

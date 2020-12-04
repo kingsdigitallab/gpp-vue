@@ -1,6 +1,6 @@
 <template>
 	<main class="records container">
-		<h1 class="page-title">{{getAuthorityEntitiesPageTitle}}</h1>
+		<h1 class="page-title">People and corporate bodies</h1>
 		<p>{{getAuthorityEntitiesPageDescription}}</p>
 		<entity-list></entity-list>
 	</main>
@@ -12,7 +12,7 @@ import EntityList from '../components/people-corporate-modules/EntityList.vue'
 
 export default {
 	name: 'Entities',
-	computed: mapGetters(['getAuthorityEntitiesPageTitle', 'getAuthorityEntitiesPageDescription']),
+	computed: mapGetters(['getAuthorityEntitiesPageDescription']),
 	components: {
 		EntityList
 	},

@@ -8,9 +8,7 @@ const state = {
 
 const getters = {
     getSearchResults: (state) => state.results,
-    getSearchResultsTotal: (state) => state.resultsTotal,
-    getFacets: (state) => state.facets,
-    getLetterIndex: (state) => state.letterIndex
+    getSearchResultsTotal: (state) => state.resultsTotal
 };
 
 const actions = {
@@ -54,8 +52,6 @@ const actions = {
         };
 
         commit('setSearchResults', response.data.results);
-        // commit('setFacets', response.data.facets);
-        // commit('setLetterIndex', response.data.letterIndex);
         commit('setSearchResultsTotal', response.data.total);
     },
     // TODO add load more records
@@ -89,8 +85,6 @@ const actions = {
 
 const mutations = {
     setSearchResults: (state, results) => (state.results = results),
-    setFacets: (state, facets) => (state.facets = facets),
-    setLetterIndex: (state, letterIndex) => (state.letterIndex = letterIndex),
     setSearchResultsTotal: (state, resultsTotal) => (state.resultsTotal = resultsTotal),
     setloadMoreResultsUrl: (state, nextUrl) => (state.loadMoreResultsUrl = nextUrl),
     setMoreSearchResults: (state, moreSearchResults) => moreSearchResults.forEach(element => state.results.push(element))
