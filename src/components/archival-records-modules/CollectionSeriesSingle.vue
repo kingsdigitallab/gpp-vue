@@ -48,7 +48,7 @@
                     <p>
                         {{administrativeHistory}}
                         <!-- a bit clumsy solution, but other solutions will automatically scroll up and down to the Read more/less button and we need to prevent scroll -->
-                        <template v-if="administrativeHistory.length <= 1000 && getArchive.administrative_history > 1000">
+                        <template v-if="administrativeHistory.length <= 1000 && getArchive.administrative_history.length > 1000">
                             <button v-on:click="administrativeHistory = getArchive.administrative_history" class="button-link dotted-underline">Read more</button>
                         </template>
                         <template v-if="administrativeHistory.length > 1000">
