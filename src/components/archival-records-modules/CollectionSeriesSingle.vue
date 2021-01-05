@@ -211,14 +211,22 @@ export default {
 		}
 	},
 	methods: {
+        async updatePage() {
+            await this.fetchCollectionsSeries(this.$route.params.id);
+            if (this.getArchive.administrative_history) {
+                this.administrativeHistory = this.getArchive.administrative_history.substring(0,1000);
+            }
+            this.loading = false;
+        },
 		...mapActions(['fetchCollectionsSeries'])
 	},
-	async created(){
-        await this.fetchCollectionsSeries(this.$route.params.id);
-        if (this.getArchive.administrative_history) {
-            this.administrativeHistory = this.getArchive.administrative_history.substring(0,1000);
-        }
-        this.loading = false;
-    }
+    created() {
+		this.updatePage();
+    },
+	watch: {
+		$route(to, from) {
+			this.updatePage();
+		}
+ 	}
 }
 </script>

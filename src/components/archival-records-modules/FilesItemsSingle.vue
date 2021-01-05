@@ -287,6 +287,14 @@ export default {
 		}
 	},
 	methods: {
+        async updatePage() {
+            await this.fetchFilesItems(this.$route.params.id);
+            this.hasMedia = this.getTranscriptions.media.length > 0;
+            
+            // TODO  - order returned transcriptions?
+            
+            this.loading = false;
+        },
         initOpenSeaDragon() {
             // TODO make sure that transcription images follow the order of transcriptions
             if (this.getTranscriptions.media.length > 0) {
@@ -319,20 +327,20 @@ export default {
         },
 		...mapActions(['fetchFilesItems'])
 	},
-	async created() {
-        await this.fetchFilesItems(this.$route.params.id);
-        this.hasMedia = this.getTranscriptions.media.length > 0;
-        
-        // TODO  - order returned transcriptions?
-        
-        this.loading = false;
-    },
 	mounted() {
         setTimeout(() => {
             if (this.$refs.openSeaDragon && !this.loading) {
                 this.initOpenSeaDragon();
             }
         }, 1000);
-    }
+    },
+    created() {
+		this.updatePage();
+    },
+	watch: {
+		$route(to, from) {
+			this.updatePage();
+		}
+ 	}
 }
 </script>

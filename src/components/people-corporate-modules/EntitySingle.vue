@@ -199,19 +199,27 @@
       }
     },
     methods: {
-      changeIdentity(i) {
-        if (this.activeIdentity != i) {
-          this.activeIdentity = i;
-          // fetchIdentity?
-          this.identity = this.getAuthority.identities[i];
-        }
-      },
-      ...mapActions(['fetchAuthority'])
+		async updatePage() {
+			await this.fetchAuthority(this.$route.params.id);
+			this.loading = false;
+			this.identity = this.getAuthority.identities[0];
+		},
+      	changeIdentity(i) {
+			if (this.activeIdentity != i) {
+			this.activeIdentity = i;
+			// fetchIdentity?
+			this.identity = this.getAuthority.identities[i];
+			}
+		},
+		...mapActions(['fetchAuthority'])
     },
-    async created() {
-      await this.fetchAuthority(this.$route.params.id);
-      this.loading = false;
-      this.identity = this.getAuthority.identities[0];
-    }
+    created() {
+		this.updatePage();
+    },
+	watch: {
+		$route(to, from) {
+			this.updatePage();
+		}
+ 	}
   }
 </script>
