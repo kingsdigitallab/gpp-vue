@@ -17,14 +17,14 @@
 						<input type="number" name="existence_end_year" aria-label="existence year end" class="range-year" :min="existenceSlider.min" :max="existenceSlider.max" v-model="maxExistenceRange" v-on:change="updateExistenceSlider(minExistenceRange, maxExistenceRange)" />
 						<input type="submit" class="button-outline" value="Filter" v-on:click="filterByYear('existence_years', minExistenceRange, maxExistenceRange)"/>
 					</fieldset>
-					<fieldset v-if="getEntityFacets.entityTypes && getEntityFacets.entityTypes.length > 0">
+					<fieldset v-if="getEntityFacets.entity_type && getEntityFacets.entity_type.length > 0">
 						<legend>Entity type</legend>
 						<input type="checkbox" id="entity-type-toggle" class="toggle-checkbox" checked />
 						<label for="entity-type-toggle" class="toggle-label"><span hidden>Expand/collapse entity type</span></label>
 						<div class="toggle-section">
 							<div class="facets">
-								<label v-for="(entityType, i) in getEntityFacets.entityTypes" v-bind:key="i" class="facet">
-									<input type="checkbox" v-bind:name="entityType.key" v-bind:aria-label="entityType.key" :value="entityType" v-on:click="filter('entity_type', entityType.key)" :checked="checkedOption('entity_type', entityType.key)"/> {{entityType.key}} <span class="count">({{entityType.doc_count}})</span>
+								<label v-for="(entityType, i) in getEntityFacets.entity_type" v-bind:key="i" class="facet">
+									<input type="checkbox" v-bind:name="entityType.key" v-bind:aria-label="entityType.key" :value="entityType" v-on:click="filter('entity_type', entityType.key)" :checked="checkedOption('entity_type', entityType.key)"/> {{entityType.label}} <span class="count">({{entityType.doc_count}})</span>
 								</label>
 							</div>
 						</div>
@@ -37,7 +37,7 @@
 							<input v-if="getEntityFacets.genders.length > 5" type="text" aria-label="Search gender" placeholder="Search gender" onfocus="this.placeholder=''" v-on:click="genderCheckbox = true" v-model="searchGenders" onblur="this.placeholder='Search gender'" name="gender_search"/>
 							<div class="facets">
 								<label v-for="(gender, index) in sortedData(getEntityFacets.genders, searchGenders, 'count')" v-bind:key="index" class="facet" v-show="index < 5 || genderCheckbox">
-									<input type="checkbox" v-bind:name="gender.key" v-bind:aria-label="gender.key" :value="gender" v-on:click="filter('gender', gender.key)" :checked="checkedOption('gender', gender.key)"/> {{gender.key}} <span class="count">({{gender.doc_count}})</span>
+									<input type="checkbox" v-bind:name="gender.key" v-bind:aria-label="gender.key" :value="gender" v-on:click="filter('gender', gender.key)" :checked="checkedOption('gender', gender.key)"/> {{gender.label}} <span class="count">({{gender.doc_count}})</span>
 								</label>
 							</div>
 							<input type="checkbox" id="show-all-genders" class="show-checkbox" v-model="genderCheckbox">
@@ -52,7 +52,7 @@
 							<input v-if="getEntityFacets.languages.length > 5" type="text" aria-label="Search language used" placeholder="Search language used" onfocus="this.placeholder=''" v-on:click="languagesCheckbox = true" v-model="searchLanguages" onblur="this.placeholder='Search language used '" name="languages_used_search"/>
 							<div class="facets">
 							<label v-for="(language, index) in sortedData(getEntityFacets.languages, searchLanguages, 'count', languagesCheckbox)" v-bind:key="index" class="facet" v-show="index < 5 || languagesCheckbox">
-								<input type="checkbox" v-bind:name="language.key" :value="language" v-bind:aria-label="language.key" v-on:click="filter('language', language.key)" :checked="checkedOption('language', language.key)"/> {{language.key}} <span class="count">({{language.doc_count}})</span>
+								<input type="checkbox" v-bind:name="language.key" :value="language" v-bind:aria-label="language.key" v-on:click="filter('language', language.key)" :checked="checkedOption('language', language.key)"/> {{language.label}} <span class="count">({{language.doc_count}})</span>
 							</label>
 							</div>
 							<input type="checkbox" id="show-all-languages" class="show-checkbox" v-model="languagesCheckbox">
@@ -68,7 +68,7 @@
 							<input v-if="getEntityFacets.related_entities.length > 5" type="text" aria-label="Search person or corporate body" placeholder="Search person or corporate body" onfocus="this.placeholder=''" v-on:click="relatedEntitiesCheckbox = true" v-model="searchRelatedEntities" onblur="this.placeholder='Search person or corporate body'" name="related_entities_search"/>
 							<div class="facets">
 							<label v-for="(entity, index) in sortedData(getEntityFacets.related_entities, searchRelatedEntities, 'alphabetical', relatedEntitiesCheckbox)" v-bind:key="index" class="facet" v-show="index < 5 || relatedEntitiesCheckbox">
-								<input type="checkbox" v-bind:name="entity.key" v-bind:aria-label="entity.key" :value="entity" v-on:click="filter('related_entities', entity.key)" :checked="checkedOption('related_entities', entity.key)"/> {{entity.key}} <span class="count">({{entity.doc_count}})</span>
+								<input type="checkbox" v-bind:name="entity.key" v-bind:aria-label="entity.key" :value="entity" v-on:click="filter('related_entities', entity.key)" :checked="checkedOption('related_entities', entity.key)"/> {{entity.label}} <span class="count">({{entity.doc_count}})</span>
 							</label>
 							</div>
 							<input type="checkbox" id="show-all-entity" class="show-checkbox" v-model="relatedEntitiesCheckbox">
@@ -83,18 +83,18 @@
 							<input v-if="getEntityFacets.related_places.length > 5" type="text" aria-label="Search place" placeholder="Search place" onfocus="this.placeholder=''" v-on:click="relatedPlacesCheckbox = true" v-model="searchRelatedPlaces" onblur="this.placeholder='Search place'" name="related_places_search"/>
 							<div class="facets">
 							<label v-for="(place, index) in sortedData(getEntityFacets.related_places, searchRelatedPlaces, 'alphabetical', relatedPlacesCheckbox)" v-bind:key="index" class="facet" v-show="index < 5 || relatedPlacesCheckbox">
-								<input type="checkbox" v-bind:name="place.key" :value="place" v-bind:aria-label="place.key" v-on:click="filter('related_places', place.key)" :checked="checkedOption('related_places', place.key)"/> {{place.key}} <span class="count">({{place.doc_count}})</span>
+								<input type="checkbox" v-bind:name="place.key" :value="place" v-bind:aria-label="place.key" v-on:click="filter('related_places', place.key)" :checked="checkedOption('related_places', place.key)"/> {{place.label}} <span class="count">({{place.doc_count}})</span>
 							</label>
 							</div>
 							<input type="checkbox" id="show-all-places" class="show-checkbox" v-model="relatedPlacesCheckbox">
 							<label class="show-all dotted-underline" for="show-all-places" v-if="getEntityFacets.related_places.length > 5 && !searchRelatedPlaces"> places</label>
 						</div>
 					</fieldset>
-					<label v-if="getEntityFacets.with_royal_names">
-						<input type="checkbox" name="with_royal_names" value="Show only people with royal names" aria-label="Show only people with royal names" v-on:click="filter('with_royal_names', 'true')" :checked="selectedFacets.filter(obj => obj.category==='with_royal_names').length > 0"/>{{getEntityFacets.with_royal_names.key}} <span class="count">({{getEntityFacets.with_royal_names.doc_count}})</span>
+					<label v-if="getEntityFacets.has_royal_name">
+						<input type="checkbox" name="has_royal_name" value="Show only people with royal names" aria-label="Show only people with royal names" v-on:click="filter('has_royal_name', 'true')" :checked="selectedFacets.filter(obj => obj.category==='has_royal_name').length > 0"/>With royal name <span class="count">({{getEntityFacets.has_royal_name[0].doc_count}})</span>
 					</label>
-					<label v-if="getEntityFacets.with_multiple_identities">
-						<input type="checkbox" name="with_multiple_identities" value="Show only people with multiple identities" aria-label="People with multiple identities" v-on:click="filter('with_multiple_identities', 'true')" :checked="selectedFacets.filter(obj => obj.category==='with_multiple_identities').length > 0"/>{{getEntityFacets.with_multiple_identities.key}} <span class="count">({{getEntityFacets.with_multiple_identities.doc_count}})</span>
+					<label v-if="getEntityFacets.has_multiple_identities">
+						<input type="checkbox" name="has_multiple_identities" value="Show only people with multiple identities" aria-label="People with multiple identities" v-on:click="filter('has_multiple_identities', 'true')" :checked="selectedFacets.filter(obj => obj.category==='has_multiple_identities').length > 0"/>With multiple identities <span class="count">({{getEntityFacets.has_multiple_identities[0].doc_count}})</span>
 					</label>
 				</div>
 			</div>
@@ -143,12 +143,11 @@
 						</div>
 						<div v-if="getAuthorityEntities.length == 0" class="loader"></div>
 						<div v-for="(entity, i) in getAuthorityEntities" v-bind:key="i" class="list-row">
-							<!-- TODO change entity.entity_type.title to entity.entity_type -->
 							<span>
-								<router-link :to="'/people-and-corporate-bodies/'+(entity.id)" :aria-label="'entity type: '+(entity.entity_type.title)">{{entity.display_name}}</router-link>
+								<router-link :to="'/people-and-corporate-bodies/'+(entity.id)" :aria-label="'entity type: '+(entity.entity_type)">{{entity.display_name}}</router-link>
 							</span>
 							<span class="details">
-								<span>{{entity.entity_type.title}}</span>
+								<span>{{entity.entity_type}}</span>
 								<!-- TODO change to entity.display_date_name_used -->
 								<span v-if="entity.display_date">{{entity.display_date}}</span>
 								<span v-else>---</span>

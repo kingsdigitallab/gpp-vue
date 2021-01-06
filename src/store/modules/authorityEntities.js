@@ -218,7 +218,7 @@ const actions = {
         commit('setAuthorityEntities', response.data.results);
         commit('setLoadMoreUrl', response.data.next);
         commit('setTotal', response.data.count);
-        commit('setFacets', response_placeholder.data.facets);
+        commit('setFacets', response.data.facets);
         commit('setLetterIndex', response_placeholder.data.letterIndex);
     },
     // I don't know what loadMoreAuthorityEntities does in the backend (same with loadMoreArchivalRecords), it might be worth replacing this function with fetchAuthorityEntities if it does not process filters
