@@ -135,11 +135,10 @@
 						<div v-for="(item, i) in getArchivalRecords" v-bind:key="i" class="list-row">
 							<!-- TODO: update to archival_level -->
 							<span>
-								<router-link :to="item.metadata[1].content.toLowerCase() == 'collection' || item.metadata[1].content.toLowerCase() == 'series' ? '/archival-records/collections-series/'+(item.id) : '/archival-records/files-items/'+(item.id)" :aria-label="'document from '+(item.metadata[1].content)">{{item.title}}</router-link>
+								<router-link :to="item.resourcetype == 'Collection' || item.resourcetype == 'Series' ? '/archival-records/collections-series/'+(item.id) : '/archival-records/files-items/'+(item.id)" :aria-label="'document from '+(item.resourcetype)">{{item.title}}</router-link>
 							</span>
 							<span class="details">
-								<!-- TODO: normalise metadata -> item.archival_level -->
-								<span>{{item.metadata[1].content}}</span>
+								<span>{{item.resourcetype}}</span>
 								<template v-if="item.creators && item.creators.length > 0">
 									<span v-for="(creator, i) in item.creators" v-bind:key="i" class="list-data">
 										{{creator.key}}<template v-if="i != item.creators.length - 1">; </template>

@@ -14,7 +14,7 @@ const getters = {
 
 const actions = {
     async fetchCollectionsSeries({ commit }, id) {
-        const response = await Api.getSingle('/archival/records/',id);
+        const response = await Api.getSingle('/archival/records',id);
         /* 
             TODO: Please use the structure of the response provided below (as much as possible, I can adjust the Vue templates to any changes needed)
             Please note that I need to update Vue template once the data response is updated.
@@ -155,7 +155,7 @@ const actions = {
         commit('setHierarchy', response_extra.data.hierarchy);
     },
     async fetchFilesItems({ commit }, id) {
-        const response = await Api.getSingle('/archival/records/',id);
+        const response = await Api.getSingle('/archival/records',id);
         /*
             TODO: Please use the structure of the response provided below (as much as possible, I can adjust the Vue templates to any changes needed)
             Please note that I need to update Vue template once the data response is updated.

@@ -21,10 +21,9 @@
                         <h4>Creation dates</h4>
                         <span>{{getArchive.creation_dates}}</span>
                     </div>
-                    <!-- TODO: normalise the data response; change to v-if="getArchive.archival_level && getArchive.archival_level != ''" -->
-                    <div class="two-column-30-70" v-if="getArchive.metadata[1].content">
+                    <div class="two-column-30-70" v-if="getArchive.resourcetype">
                         <h4>Archival level</h4>
-                        <span>{{getArchive.metadata[1].content}}</span>
+                        <span>{{getArchive.resourcetype}}</span>
                     </div>
                     <div class="two-column-30-70" v-if="getArchive.extent && getArchive.extent != ''">
                         <h4>Extent</h4>
@@ -35,7 +34,7 @@
                         <span>
                             <span v-for="(language, i) in getArchive.languages" v-bind:key="i">
                                 <!-- TODO change to {{ language }} -->
-                                {{language.name_en}}<template v-if="i != getArchive.languages.length - 1">; </template>
+                                {{language.label}}<template v-if="i != getArchive.languages.length - 1">; </template>
                             </span>
                         </span>
                     </div>
@@ -75,13 +74,7 @@
                 </div>
             </div>
             <!-- TODO change to v-if getArchive.related -->
-            <div v-if="getArchive.subjects && getArchive.subjects.length > 0 || 
-                        getArchive.places_as_subjects && getArchive.places_as_subjects.length > 0 || 
-                        getArchive.persons_as_subjects && getArchive.persons_as_subjects.length > 0 || 
-                        getArchive.organisations_as_subjects && getArchive.organisations_as_subjects.length > 0 || 
-                        getArchive.related_materials && getArchive.related_materials.length > 0 || 
-                        getArchive.publications && getArchive.publications != ''
-                        ">
+            <div v-if="getArchive.related">
                 <h2>Related</h2>
                 <div class="two-column-30-70">
                     <div>
@@ -138,7 +131,6 @@
                         </div>
                         <br>
                         <!-- TODO review getArchive.related_materials once sent to confirm the format-->
-                        <!-- TODO change to v-if getArchive.related.related_materials.length > 0 -->
                         <p v-if="getArchive.related_materials">
                             Other GPP Materials
                             <br>
@@ -146,7 +138,7 @@
                                 <li v-for="(related_material, i) in getArchive.related_materials" v-bind:key="i">
                                     <!-- TODO forward to the gpp website with the ra reference stored in related_material.pk -->
                                     <a :href="{}">
-                                        {{related_material.label}}
+                                        {{related_material.context}}
                                     </a>
                                 </li>
                             </ol>
