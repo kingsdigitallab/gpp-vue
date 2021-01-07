@@ -93,7 +93,7 @@
             <h4>{{ 'Place' | pluralize(getArchive.creation_places.length) }} of writing</h4>
             <ul class="flex">
               <li v-for="(place_of_writing, i) in getArchive.creation_places" v-bind:key="i">
-                {{place_of_writing}}<template v-if="i != getArchive.creation_places.length - 1">; </template>
+                {{place_of_writing.address}}<template v-if="i != getArchive.creation_places.length - 1">; </template>
               </li>
             </ul>
           </div>
@@ -101,7 +101,7 @@
             <h4>Receiving {{ 'address' | pluralize(getArchive.places_as_relations.length) }}</h4>
             <ul class="flex">
               <li v-for="(receiving_address, i) in getArchive.places_as_relations" v-bind:key="i">
-                {{receiving_address}}<template v-if="i != getArchive.places_as_relations.length - 1">; </template>
+                {{receiving_address.address}}<template v-if="i != getArchive.places_as_relations.length - 1">; </template>
               </li>
             </ul>
           </div>
@@ -109,16 +109,15 @@
         <!-- TODO change to v-if getArchive.related -->
         <div v-if="getArchive.related">
           <h2>Related</h2>
-          <!-- TODO change to v-if getArchive.related.subjects.length > 0 -->
-          <div class="two-column-20-80" v-if="getArchive.subjects && getArchive.subjects.length > 0">
+          <div class="two-column-20-80" v-if="getArchive.related.subjects">
             <h4>Subjects</h4>
             <ul class="flex">
-              <li v-for="(subject, i) in getArchive.subjects" v-bind:key="i" class="mgn-right">
+              <li v-for="(subject, i) in getArchive.related.subjects" v-bind:key="i" class="mgn-right">
                 <!-- TODO: add filtering by subjects on the Archival records page? -->
                 <!-- <router-link :to="{}"> -->
                   {{subject.title}}
                   <!-- </router-link> -->
-                <template v-if="i != getArchive.subjects.length - 1">; </template>
+                <template v-if="i != getArchive.related.subjects.length - 1">; </template>
               </li>
             </ul>
           </div>
@@ -126,8 +125,8 @@
             <h4>Places</h4>
             <ul class="flex">
               <li v-for="(place, i) in getArchive.related.places_as_subjects" v-bind:key="i" class="mgn-right">
-                {{place}}
-                <template v-show="i != getArchive.related.places_as_subjects.length - 1">; </template>
+                {{place.address}}
+                <template v-if="i != getArchive.related.places_as_subjects.length - 1">; </template>
               </li>
             </ul>
           </div>
@@ -163,10 +162,9 @@
           </p>
         </div>
       </div>
-      <!-- TODO change to v-if getArchive.related.publications -->
-      <div class="grey-column" v-if="getArchive.publications && getArchive.publications != ''">
+      <div class="grey-column" v-if="getArchive.related.publications && getArchive.related.publications != ''">
         <h4>Known previous publications</h4>
-        <p v-html="getArchive.publications"></p>
+        <p v-html="getArchive.related.publications"></p>
       </div>
       <template v-if="getArchive.provenance">
         <h4>Custodial history</h4>
@@ -185,8 +183,7 @@
                 {{location}}<template v-if="i != getArchive.origin_locations.length - 1">; </template>
               </span>
             </template>
-            <!-- TODO fix URL in the response - it should be related to https://gpp.rct.uk/ -->
-            <!-- <a v-if="getArchive.url" v-bind:href="getArchive.url" target="_blank">See record at the Georgian Papers online</a> -->
+            <a v-if="getArchive.url" v-bind:href="getArchive.url" target="_blank">See record at the Georgian Papers online</a>
           </div>
           <div class="grey-column" v-if="getArchive.withheld || getArchive.publication_permission || getArchive.copyright_status">
             <template v-if="getArchive.withheld">
