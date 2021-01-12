@@ -6,16 +6,9 @@
             <div class="two-column-70-30">
                 <p v-if="getArchive.description">{{getArchive.description}}</p>
                 <div class="grey-column">
-                    <!-- TODO: change to v-if="getArchive.ra_references && getArchive.ra_references.length > 0" -->
                     <div class="two-column-30-70" v-if="getArchive.references && getArchive.references.length > 0" >
                         <h4>RA {{ 'Reference' | pluralize(getArchive.references.length) }}</h4>
-                        <span>
-                            <!-- TODO: normalise the data response, change to getArchive.ra_references -->
-                            {{getArchive.references[0].unitid}}
-                            <!-- <span v-for="(reference, i) in getArchive.ra_references" v-bind:key="i">
-                                {{reference.title}}<template v-if="i != getArchive.ra_references.length - 1">; </template>
-                            </span> -->
-                        </span>
+            <span v-for="(reference, i) in getArchive.references" v-bind:key="i">{{reference.unitid}}<span v-if="i != getArchive.references.length - 1">; </span></span>
                     </div>
                     <div class="two-column-30-70" v-if="getArchive.creation_dates && getArchive.creation_dates != ''">
                         <h4>Creation dates</h4>
@@ -33,8 +26,7 @@
                         <h4>{{ 'Language' | pluralize(getArchive.languages.length) }}</h4>
                         <span>
                             <span v-for="(language, i) in getArchive.languages" v-bind:key="i">
-                                <!-- TODO change to {{ language }} -->
-                                {{language.label}}<template v-if="i != getArchive.languages.length - 1">; </template>
+                                {{language}}<template v-if="i != getArchive.languages.length - 1">; </template>
                             </span>
                         </span>
                     </div>
@@ -55,7 +47,6 @@
                         </template>
                     </p>
                 </div>
-                <!-- TODO: add hierarchy to the response --> 
                 <!-- TODO: add v-if="getArchiveHierarchy" --> 
                 <div class="hierarchy">
                     <h2>Collection</h2>
@@ -68,7 +59,6 @@
                         </span>
                     </div>
                     <div class="parent-level">
-                        <!-- TODO: change to getArchiveHierarchy --> 
                         <hierarchy-template v-bind:current="getArchiveHierarchy"></hierarchy-template>
                     </div>
                 </div>

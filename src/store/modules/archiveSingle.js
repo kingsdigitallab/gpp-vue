@@ -152,7 +152,7 @@ const actions = {
             }
         };
         commit('setArchive', response.data);
-        commit('setHierarchy', response_extra.data.hierarchy);
+        commit('setHierarchy', response.data.hierarchy);
     },
     async fetchFilesItems({ commit }, id) {
         const response = await Api.getSingle('/archival/records',id);

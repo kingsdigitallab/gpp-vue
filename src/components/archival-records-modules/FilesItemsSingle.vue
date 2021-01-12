@@ -2,14 +2,13 @@
   <div>
     <div class="record" v-if="!loading">
       <h1 class="page-title">{{getArchive.title}}</h1>
-      <p class="related-to" v-if="getArchive.parentCollection">in collection: <router-link :to="{name: 'collections-series', params: {id: getArchive.parentCollection.pk}}">{{getArchive.parentCollection.title}}</router-link></p>
+      <p class="related-to" v-if="getArchive.parent_collection">in collection: <router-link :to="{name: 'collections-series', params: {id: getArchive.parent_collection.pk}}">{{getArchive.parent_collection.title}}</router-link></p>
       <div class="two-column-70-30">
         <div>
           <p v-html="getArchive.description"></p>
           <p><span class="highlight">Physical description:</span> {{getArchive.physical_description}}</p>
         </div>
         <div class="grey-column">
-          <!-- TODO: change to v-if="getArchive.ra_references && getArchive.ra_references.length > 0" -->
           <div class="two-column-30-70" v-if="getArchive.references && getArchive.references.length > 0" >
             <h4>RA References</h4>
             <span v-for="(reference, i) in getArchive.references" v-bind:key="i">{{reference.unitid}}<span v-if="i != getArchive.references.length - 1">; </span></span>
