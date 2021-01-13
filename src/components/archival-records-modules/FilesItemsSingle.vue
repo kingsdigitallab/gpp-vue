@@ -60,12 +60,12 @@
         </div>
         <div class="transcription">
           <div class="transcription-section">
-            <div v-for="(transcription, i) in getTranscriptions.transcriptions" v-bind:key="i" v-bind:id="'transcription-' + i" v-html="transcription.transcription" v-bind:class="['transcription', {'active':activeTranscription == i}]">
+            <div v-for="(transcription, i) in getTranscriptions" v-bind:key="i" v-bind:id="'transcription-' + i" v-html="transcription.transcription" v-bind:class="['transcription', {'active':activeTranscription == i}]">
               {{transcription.transcription}}
             </div>
           </div>
-          <div class="pagination-pane">
-            <paginate :page-count="getTranscriptions.media.length" :click-handler="page" :prev-text="'Prev'" :next-text="'Next'"></paginate>
+          <div class="pagination-pane" v-if="getTranscriptions">
+            <paginate :page-count="getTranscriptions.length" :click-handler="page" :prev-text="'Prev'" :next-text="'Next'"></paginate>
           </div>
         </div>
       </div>
@@ -245,7 +245,7 @@
   export default {
     name: 'FilesItemsSingle',
     components: {Paginate, OpenSeadragon},
-    computed: mapGetters(['getArchive', 'getTranscriptions']),
+    computed: mapGetters(['getArchive', 'getMedia', 'getTranscriptions']),
     data: function() {
       return {
         loading: true,
@@ -257,20 +257,19 @@
     methods: {
       async updatePage() {
         await this.fetchFilesItems(this.$route.params.id);
-        this.hasMedia = this.getTranscriptions.media.length > 0;
-
+        this.hasMedia = this.getMedia && this.getMedia.length > 0 || this.getTranscriptions && this.getTranscriptions.length > 0;
         // TODO  - order returned transcriptions?
 
         this.loading = false;
       },
       initOpenSeaDragon() {
         // TODO make sure that transcription images follow the order of transcriptions
-        if (this.getTranscriptions.media.length > 0) {
-          for (let index in this.getTranscriptions.media) {
+        if (this.getMedia.length > 0) {
+          for (let index in this.getMedia) {
             tileSources.push({
               type: 'image',
               "@context": "http://iiif.io/api/image/2/context.json",
-              "@id": this.getTranscriptions.media[index].iiif_url,
+              "@id": this.getMedia[index].iiif_url,
               "profile": "http://iiif.io/api/image/2/level1.json",
               "height": 7200,
               "width": 5233,

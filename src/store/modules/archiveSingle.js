@@ -3,12 +3,14 @@ import Api from '../../services/Api';
 const state = {
     archive: {},
     hierarchy: {},
+    media: [],
     transcriptions: []
 };
 
 const getters = {
     getArchive: (state) => state.archive,
     getArchiveHierarchy: (state) => state.hierarchy,
+    getMedia: (state) => state.media,
     getTranscriptions: (state) => state.transcriptions
 };
 
@@ -260,13 +262,15 @@ const actions = {
         }
 
         commit('setArchive', response.data);
-        commit('setTranscriptions', response_transcriptions.data);
+        commit('setTranscriptions', response.data.transcriptions);
+        commit('setMedia', response.data.media);
     }
 };
 
 const mutations = {
     setArchive: (state, archive) => (state.archive = archive),
     setHierarchy: (state, hierarchy) => (state.hierarchy = hierarchy),
+    setMedia: (state, media) => (state.media = media),
     setTranscriptions: (state, transcriptions) => (state.transcriptions = transcriptions)
 };
 
