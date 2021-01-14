@@ -46,7 +46,7 @@ const actions = {
                 facets: ...
             }
         */
-        const response = await Api.get('/archival/records');
+        const response = await Api.get('/archival/records/');
         // TODO: add facets to the response or send another request for facets
         const response_placeholder = {
             data: {
@@ -225,8 +225,8 @@ const actions = {
 
         commit('setLoadMoreUrl', response.data.next);
         commit('setArchivalRecords', response.data.results);
-        commit('setTotal', response_placeholder.data.count);
-        commit('setFacets', response_placeholder.data.facets);
+        commit('setTotal', response.data.count);
+        commit('setFacets', response.data.facets);
         commit('setLetterIndex', response_placeholder.data.letterIndex);
     },
     async loadMoreArchivalRecords({ commit }) {
