@@ -167,287 +167,300 @@ import noUiSlider from 'nouislider';
 import 'nouislider/distribute/nouislider.css';
 
 export default {
-	name: 'ArchiveList',
-	computed: mapGetters(['getArchivalRecords', 'getTotalArchives', 'getArchivalFacets', 'getArchivalLetterIndex']),
-	data: function() {
-		return {
-			loadingRecords: true,
-			loadingMoreRecords: false,
-			
-			// creation year range filter
-			// dynamic values
-			minCreationRange: 0,
-			maxCreationRange: 0,
-			// static values onInit
-			creationSlider: {
-				startMin: 0,
-				startMax: 0,
-				min: 0,
-				max: 0
-			},
+  name: 'ArchiveList',
+  computed: mapGetters([
+    'getArchivalRecords', 'getTotalArchives', 'getArchivalFacets',
+    'getArchivalLetterIndex'
+  ]),
+  data: function() {
+    return {
+      loadingRecords: true,
+      loadingMoreRecords: false,
 
-			// see all buttons
-			addresseesCheckbox: false,
-			languagesCheckbox: false,
-			recordTypeCheckbox: false,
-			writersCheckbox: false,
+      // creation year range filter
+      // dynamic values
+      minCreationRange: 0,
+      maxCreationRange: 0,
+      // static values onInit
+      creationSlider: {
+        startMin: 0,
+        startMax: 0,
+        min: 0,
+        max: 0
+      },
 
-			// instant search
-			searchAddressees: '',
-			searchRecordTypes: '',
-			searchWriters: '',
-			searchLanguages: '',
+      // see all buttons
+      addresseesCheckbox: false,
+      languagesCheckbox: false,
+      recordTypeCheckbox: false,
+      writersCheckbox: false,
 
-			// params
-			pageNum: 1,
-			selectedFacets: [],
-			creationYears: [0,0],
-			activeLetter: ''
-		}
-	},
-	methods: {
-		// year range filters
-      	initCreationYearRange(min, max) {
-      		// init min and max year range dynamic toggles if they have not been updated based on the URL params
-			if (this.minCreationRange == 0) {
-				this.minCreationRange = min;
-			} 
-			if (this.maxCreationRange == 0){
-				this.maxCreationRange = max;
-			}
-      
-			// init static values
-			this.creationSlider.startMin = this.minCreationRange;
-			this.creationSlider.startMax = this.maxCreationRange;
-			this.creationSlider.min = min;
-			this.creationSlider.max = max;
+      // instant search
+      searchAddressees: '',
+      searchRecordTypes: '',
+      searchWriters: '',
+      searchLanguages: '',
 
-			// init slider with static values
-			noUiSlider.create(this.$refs.creationSlider, {
-				start: [this.creationSlider.startMin, this.creationSlider.startMax],
-				step: 1,
-				range: {
-				'min': this.creationSlider.min,
-				'max': this.creationSlider.max
-				}
-			}); 
-					
-			this.$refs.creationSlider.noUiSlider.on('update',(values, handle) => {
-				this[handle ? 'maxCreationRange' : 'minCreationRange'] = parseInt(values[handle]);
-			});
-		},
-		updateCreationSlider(min, max) {
-			this.$refs.creationSlider.noUiSlider.set([min, max]);
-		},
+      // params
+      pageNum: 1,
+      selectedFacets: [],
+      creationYears: [0,0],
+      activeLetter: ''
+    }
+  },
+  methods: {
+    // year range filters
+    initCreationYearRange(min, max) {
+      // init min and max year range dynamic toggles if they have not
+      // been updated based on the URL params
+      if (this.minCreationRange == 0) {
+        this.minCreationRange = min;
+      }
+      if (this.maxCreationRange == 0){
+        this.maxCreationRange = max;
+      }
 
-		// check options in the facets based on selected facets
-		checkedOption(category, key) {
-			return this.selectedFacets.filter(obj => obj.key.toString().toLowerCase().replace(/[’’']/g, "")===key.toString().toLowerCase().replace(/[’’']/g, "") && obj.category===category).length > 0;
-		},
+      // init static values
+      this.creationSlider.startMin = this.minCreationRange;
+      this.creationSlider.startMax = this.maxCreationRange;
+      this.creationSlider.min = min;
+      this.creationSlider.max = max;
 
-		// sort the list of options displayed in filters
-		sortedData (list, query, sortingOrder) {
-			query = query.toLowerCase();
-			var sortedList = list.slice().filter(function (item) {
-				var name = item.key.toLowerCase();
-				return name.match(query);
-			})
-			if (sortingOrder == 'alphabetical')  {
-				sortedList.sort((a, b) => a.key.localeCompare(b.key));
-			} else if (sortingOrder == 'count') {
-				sortedList.sort((a, b) => b.doc_count - a.doc_count);
-			} 
-			return sortedList;
-		},
-		
-		async filterByYear(facet, min_year, max_year) {
-			this.loadingRecords = true;
+      // init slider with static values
+      noUiSlider.create(this.$refs.creationSlider, {
+        start: [this.creationSlider.startMin, this.creationSlider.startMax],
+        step: 1,
+        range: {
+          'min': this.creationSlider.min,
+          'max': this.creationSlider.max
+        }
+      });
 
-			const setQuery = this.$route.query;
-			this.pageNum = 1;
-			setQuery['page'] = this.pageNum;
-			const yearString = min_year + '-' + max_year;
-			
-			if (setQuery[facet] && setQuery[facet] == yearString) {
-				// change values to default
-				this.creationYears = [0,0];
-				this.minCreationRange = this.creationSlider.min;
-				this.maxCreationRange = this.creationSlider.max;
-				this.updateCreationSlider(this.creationSlider.min, this.creationSlider.max);
-				delete setQuery[facet];
-			} else {
-				// set new values
-				this.creationYears[0] = min_year;
-				this.creationYears[1] = max_year;
+      this.$refs.creationSlider.noUiSlider.on('update',(values, handle) => {
+        this[handle ? 'maxCreationRange' : 'minCreationRange'] = parseInt(values[handle]);
+      });
+    },
+    updateCreationSlider(min, max) {
+      this.$refs.creationSlider.noUiSlider.set([min, max]);
+    },
 
-				// set dynamic values on the frontend
-				this.minCreationRange = min_year;
-				this.maxCreationRange = max_year;
-				setQuery[facet] = min_year + '-' + max_year;
-			}
+    // check options in the facets based on selected facets
+    checkedOption(category, key) {
+      return this.selectedFacets.filter(obj => obj.key.toString().toLowerCase().replace(/[’’']/g, "")===key.toString().toLowerCase().replace(/[’’']/g, "") && obj.category===category).length > 0;
+    },
 
-			this.$router.replace({ query: {} });
-			this.$router.push({query: setQuery});
-			await this.fetchArchivalRecords({'pages': this.pageNum, 
-											'creation_years': JSON.parse(JSON.stringify(this.creationYears)), 
-											'selectedFacets': JSON.parse(JSON.stringify(this.selectedFacets)), 
-											'letter': this.activeLetter});
-			this.loadingRecords = false;
-		},
-		async filterByLetter(letter) {
-			this.loadingRecords = true;
+    // sort the list of options displayed in filters
+    sortedData (list, query, sortingOrder) {
+      query = query.toLowerCase();
+      var sortedList = list.slice().filter(function (item) {
+        var name = item.key.toLowerCase();
+        return name.match(query);
+      })
+      if (sortingOrder == 'alphabetical')  {
+        sortedList.sort((a, b) => a.key.localeCompare(b.key));
+      } else if (sortingOrder == 'count') {
+        sortedList.sort((a, b) => b.doc_count - a.doc_count);
+      }
+      return sortedList;
+    },
 
-			this.activeLetter = letter;
-			
-			const setQuery = this.$route.query;
-            this.pageNum = 1;
-            setQuery['page'] = this.pageNum;
+    async filterByYear(facet, min_year, max_year) {
+      this.loadingRecords = true;
 
-			if (letter != '') {
-				setQuery['letter'] = letter;
-			} else if (setQuery['letter']) {
-				delete setQuery['letter'];
-			}
+      const setQuery = this.$route.query;
+      this.pageNum = 1;
+      setQuery['page'] = this.pageNum;
+      const yearString = min_year + '-' + max_year;
 
-			this.$router.replace({ query: {} });
-			this.$router.push({query: setQuery});
-			
-			await this.fetchArchivalRecords({'pages': this.pageNum, 
-											'creation_years': JSON.parse(JSON.stringify(this.creationYears)), 
-											'selectedFacets': JSON.parse(JSON.stringify(this.selectedFacets)), 
-											'letter': this.activeLetter});
-			this.loadingRecords = false;
-		},
-		async filter(facet, option) {
-			this.loadingRecords = true;
+      if (setQuery[facet] && setQuery[facet] == yearString) {
+        // change values to default
+        this.creationYears = [0,0];
+        this.minCreationRange = this.creationSlider.min;
+        this.maxCreationRange = this.creationSlider.max;
+        this.updateCreationSlider(this.creationSlider.min, this.creationSlider.max);
+        delete setQuery[facet];
+      } else {
+        // set new values
+        this.creationYears[0] = min_year;
+        this.creationYears[1] = max_year;
 
-			const setQuery = this.$route.query;
-			this.pageNum = 1;
-			setQuery['page'] = this.pageNum;
-			if (this.selectedFacets.filter(obj => obj.key===option && obj.category===facet).length > 0) {
-				this.selectedFacets = this.selectedFacets.filter(object => !(object.category === facet && object.key === option));
-				if (!Array.isArray(setQuery[facet])) {
-					delete setQuery[facet];
-				}
-				else {
-					setQuery[facet].splice(setQuery[facet].indexOf(option),1);
-				}
-			} else {
-				this.selectedFacets.push({'category': facet, 'key': option});
-				if (setQuery[facet])  {
-					if (!Array.isArray(setQuery[facet])) {
-						setQuery[facet] = [setQuery[facet]];
-					}
-					setQuery[facet].push(option);
-				} 
-				else {
-					setQuery[facet] = [option];
-				}
-			}
-			this.$router.replace({ query: {} });
-			this.$router.push({query: setQuery});
+        // set dynamic values on the frontend
+        this.minCreationRange = min_year;
+        this.maxCreationRange = max_year;
+        setQuery[facet] = min_year + '-' + max_year;
+      }
 
-			await this.fetchArchivalRecords({'pages': this.pageNum, 
-											'creation_years': JSON.parse(JSON.stringify(this.creationYears)),
-											'selectedFacets': JSON.parse(JSON.stringify(this.selectedFacets)), 
-											'letter': this.activeLetter}); 
-			this.loadingRecords = false;
-		},
-		async clearFacets() {
-			this.loadingRecords = true;
+      this.$router.replace({ query: {} });
+      this.$router.push({query: setQuery});
+      await this.fetchArchivalRecords({
+        'page': this.pageNum,
+        'creation_years': JSON.parse(JSON.stringify(this.creationYears)),
+        'selectedFacets': JSON.parse(JSON.stringify(this.selectedFacets)),
+        'letter': this.activeLetter
+      });
+      this.loadingRecords = false;
+    },
+    async filterByLetter(letter) {
+      this.loadingRecords = true;
 
-            this.pageNum = 1;
-			this.activeLetter = '';
-			this.selectedFacets = [];
-			this.creationYears = [0,0];
+      this.activeLetter = letter;
 
-			// change dynamic toggles to static values and update year range sliders
-			this.minCreationRange = this.creationSlider.min;
-      		this.maxCreationRange = this.creationSlider.max;
-			this.updateCreationSlider(this.creationSlider.min, this.creationSlider.max);
+      const setQuery = this.$route.query;
+      this.pageNum = 1;
+      setQuery['page'] = this.pageNum;
 
-			this.$router.replace({ query: {} });
-			await this.fetchArchivalRecords({'pages': this.pageNum, 
-											'creation_years': JSON.parse(JSON.stringify(this.creationYears)), 
-											'selectedFacets': JSON.parse(JSON.stringify(this.selectedFacets)),
-											'letter': this.activeLetter});
-			this.loadingRecords = false;
-		},
+      if (letter != '') {
+        setQuery['letter'] = letter;
+      } else if (setQuery['letter']) {
+        delete setQuery['letter'];
+      }
 
-		async moreRecords() {
-			this.loadingMoreRecords = true;
+      this.$router.replace({ query: {} });
+      this.$router.push({query: setQuery});
 
-			this.pageNum = Number(this.pageNum) + 1;
+      await this.fetchArchivalRecords({
+        'page': this.pageNum,
+        'creation_years': JSON.parse(JSON.stringify(this.creationYears)),
+        'selectedFacets': JSON.parse(JSON.stringify(this.selectedFacets)),
+        'letter': this.activeLetter
+      });
+      this.loadingRecords = false;
+    },
+    async filter(facet, option) {
+      this.loadingRecords = true;
 
-			const setQuery = this.$route.query;
-			setQuery['page'] = Number(this.pageNum);
-			this.$router.replace({ query: {} });
-			this.$router.push({query: setQuery});
+      const setQuery = this.$route.query;
+      this.pageNum = 1;
+      setQuery['page'] = this.pageNum;
+      if (this.selectedFacets.filter(obj => obj.key===option && obj.category===facet).length > 0) {
+        this.selectedFacets = this.selectedFacets.filter(object => !(object.category === facet && object.key === option));
+        if (!Array.isArray(setQuery[facet])) {
+          delete setQuery[facet];
+        }
+        else {
+          setQuery[facet].splice(setQuery[facet].indexOf(option),1);
+        }
+      } else {
+        this.selectedFacets.push({'category': facet, 'key': option});
+        if (setQuery[facet])  {
+          if (!Array.isArray(setQuery[facet])) {
+            setQuery[facet] = [setQuery[facet]];
+          }
+          setQuery[facet].push(option);
+        }
+        else {
+          setQuery[facet] = [option];
+        }
+      }
+      this.$router.replace({ query: {} });
+      this.$router.push({query: setQuery});
 
-			// ?: change to await this.fetchArchivalRecords({'pages': this.pageNum, 'selectedFacets': JSON.parse(JSON.stringify(this.selectedFacets)), 'letter': this.activeLetter});
-			await this.loadMoreArchivalRecords();
+      await this.fetchArchivalRecords({
+        'page': this.pageNum,
+        'creation_years': JSON.parse(JSON.stringify(this.creationYears)),
+        'selectedFacets': JSON.parse(JSON.stringify(this.selectedFacets)),
+        'letter': this.activeLetter
+      });
+      this.loadingRecords = false;
+    },
+    async clearFacets() {
+      this.loadingRecords = true;
 
-			this.loadingMoreRecords = false;
-		},
-		toggleFilters() {
-			const filters = document.querySelector('.filters');
-			filters.classList.toggle('active');
-		},
-		...mapActions(['fetchArchivalRecords','loadMoreArchivalRecords'])
-	},
-	filters: {
-		capitalize: function (value) {
-			if (!value) {
-				return '';
-			}
-			value = value.toString();
-			return value.charAt(0).toUpperCase() + value.slice(1);
-		}
-	},
-	async created() {
-		// process query from URL and update selectedFacets and year range
-		const setQuery = this.$route.query;
-		for (var key in setQuery) {
-			switch (key){
-				case 'letter':
-					this.activeLetter = setQuery[key];
-					break;
-				case 'page':
-					this.pageNum = Number(setQuery[key]);
-					break;
-				case 'creation_years':
-					// init selected filters
-					this.creationYears[0] = Number(setQuery[key].split('-')[0]);
-					this.creationYears[1] = Number(setQuery[key].split('-')[1]);
+      this.pageNum = 1;
+      this.activeLetter = '';
+      this.selectedFacets = [];
+      this.creationYears = [0,0];
 
-					// init dynamic year range values
-					this.minCreationRange = Number(setQuery[key].split('-')[0]);
-					this.maxCreationRange = Number(setQuery[key].split('-')[1]);
-					break;
-				default:
-					if (Array.isArray(setQuery[key])) {
-						for (var i in setQuery[key]) {
-						this.selectedFacets.push({'category': key, 'key': setQuery[key][i]});
-						}
-					} else {
-						this.selectedFacets.push({'category': key, 'key': setQuery[key]});
-					}
-			}
-		}
+      // change dynamic toggles to static values and update year range sliders
+      this.minCreationRange = this.creationSlider.min;
+      this.maxCreationRange = this.creationSlider.max;
+      this.updateCreationSlider(this.creationSlider.min, this.creationSlider.max);
 
-		// get archival records
-		await this.fetchArchivalRecords({'pages': this.pageNum, 
-										'creation_years': JSON.parse(JSON.stringify(this.creationYears)), 
-										'selectedFacets': JSON.parse(JSON.stringify(this.selectedFacets)), 
-										'letter': this.activeLetter});
+      this.$router.replace({ query: {} });
+      await this.fetchArchivalRecords({
+        'page': this.pageNum,
+        'creation_years': JSON.parse(JSON.stringify(this.creationYears)),
+        'selectedFacets': JSON.parse(JSON.stringify(this.selectedFacets)),
+        'letter': this.activeLetter
+      });
+      this.loadingRecords = false;
+    },
 
+    async moreRecords() {
+      this.loadingMoreRecords = true;
 
-		// set up the year range filter if creation years is sent in response
-		if (this.getArchivalFacets.creation_years && this.getArchivalFacets.creation_years[0] > 0 && this.getArchivalFacets.creation_years[1] > 0) {
-			this.initCreationYearRange(this.getArchivalFacets.creation_years[0], this.getArchivalFacets.creation_years[1]);
-		}
+      this.pageNum = Number(this.pageNum) + 1;
 
-		this.loadingRecords = false;
-	}
+      const setQuery = this.$route.query;
+      setQuery['page'] = Number(this.pageNum);
+      this.$router.replace({ query: {} });
+      this.$router.push({query: setQuery});
+
+      // ?: change to await this.fetchArchivalRecords({'page': this.pageNum, 'selectedFacets': JSON.parse(JSON.stringify(this.selectedFacets)), 'letter': this.activeLetter});
+      await this.loadMoreArchivalRecords();
+
+      this.loadingMoreRecords = false;
+    },
+    toggleFilters() {
+      const filters = document.querySelector('.filters');
+      filters.classList.toggle('active');
+    },
+    ...mapActions(['fetchArchivalRecords','loadMoreArchivalRecords'])
+  },
+  filters: {
+    capitalize: function (value) {
+      if (!value) {
+        return '';
+      }
+      value = value.toString();
+      return value.charAt(0).toUpperCase() + value.slice(1);
+    }
+  },
+  async created() {
+    // process query from URL and update selectedFacets and year range
+    const setQuery = this.$route.query;
+    for (var key in setQuery) {
+      switch (key){
+      case 'letter':
+          this.activeLetter = setQuery[key];
+        break;
+      case 'page':
+          this.pageNum = Number(setQuery[key]);
+        break;
+      case 'creation_years':
+        // init selected filters
+        this.creationYears[0] = Number(setQuery[key].split('-')[0]);
+        this.creationYears[1] = Number(setQuery[key].split('-')[1]);
+
+        // init dynamic year range values
+        this.minCreationRange = Number(setQuery[key].split('-')[0]);
+        this.maxCreationRange = Number(setQuery[key].split('-')[1]);
+        break;
+      default:
+        if (Array.isArray(setQuery[key])) {
+          for (var i in setQuery[key]) {
+            this.selectedFacets.push({'category': key, 'key': setQuery[key][i]});
+          }
+        } else {
+          this.selectedFacets.push({'category': key, 'key': setQuery[key]});
+        }
+      }
+    }
+
+    // get archival records
+    await this.fetchArchivalRecords({
+      'page': this.pageNum,
+      'creation_years': JSON.parse(JSON.stringify(this.creationYears)),
+      'selectedFacets': JSON.parse(JSON.stringify(this.selectedFacets)),
+      'letter': this.activeLetter
+    });
+
+    // set up the year range filter if creation years is sent in response
+    if (this.getArchivalFacets.creation_years && this.getArchivalFacets.creation_years[0] > 0 && this.getArchivalFacets.creation_years[1] > 0) {
+      this.initCreationYearRange(this.getArchivalFacets.creation_years[0], this.getArchivalFacets.creation_years[1]);
+    }
+
+    this.loadingRecords = false;
+  }
 }
 </script>
