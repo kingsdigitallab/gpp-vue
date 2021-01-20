@@ -9,9 +9,10 @@ async function getUrl(url) {
     });
 }
 
-async function get(action) {
+async function get(action, params) {
     return axios.get(`${API_URL}${action}`, {
-        headers: getHeaders()
+      headers: getHeaders(),
+      params: getParams(params)
     });
 }
 
@@ -31,6 +32,21 @@ function getHeaders() {
     return {
         Authorization: `Token ${TOKEN}`,
     }
+}
+
+function getParams(params) {
+  let searchParams = new URLSearchParams();
+  for (let [key, value] of Object.entries(params)) {
+    if (key == 'selectedFacets') {
+      for (let facet in value) {
+        searchParams.append(params.selectedFacets[facet].category,
+                            params.selectedFacets[facet].key);
+      }
+    } else {
+      searchParams.append(key, value);
+    }
+  }
+  return searchParams;
 }
 
 const Api = {
