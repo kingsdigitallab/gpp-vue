@@ -20,7 +20,7 @@
             <div class="toggle-section">
               <div class="facets">
                 <label v-for="(level, index) in getArchivalFacets.archival_level" v-bind:key="index" class="facet">
-                  <input type="checkbox" name="level" v-bind:aria-label="level.label" :value="level.key" v-on:click="filter('archival_level', level.key)" :checked="checkedOption('archival_level', level.key)"/> {{level.label}} <span class="count">({{level.doc_count}})</span>
+                  <input type="checkbox" name="level" v-bind:aria-label="level.label" :value="level.key" v-on:click="filter('archival_level', level.key, level.label)" :checked="checkedOption('archival_level', level.key)"/> {{level.label}} <span class="count">({{level.doc_count}})</span>
                 </label>
               </div>
             </div>
@@ -33,7 +33,7 @@
               <input v-if="getArchivalFacets.record_types.length > 5" type="text" aria-label="Search record type" placeholder="Search record type" onfocus="this.placeholder=''" v-on:click="recordTypeCheckbox = true" v-model="searchRecordTypes" onblur="this.placeholder='Search record type'" name="record_type_search"/>
               <div class="facets">
                 <label v-for="(type, index) in sortedData(getArchivalFacets.record_types, searchRecordTypes, 'count')" v-bind:key="index" class="facet" v-show="index < 5 || recordTypeCheckbox">
-                  <input type="checkbox" name="type" v-bind:aria-label="type.label" :value="type.key" v-on:click="filter('record_types', type.key)" :checked="checkedOption('record_types', type.key)"/> {{type.label}} <span class="count">({{type.doc_count}})</span>
+                  <input type="checkbox" name="type" v-bind:aria-label="type.label" :value="type.key" v-on:click="filter('record_types', type.key, type.label)" :checked="checkedOption('record_types', type.key)"/> {{type.label}} <span class="count">({{type.doc_count}})</span>
                 </label>
               </div>
               <input type="checkbox" id="show-all-record-types" class="show-checkbox" v-model="recordTypeCheckbox">
@@ -48,7 +48,7 @@
               <input v-if="getArchivalFacets.writers.length > 5" type="text" aria-label="Search writer" placeholder="Search writer" onfocus="this.placeholder=''" v-on:click="writersCheckbox = true" v-model="searchWriters" onblur="this.placeholder='Search writer'" name="writer_search"/>
               <div class="facets">
                 <label v-for="(writer, index) in sortedData(getArchivalFacets.writers, searchWriters, 'alphabetical')" v-bind:key="index" class="facet" v-show="index < 5 || writersCheckbox">
-                  <input type="checkbox" name="writer" v-bind:aria-label="writer.key" :value="writer.key" v-on:click="filter('writers', writer.key)" :checked="checkedOption('writers', writer.key)"/> {{writer.label}} <span class="count">({{writer.doc_count}})</span>
+                  <input type="checkbox" name="writer" v-bind:aria-label="writer.key" :value="writer.key" v-on:click="filter('writers', writer.key, writer.label)" :checked="checkedOption('writers', writer.key)"/> {{writer.label}} <span class="count">({{writer.doc_count}})</span>
                 </label>
               </div>
               <input type="checkbox" id="show-all-writers" class="show-checkbox" v-model="writersCheckbox">
@@ -63,7 +63,7 @@
               <input v-if="getArchivalFacets.persons_as_relations.length > 5" type="text" aria-label="Search addressee" placeholder="Search addressee" onfocus="this.placeholder=''" v-on:click="addresseesCheckbox = true" v-model="searchAddressees" onblur="this.placeholder='Search addressee'" name="addressee_search"/>
               <div class="facets">
                 <label v-for="(addressee, index) in sortedData(getArchivalFacets.persons_as_relations, searchAddressees, 'alphabetical')" v-bind:key="index" class="facet" v-show="index < 5 || addresseesCheckbox">
-                  <input type="checkbox" name="addressee" :value="addressee.key" v-bind:aria-label="addressee.label" v-on:click="filter('person_as_relations', addressee.key)" :checked="checkedOption('person_as_relations', addressee.key)"/> {{addressee.label}} <span class="count">({{addressee.doc_count}})</span>
+                  <input type="checkbox" name="addressee" :value="addressee.key" v-bind:aria-label="addressee.label" v-on:click="filter('person_as_relations', addressee.key, addressee.label)" :checked="checkedOption('person_as_relations', addressee.key)"/> {{addressee.label}} <span class="count">({{addressee.doc_count}})</span>
                 </label>
               </div>
               <input type="checkbox" id="show-all-addressees" class="show-checkbox" v-model="addresseesCheckbox">
@@ -78,7 +78,7 @@
               <input v-if="getArchivalFacets.languages.length > 5" type="text" aria-label="Search language" placeholder="Search language" onfocus="this.placeholder=''" v-on:click="languagesCheckbox = true" v-model="searchLanguages" onblur="this.placeholder='Search language'" name="language_search"/>
               <div class="facets">
                 <label v-for="(language, index) in sortedData(getArchivalFacets.languages, searchLanguages, 'count')" v-bind:key="index" class="facet" v-show="index < 5 || languagesCheckbox">
-                  <input type="checkbox" name="language" :value="language.key" v-bind:aria-label="language.label" v-on:click="filter('language', language.key)" :checked="checkedOption('language', language.key)"/> {{language.label}} <span class="count">({{language.doc_count}})</span>
+                  <input type="checkbox" name="language" :value="language.key" v-bind:aria-label="language.label" v-on:click="filter('language', language.key, language.label)" :checked="checkedOption('language', language.key)"/> {{language.label}} <span class="count">({{language.doc_count}})</span>
                 </label>
               </div>
               <input type="checkbox" id="show-all-languages" class="show-checkbox" v-model="languagesCheckbox">
@@ -86,7 +86,7 @@
             </div>
           </fieldset>
           <label v-if="getArchivalFacets.with_transcriptions">
-            <input type="checkbox" name="facets.with_transcriptions" value="Show only records with transcriptions" aria-label="Show only records with transcriptions" v-on:click="filter('with_transcriptions', 'true')" :checked="selectedFacets.filter(obj => obj.category==='with_transcriptions').length > 0"/>{{getArchivalFacets.with_transcriptions.key}} <span class="count">({{getArchivalFacets.with_transcriptions.doc_count}})</span>
+            <input type="checkbox" name="facets.with_transcriptions" value="Show only records with transcriptions" aria-label="Show only records with transcriptions" v-on:click="filter('with_transcriptions', 'true', 'true')" :checked="selectedFacets.filter(obj => obj.category==='with_transcriptions').length > 0"/>{{getArchivalFacets.with_transcriptions.key}} <span class="count">({{getArchivalFacets.with_transcriptions.doc_count}})</span>
           </label>
         </div>
       </div>
@@ -103,11 +103,11 @@
             <template v-if="selectedFacets.length > 0">
               <label v-for="(selectedFacet, index) in selectedFacets" v-bind:key="index" class="facet">
                 <template v-if="selectedFacet.category == 'with_transcriptions'">
-                  <input type="checkbox" v-bind:name="selectedFacet.category" value="Show only records with transcriptions" aria-label="Show only records with transcriptions" v-on:click="filter(selectedFacet.category, 'true')" checked/> Show only records with transcriptions
+                  <input type="checkbox" v-bind:name="selectedFacet.category" value="Show only records with transcriptions" aria-label="Show only records with transcriptions" v-on:click="filter(selectedFacet.category, 'true', 'true')" checked/> Show only records with transcriptions
                 </template>
                 <template v-else>
-                  <input type="checkbox" v-bind:name="selectedFacet.category" :value="selectedFacet.key" v-bind:aria-label="selectedFacet.key" v-on:click="filter(selectedFacet.category, selectedFacet.key)" checked/> 
-                  {{ selectedFacet.key }}
+                  <input type="checkbox" v-bind:name="selectedFacet.category" :value="selectedFacet.key" v-bind:aria-label="selectedFacet.key" v-on:click="filter(selectedFacet.category, selectedFacet.key, selectedFacet.label)" checked/> 
+                  {{ selectedFacet.label }}
                 </template>
               </label>
             </template>
@@ -326,30 +326,30 @@ export default {
       });
       this.loadingRecords = false;
     },
-    async filter(facet, option) {
+    async filter(facet, key, label) {
       this.loadingRecords = true;
 
       const setQuery = this.$route.query;
       this.pageNum = 1;
       setQuery['page'] = this.pageNum;
-      if (this.selectedFacets.filter(obj => obj.key===option && obj.category===facet).length > 0) {
-        this.selectedFacets = this.selectedFacets.filter(object => !(object.category === facet && object.key === option));
+      if (this.selectedFacets.filter(obj => obj.key===key && obj.category===facet).length > 0) {
+        this.selectedFacets = this.selectedFacets.filter(object => !(object.category === facet && object.key === key));
         if (!Array.isArray(setQuery[facet])) {
           delete setQuery[facet];
         }
         else {
-          setQuery[facet].splice(setQuery[facet].indexOf(option),1);
+          setQuery[facet].splice(setQuery[facet].indexOf(key),1);
         }
       } else {
-        this.selectedFacets.push({'category': facet, 'key': option});
+        this.selectedFacets.push({'category': facet, 'key': key, 'label': label});
         if (setQuery[facet])  {
           if (!Array.isArray(setQuery[facet])) {
             setQuery[facet] = [setQuery[facet]];
           }
-          setQuery[facet].push(option);
+          setQuery[facet].push(key);
         }
         else {
-          setQuery[facet] = [option];
+          setQuery[facet] = [key];
         }
       }
       this.$router.replace({ query: {} });
