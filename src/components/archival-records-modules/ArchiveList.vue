@@ -204,7 +204,7 @@ export default {
       // params
       pageNum: 1,
       selectedFacets: [],
-      creationYears: [0,0],
+      creationYears: [0,2100],
       activeLetter: ''
     }
   },
@@ -253,7 +253,7 @@ export default {
     sortedData (list, query, sortingOrder) {
       query = query.toLowerCase();
       var sortedList = list.slice().filter(function (item) {
-        var name = item.key.toLowerCase();
+        var name = item.label.toLowerCase();
         return name.match(query);
       })
       if (sortingOrder == 'alphabetical')  {

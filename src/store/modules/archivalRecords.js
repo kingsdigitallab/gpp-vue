@@ -40,103 +40,7 @@ const actions = {
           },
           {
             name: 'B',
-            missing: false
-          },
-          {
-            name: 'C',
             missing: true
-          },
-          {
-            name: 'D',
-            missing: true
-          },
-          {
-            name: 'E',
-            missing: true
-          },
-          {
-            name:'F',
-            missing: false
-          },
-          {
-            name: 'G',
-            missing: false
-          },
-          {
-            name: 'H',
-            missing: false
-          },
-          {
-            name: 'I',
-            missing: false
-          },
-          {
-            name: 'J',
-            missing: false
-          },
-          {
-            name: 'K',
-            missing: false
-          },
-          {
-            name: 'L',
-            missing: false
-          },
-          {
-            name: 'M',
-            missing: false
-          },
-          {
-            name: 'N',
-            missing: false
-          },
-          {
-            name: 'O',
-            missing: false
-          },
-          {
-            name: 'P',
-            missing: false
-          },
-          {
-            name: 'Q',
-            missing: false
-          },
-          {
-            name: 'R',
-            missing: false
-          },
-          {
-            name: 'S',
-            missing: false
-          },
-          {
-            name: 'T',
-            missing: false
-          },
-          {
-            name: 'U',
-            missing: false
-          },
-          {
-            name: 'V',
-            missing: false
-          },
-          {
-            name: 'W',
-            missing: false
-          },
-          {
-            name: 'X',
-            missing: false
-          },
-          {
-            name: 'Y',
-            missing: false
-          },
-          {
-            name: 'Z',
-            missing: false
           },
           {
             name: '0-9',
@@ -147,54 +51,18 @@ const actions = {
           creation_years: [1700, 2020],
           archival_level: [
             {key: "Collection", doc_count: 19},
-            {key: "Series", doc_count: 84},
-            {key: "File", doc_count: 349},
-            {key: "Item", doc_count: 452},
           ],
           record_types: [
             {key: "Writings (documents)", doc_count: 5},
-            {key: "Correspondence", doc_count: 4},
-            {key: "Diaries", doc_count: 2},
-            {key: "Financial records", doc_count: 9},
-            {key: "Legal documents", doc_count: 2},
-            {key: "Registers (lists)", doc_count: 2},
-            {key: "Wills", doc_count: 5},
-            {key: "Commonplace books", doc_count: 1},
           ],
           creators: [
             {key: "George III, 1738-1820, King of Great Britain and Ireland", doc_count: 541},
-            {key: "Grafton, 3rd Duke of", doc_count: 81},
-            {key: "North, Frederick, Lord", doc_count: 75},
-            {key: "William, Prince (1765-1837)", doc_count: 69},
-            {key: "Conway, Henry Seymour (1721-1795)", doc_count: 41},
-            {key: "Rockingham, 2nd Marquess of", doc_count: 38},
-            {key: "Charlotte, Queen Consort to George III", doc_count: 37},
-            {key: "Baillie, Matthew (1761-1823)", doc_count: 34},
-            {key: "Chatham, 1st Earl of", doc_count: 26},
-            {key: "Rochford, 4th Earl of", doc_count: 24},
-            {key: "Basnett, William", doc_count: 19},
-            {key: "Parker and Perry; Glass Manufacturers", doc_count: 18},
           ],
           persons_as_relations: [
             {key: "George III, 1738-1820, King of Great Britain and Ireland", doc_count: 541},
-            {key: "Grafton, 3rd Duke of", doc_count: 81},
-            {key: "North, Frederick, Lord", doc_count: 75},
-            {key: "William, Prince (1765-1837)", doc_count: 69},
-            {key: "Conway, Henry Seymour (1721-1795)", doc_count: 41},
-            {key: "Rockingham, 2nd Marquess of", doc_count: 38},
-            {key: "Charlotte, Queen Consort to George III", doc_count: 37},
-            {key: "Baillie, Matthew (1761-1823)", doc_count: 34},
-            {key: "Chatham, 1st Earl of", doc_count: 26},
-            {key: "Rochford, 4th Earl of", doc_count: 24},
-            {key: "Basnett, William", doc_count: 19},
-            {key: "Parker and Perry; Glass Manufacturers", doc_count: 18}
           ],
           languages: [
             {key: "English", doc_count: 2463},
-            {key: "French", doc_count: 124},
-            {key: "German", doc_count: 33},
-            {key: "Italian", doc_count: 8},
-            {key: "Latin", doc_count: 6}
           ],
           with_transcriptions: {key: 'Show only records with transcriptions',doc_count: 10},
         }
