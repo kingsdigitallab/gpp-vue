@@ -19,13 +19,13 @@ const getters = {
 
 const actions = {
   async fetchArchivalRecordsPageDescription ({ commit }) {
-    const response = await Api.getSingle('/wagtail/pages/',15);
+    const response = await Api.getSingle('/wagtail/pages/', 15);
     if (response.data.introduction != '') {
       commit('setPageDescription', response.data.introduction);
     }
   },
   async fetchArchivalRecords({ commit }, params) {
-    const response = await Api.get('/archival/records/', params);
+    const response = await Api.get('/api/archival/records/', params);
     const response_placeholder = {
       data: {
         count: 2994,

@@ -3,6 +3,7 @@ import axios from 'axios';
 export const TOKEN = process.env.VUE_APP_API_TOKEN;
 const API_URL = process.env.VUE_APP_API_URL;
 
+
 async function getUrl(url) {
     return axios.get(url, {
         headers: getHeaders()
@@ -17,7 +18,7 @@ async function get(action, params) {
 }
 
 async function getSingle(action, id) {
-    return axios.get(`${API_URL}${action}/${id}/`, {
+    return axios.get(`${API_URL}${action}${id}/`, {
         headers: getHeaders()
     });
 }

@@ -135,7 +135,7 @@
             <div v-for="(item, i) in getArchivalRecords" v-bind:key="i" class="list-row">
               <!-- TODO: update to archival_level -->
               <span>
-                <router-link :to="item.archival_level == 'Collection' || item.archival_level == 'Series' ? '/archival-records/collections-series/'+(item.id) : '/archival-records/files-items/'+(item.id)" :aria-label="'document from '+(item.resourcetype)">{{item.title}}</router-link>
+                <router-link :to="item.archival_level == 'Collection' || item.archival_level == 'Series' ? '/archival-records/collections-series/'+(item.pk) : '/archival-records/files-items/'+(item.pk)" :aria-label="'document from '+(item.resourcetype)">{{item.title}}</router-link>
               </span>
               <span class="details">
                 <span>{{item.archival_level}}</span>

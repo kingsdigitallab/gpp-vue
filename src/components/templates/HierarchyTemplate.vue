@@ -4,7 +4,7 @@
             <button v-bind:class="['toggle-tab-button', {'active': current.is_ancestor}]" v-on:click="toggleTab($event)" aria-label="expand hierarchy" v-if="current.children.length > 0"></button>
             <span v-else></span>
             <span v-bind:class="[{'browsed-item': current.is_selected}]">
-                <router-link to="" class="mgn-right">{{current.title}}</router-link> {{current.children_desc}}
+                <router-link :to="current.archival_level == 'Collection' || current.archival_level == 'Series' ? '/archival-records/collections-series/'+(current.pk) : '/archival-records/files-items/'+(current.pk)" class="mgn-right">{{current.title}}</router-link> {{current.children_desc}}
             </span>
             <span class="record-details">
                 <span v-if="current.archival_level && current.archival_level != ''">{{current.archival_level}}</span>

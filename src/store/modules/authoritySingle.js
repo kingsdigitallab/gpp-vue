@@ -10,7 +10,7 @@ const getters = {
 
 const actions = {
     async fetchAuthority({ commit }, id) {
-      const response = await Api.getSingle('/authority/entities',id);
+      const response = await Api.getSingle('/authority/entities/', id);
       commit('setAuthority', response.data);
     }
 };
