@@ -32,7 +32,7 @@ async function getFilteredData(action, filters) {
 function getHeaders() {
     return {
         Authorization: `Token ${TOKEN}`,
-    }
+    };
 }
 
 function getParams(params) {

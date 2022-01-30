@@ -140,7 +140,7 @@
           <div v-if="getAuthorityEntities.length == 0" class="loader"></div>
           <div v-for="(entity, i) in getAuthorityEntities" v-bind:key="i" class="list-row">
             <span>
-              <router-link :to="'/people-and-corporate-bodies/'+(entity.id)" :aria-label="'entity type: '+(entity.entity_type)">{{entity.display_name}}</router-link>
+              <router-link :to="'/people-and-corporate-bodies/'+(entity.pk)" :aria-label="'entity type: '+(entity.entity_type)">{{entity.display_name}}</router-link>
             </span>
             <span class="details">
               <span>{{entity.entity_type}}</span>

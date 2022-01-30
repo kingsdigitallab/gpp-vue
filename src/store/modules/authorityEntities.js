@@ -25,7 +25,7 @@ const actions = {
     }
   },
   async fetchAuthorityEntities({ commit }, params) {
-    const response = await Api.get('/authority/entities', params);
+    const response = await Api.get('/api/authority/entities', params);
     const response_placeholder = {
       data: {
         letterIndex: [
