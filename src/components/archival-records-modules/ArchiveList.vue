@@ -78,7 +78,7 @@
               <input v-if="getArchivalFacets.languages.length > 5" type="text" aria-label="Search language" placeholder="Search language" onfocus="this.placeholder=''" v-on:click="languagesCheckbox = true" v-model="searchLanguages" onblur="this.placeholder='Search language'" name="language_search"/>
               <div class="facets">
                 <label v-for="(language, index) in sortedData(getArchivalFacets.languages, searchLanguages, 'count')" v-bind:key="index" class="facet" v-show="index < 5 || languagesCheckbox">
-                  <input type="checkbox" name="language" :value="language.key" v-bind:aria-label="language.label" v-on:click="filter('language', language.key, language.label)" :checked="checkedOption('language', language.key)"/> {{language.label}} <span class="count">({{language.doc_count}})</span>
+                  <input type="checkbox" name="languages" :value="language.key" v-bind:aria-label="language.label" v-on:click="filter('languages', language.key, language.label)" :checked="checkedOption('languages', language.key)"/> {{language.label}} <span class="count">({{language.doc_count}})</span>
                 </label>
               </div>
               <input type="checkbox" id="show-all-languages" class="show-checkbox" v-model="languagesCheckbox">
