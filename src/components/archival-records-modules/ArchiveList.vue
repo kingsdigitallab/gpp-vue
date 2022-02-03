@@ -55,19 +55,19 @@
               <label class="show-all dotted-underline" for="show-all-writers" v-if="getArchivalFacets.writers.length > 10 && !searchWriters"> writers</label>
             </div>
           </fieldset>
-          <fieldset v-if="getArchivalFacets.addressees && getArchivalFacets.addressees.length > 0">
+          <fieldset v-if="getArchivalFacets.persons_as_relations && getArchivalFacets.persons_as_relations.length > 0">
             <legend>Addressee</legend>
             <input type="checkbox" id="addressee-toggle" class="toggle-checkbox" />
             <label for="addressee-toggle" class="toggle-label"><span hidden>Expand/collapse addressee</span></label>
             <div class="toggle-section">
-              <input v-if="getArchivalFacets.addressees.length > 5" type="text" aria-label="Search addressee" placeholder="Search addressee" onfocus="this.placeholder=''" v-on:click="addresseesCheckbox = true" v-model="searchAddressees" onblur="this.placeholder='Search addressee'" name="addressee_search"/>
+              <input v-if="getArchivalFacets.persons_as_relations.length > 5" type="text" aria-label="Search addressee" placeholder="Search addressee" onfocus="this.placeholder=''" v-on:click="addresseesCheckbox = true" v-model="searchAddressees" onblur="this.placeholder='Search addressee'" name="addressee_search"/>
               <div class="facets">
-                <label v-for="(addressee, index) in sortedData(getArchivalFacets.addressees, searchAddressees, 'alphabetical')" v-bind:key="index" class="facet" v-show="index < 5 || addresseesCheckbox">
-                  <input type="checkbox" name="addressees" :value="addressee.key" v-bind:aria-label="addressee.label" v-on:click="filter('addressees', addressee.key, addressee.label)" :checked="checkedOption('addressees', addressee.key)"/> {{addressee.label}} <span class="count">({{addressee.doc_count}})</span>
+                <label v-for="(addressee, index) in sortedData(getArchivalFacets.persons_as_relations, searchAddressees, 'alphabetical')" v-bind:key="index" class="facet" v-show="index < 5 || addresseesCheckbox">
+                  <input type="checkbox" name="persons_as_relations" :value="addressee.key" v-bind:aria-label="addressee.label" v-on:click="filter('persons_as_relations', addressee.key, addressee.label)" :checked="checkedOption('persons_as_relations', addressee.key)"/> {{addressee.label}} <span class="count">({{addressee.doc_count}})</span>
                 </label>
               </div>
               <input type="checkbox" id="show-all-addressees" class="show-checkbox" v-model="addresseesCheckbox">
-              <label class="show-all dotted-underline" for="show-all-addressees" v-if="getArchivalFacets.addressees.length > 10 && !searchAddressees"> addressees</label>
+              <label class="show-all dotted-underline" for="show-all-addressees" v-if="getArchivalFacets.persons_as_relations.length > 10 && !searchAddressees"> addressees</label>
             </div>
           </fieldset>
           <fieldset v-if="getArchivalFacets.languages && getArchivalFacets.languages.length > 0">

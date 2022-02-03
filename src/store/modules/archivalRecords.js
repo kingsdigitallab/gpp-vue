@@ -58,7 +58,7 @@ const actions = {
           creators: [
             {key: "George III, 1738-1820, King of Great Britain and Ireland", doc_count: 541},
           ],
-          addressees: [
+          persons_as_relations: [
             {key: "George III, 1738-1820, King of Great Britain and Ireland", doc_count: 541},
           ],
           languages: [
