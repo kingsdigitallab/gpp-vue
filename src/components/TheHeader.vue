@@ -22,14 +22,6 @@
 					</li>
 				</ul>
 			</nav>
-			<div class="header__search">
-				<input type="checkbox" aria-label="Search button" id="search-icon" v-on:click="toggleSearch"/>
-				<label class="search-label" for="search-icon"><span hidden>Expand search bar</span></label>
-				<form @submit.prevent="submit" class="search-field">
-					<input type="search" v-model="searchTerm" name="search" aria-label="Search" placeholder="e.g., Chevalier d’Eon" onfocus="this.placeholder=''" onblur="this.placeholder='e.g., Chevalier d’Eon'"/>
-					<input type="submit" class="search-button" aria-label="Search button" value=""/>
-				</form>
-			</div>
 			<div class="mobile__nav" role="button" v-on:click="toggleMenu">
 				<div class="line1"></div>
 				<div class="line2"></div>
@@ -45,27 +37,15 @@ import { setTimeout } from 'timers';
 export default {
 	name: 'TheHeader',
 	components: {},
-	data: function() {
-		return {
-			searchTerm: ''
-		}
-	},
 	methods: {
 		toggleMenu: function() {
-			document.getElementById('search-icon').checked = false;
 			const mobileNav = document.querySelector('.mobile__nav');
 			const nav = document.querySelector('.header__nav');
 			mobileNav.classList.toggle('toggle');
 			nav.classList.toggle('nav-active');
 		},
-		toggleSearch: function() {
-			document.querySelector('.mobile__nav').classList.remove('toggle');
-			document.querySelector('.header__nav').classList.remove('nav-active');
-		},
 		setPage(to) {
 			switch(to.name) {
-				case 'search-results':
-					break;
 				case 'not-found':
 					break;
 				case 'accessibility-statement':
@@ -92,11 +72,6 @@ export default {
 				}
 			}, 100);
 		},
-		submit(){
-			if (this.searchTerm != '') {
-				this.$router.push("/search?q="+this.searchTerm);
-			}
-		}
 	}
 }
 </script>

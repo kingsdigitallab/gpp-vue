@@ -115,16 +115,17 @@
           </fieldset>
           <div class="flex">
             <!-- TODO replace with a select dropdown in mobile version? -->
-            <div class="letterIndex">
-              <button v-bind:class="['button-link', {'active': activeLetter == ''}]" v-on:click="filterByLetter('')">All</button>
-              <button v-for="(letter, i) in getArchivalLetterIndex" v-bind:key="i" v-bind:class="['button-link', {'active': activeLetter == letter.name}, {'disabled': letter.missing}]" :aria-hidden="letter.missing" :disabled="letter.missing" v-on:click="filterByLetter(letter.name)">{{letter.name}}</button>
+            <div>
+              <form @submit.prevent="search" class="search-field">
+                <input type="search" v-model="queryTerm" aria-label="Search" placeholder="e.g., Chevalier d’Eon" onfocus="this.placeholder=''" onblur="this.placeholder='e.g., Chevalier d’Eon'"/>
+                <input type="submit" class="search-button" aria-label="Search button" value=""/>
+              </form>
             </div>
             <button class="button-primary filter display-mobile" v-on:click="toggleFilters" aria-label="filter objects"><span hidden>Filter</span></button>
           </div>
           <div class="list grey-column">
             <div class="list-header">
-              <h2 v-if="activeLetter == ''">All archival records ({{getTotalArchives}})</h2>
-              <h2 v-else>{{activeLetter}} ({{getTotalArchives}})</h2>
+              <h2>All archival records ({{getTotalArchives}})</h2>
               <span class="details">
                 <span>Level</span>
                 <span>Writer</span>
@@ -170,7 +171,6 @@ export default {
   name: 'ArchiveList',
   computed: mapGetters([
     'getArchivalRecords', 'getTotalArchives', 'getArchivalFacets',
-    'getArchivalLetterIndex'
   ]),
   data: function() {
     return {
@@ -205,7 +205,7 @@ export default {
       pageNum: 1,
       selectedFacets: [],
       creationYears: [0,2100],
-      activeLetter: ''
+      queryTerm: ''
     }
   },
   methods: {
@@ -274,7 +274,7 @@ export default {
 
       if (setQuery[facet] && setQuery[facet] == yearString) {
         // change values to default
-        this.creationYears = [0,0];
+        this.creationYears = [0,2100];
         this.minCreationRange = this.creationSlider.min;
         this.maxCreationRange = this.creationSlider.max;
         this.updateCreationSlider(this.creationSlider.min, this.creationSlider.max);
@@ -296,36 +296,11 @@ export default {
         'page': this.pageNum,
         'creation_years': JSON.parse(JSON.stringify(this.creationYears)),
         'selectedFacets': JSON.parse(JSON.stringify(this.selectedFacets)),
-        'letter': this.activeLetter
+        'q': this.queryTerm
       });
       this.loadingRecords = false;
     },
-    async filterByLetter(letter) {
-      this.loadingRecords = true;
 
-      this.activeLetter = letter;
-
-      const setQuery = this.$route.query;
-      this.pageNum = 1;
-      setQuery['page'] = this.pageNum;
-
-      if (letter != '') {
-        setQuery['letter'] = letter;
-      } else if (setQuery['letter']) {
-        delete setQuery['letter'];
-      }
-
-      this.$router.replace({ query: {} });
-      this.$router.push({query: setQuery});
-
-      await this.fetchArchivalRecords({
-        'page': this.pageNum,
-        'creation_years': JSON.parse(JSON.stringify(this.creationYears)),
-        'selectedFacets': JSON.parse(JSON.stringify(this.selectedFacets)),
-        'letter': this.activeLetter
-      });
-      this.loadingRecords = false;
-    },
     async filter(facet, key, label) {
       this.loadingRecords = true;
 
@@ -359,7 +334,7 @@ export default {
         'page': this.pageNum,
         'creation_years': JSON.parse(JSON.stringify(this.creationYears)),
         'selectedFacets': JSON.parse(JSON.stringify(this.selectedFacets)),
-        'letter': this.activeLetter
+        'q': this.queryTerm
       });
       this.loadingRecords = false;
     },
@@ -367,21 +342,24 @@ export default {
       this.loadingRecords = true;
 
       this.pageNum = 1;
-      this.activeLetter = '';
       this.selectedFacets = [];
-      this.creationYears = [0,0];
+      this.creationYears = [0,2100];
 
       // change dynamic toggles to static values and update year range sliders
       this.minCreationRange = this.creationSlider.min;
       this.maxCreationRange = this.creationSlider.max;
       this.updateCreationSlider(this.creationSlider.min, this.creationSlider.max);
 
-      this.$router.replace({ query: {} });
+      if (this.queryTerm) {
+        this.$router.replace({ query: {"q": this.queryTerm}});
+      } else {
+        this.$router.replace({ query: {} });
+      }
       await this.fetchArchivalRecords({
         'page': this.pageNum,
         'creation_years': JSON.parse(JSON.stringify(this.creationYears)),
         'selectedFacets': JSON.parse(JSON.stringify(this.selectedFacets)),
-        'letter': this.activeLetter
+        'q': this.queryTerm
       });
       this.loadingRecords = false;
     },
@@ -396,11 +374,38 @@ export default {
       this.$router.replace({ query: {} });
       this.$router.push({query: setQuery});
 
-      // ?: change to await this.fetchArchivalRecords({'page': this.pageNum, 'selectedFacets': JSON.parse(JSON.stringify(this.selectedFacets)), 'letter': this.activeLetter});
+      // ?: change to await this.fetchArchivalRecords({'page': this.pageNum, 'selectedFacets': JSON.parse(JSON.stringify(this.selectedFacets))});
       await this.loadMoreArchivalRecords();
 
       this.loadingMoreRecords = false;
     },
+
+    async search() {
+      this.loadingRecords = true;
+
+      this.pageNum = 1;
+      this.selectedFacets = [];
+      this.creationYears = [0,2100];
+
+      // change dynamic toggles to static values and update year range sliders
+      this.minCreationRange = this.creationSlider.min;
+      this.maxCreationRange = this.creationSlider.max;
+      this.updateCreationSlider(this.creationSlider.min, this.creationSlider.max);
+
+      if (this.queryTerm) {
+        this.$router.replace({ query: {"q": this.queryTerm}});
+      } else {
+        this.$router.replace({ query: {} });
+      }
+      await this.fetchArchivalRecords({
+        'page': this.pageNum,
+        'creation_years': JSON.parse(JSON.stringify(this.creationYears)),
+        'selectedFacets': JSON.parse(JSON.stringify(this.selectedFacets)),
+        'q': this.queryTerm
+      });
+      this.loadingRecords = false;
+    },
+    
     toggleFilters() {
       const filters = document.querySelector('.filters');
       filters.classList.toggle('active');
@@ -421,9 +426,6 @@ export default {
     const setQuery = this.$route.query;
     for (var key in setQuery) {
       switch (key){
-      case 'letter':
-          this.activeLetter = setQuery[key];
-        break;
       case 'page':
           this.pageNum = Number(setQuery[key]);
         break;
@@ -435,6 +437,9 @@ export default {
         // init dynamic year range values
         this.minCreationRange = Number(setQuery[key].split('-')[0]);
         this.maxCreationRange = Number(setQuery[key].split('-')[1]);
+        break;
+      case 'q':
+        this.queryTerm = setQuery[key];
         break;
       default:
         if (Array.isArray(setQuery[key])) {
@@ -452,7 +457,7 @@ export default {
       'page': this.pageNum,
       'creation_years': JSON.parse(JSON.stringify(this.creationYears)),
       'selectedFacets': JSON.parse(JSON.stringify(this.selectedFacets)),
-      'letter': this.activeLetter
+      'q': this.queryTerm
     });
 
     // set up the year range filter if creation years is sent in response

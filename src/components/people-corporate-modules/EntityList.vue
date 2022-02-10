@@ -126,6 +126,12 @@
             <button v-bind:class="['button-link', {'active': activeLetter == ''}]" v-on:click="filterByLetter('')">All</button>
             <button v-for="(letter, i) in getEntityLetterIndex" v-bind:key="i" v-bind:class="['button-link', {'active': activeLetter == letter.name}, {'disabled': letter.missing}]" :aria-hidden="letter.missing" :disabled="letter.missing" v-on:click="filterByLetter(letter.name)">{{letter.name}}</button>
           </div>
+          <div>
+            <form @submit.prevent="search" class="search-field">
+              <input type="search" v-model="queryTerm" aria-label="Search" placeholder="e.g., Chevalier d’Eon" onfocus="this.placeholder=''" onblur="this.placeholder='e.g., Chevalier d’Eon'"/>
+              <input type="submit" class="search-button" aria-label="Search button" value=""/>
+            </form>
+          </div>
           <button class="button-primary filter display-mobile" v-on:click="toggleFilters" aria-label="filter objects"><span hidden>Filter</span></button>
         </div>
         <div class="list grey-column">
@@ -204,7 +210,8 @@ export default {
       pageNum: 1,
       selectedFacets: [],
       existenceYears: [0,2040],
-      activeLetter: ''
+      activeLetter: '',
+      queryTerm: ''
     }
   },
   methods: {
@@ -212,7 +219,7 @@ export default {
     initExistenceYearRange(min, max) {
       // init min and max year range dynamic toggles if they have not been updated based on the URL params
       if (this.minExistenceRange == 0) {
- this.minExistenceRange = min;
+        this.minExistenceRange = min;
       }
       if (this.maxExistenceRange == 0){
         this.maxExistenceRange = max;
@@ -257,7 +264,7 @@ export default {
       
       if (setQuery[facet] && setQuery[facet] == yearString) {
         // change values to default
-        this.existenceYears = [0,0];
+        this.existenceYears = [0,2100];
         this.minExistenceRange = this.existenceSlider.min;
         this.maxExistenceRange = this.existenceSlider.max;
         this.updateExistenceSlider(this.existenceSlider.min, this.existenceSlider.max);
@@ -279,7 +286,8 @@ export default {
         'pages': this.pageNum,
         'existence_years': JSON.parse(JSON.stringify(this.existenceYears)),
         'selectedFacets': JSON.parse(JSON.stringify(this.selectedFacets)),
-        'letter': this.activeLetter
+        'letter': this.activeLetter,
+        'q': this.queryTerm
       });
       this.loadingRecords = false;
     },
@@ -320,7 +328,8 @@ export default {
         'pages': this.pageNum,
         'existence_years': JSON.parse(JSON.stringify(this.existenceYears)),
         'selectedFacets': JSON.parse(JSON.stringify(this.selectedFacets)),
-        'letter': this.activeLetter
+        'letter': this.activeLetter,
+        'q': this.queryTerm
       });
       this.loadingRecords = false;
     },
@@ -359,7 +368,8 @@ export default {
         'pages': this.pageNum,
         'existence_years': JSON.parse(JSON.stringify(this.existenceYears)),
         'selectedFacets': JSON.parse(JSON.stringify(this.selectedFacets)),
-        'letter': this.activeLetter
+        'letter': this.activeLetter,
+        'q': this.queryTerm
       });
       this.loadingRecords = false;
     },
@@ -370,19 +380,24 @@ export default {
       this.pageNum = 1;
       this.activeLetter = '';
       this.selectedFacets = [];
-      this.existenceYears = [0,0];
+      this.existenceYears = [0,2100];
       
       // change dynamic toggles to static values and update year range sliders
       this.minExistenceRange = this.existenceSlider.min;
       this.maxExistenceRange = this.existenceSlider.max;
       this.updateExistenceSlider(this.existenceSlider.min, this.existenceSlider.max);
-      
-      this.$router.replace({ query: {} });
+
+      if (this.queryTerm) {
+        this.$router.replace({query: {"q": this.queryTerm}});
+      } else {
+        this.$router.replace({ query: {} });
+      }
       await this.fetchAuthorityEntities({
         'pages': this.pageNum,
         'existence_years': JSON.parse(JSON.stringify(this.existenceYears)),
         'selectedFacets': JSON.parse(JSON.stringify(this.selectedFacets)),
-        'letter': this.activeLetter
+        'letter': this.activeLetter,
+        'q': this.queryTerm
       });
       this.loadingRecords = false;
     },
@@ -401,6 +416,35 @@ export default {
       
       this.loadingMoreRecords = false;
     },
+
+    async search() {
+      this.loadingRecords = true;
+      
+      this.pageNum = 1;
+      this.activeLetter = '';
+      this.selectedFacets = [];
+      this.existenceYears = [0,2100];
+      
+      // change dynamic toggles to static values and update year range sliders
+      this.minExistenceRange = this.existenceSlider.min;
+      this.maxExistenceRange = this.existenceSlider.max;
+      this.updateExistenceSlider(this.existenceSlider.min, this.existenceSlider.max);
+
+      if (this.queryTerm) {
+        this.$router.replace({query: {"q": this.queryTerm}});
+      } else {
+        this.$router.replace({ query: {} });
+      }
+      await this.fetchAuthorityEntities({
+        'pages': this.pageNum,
+        'existence_years': JSON.parse(JSON.stringify(this.existenceYears)),
+        'selectedFacets': JSON.parse(JSON.stringify(this.selectedFacets)),
+        'letter': this.activeLetter,
+        'q': this.queryTerm
+      });
+      this.loadingRecords = false;
+    },
+
     toggleFilters() {
       const filters = document.querySelector('.filters');
       filters.classList.toggle('active');
@@ -435,6 +479,9 @@ export default {
         // init dynamic year range values
         this.minExistenceRange = Number(setQuery[key].split('-')[0]);
         this.maxExistenceRange = Number(setQuery[key].split('-')[1]);
+        break;
+      case 'q':
+        this.queryTerm = setQuery[key];
         break;
       default:
         if (Array.isArray(setQuery[key])) {

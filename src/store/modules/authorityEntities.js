@@ -26,50 +26,11 @@ const actions = {
   },
   async fetchAuthorityEntities({ commit }, params) {
     const response = await Api.get('/api/authority/entities', params);
-    const response_placeholder = {
-      data: {
-        letterIndex: [
-          {
-            name: 'A',
-            missing: false
-          },
-          {
-            name: 'B',
-            missing: true
-          },
-          {
-            name: '0-9',
-            missing: false
-          }
-        ],
-        facets: {
-          existence_years: [1700, 2020],
-          entityTypes: [
-            {key: "Person", doc_count: 1543},
-          ],
-          genders: [
-            {key: "Women", doc_count: 34},
-          ],
-          languages: [
-            {key: "English", doc_count: 2463},
-          ],
-          related_entities: [
-            {key: "George III, 1738-1820, King of Great Britain and Ireland", doc_count: 541},
-          ],
-          related_places: [
-            {key: "George III, 1738-1820, King of Great Britain and Ireland", doc_count: 541},
-          ],
-          with_royal_names: {key: 'Show only people with royal names', doc_count: 10},
-          with_multiple_identities: {key: 'Show only people with multiple identities', doc_count: 5}
-        }
-      }
-    };
-
     commit('setAuthorityEntities', response.data.results);
     commit('setLoadMoreUrl', response.data.next);
     commit('setTotal', response.data.count);
     commit('setFacets', response.data.facets);
-    commit('setLetterIndex', response_placeholder.data.letterIndex);
+    commit('setLetterIndex', response.data.letterIndex);
   },
   async loadMoreAuthorityEntities({ commit }) {
     const response = await Api.getUrl(state.loadMoreUrl);

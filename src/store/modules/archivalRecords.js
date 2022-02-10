@@ -5,7 +5,6 @@ const state = {
   archivalRecords: [],
   loadMoreUrl: '',
   facets: [],
-  letterIndex: [],
   total: 0
 };
 
@@ -13,7 +12,6 @@ const getters = {
   getArchivalRecordsPageDescription: (state) => state.description,
   getArchivalRecords: (state) => state.archivalRecords,
   getTotalArchives: (state) => state.total,
-  getArchivalLetterIndex: (state) => state.letterIndex,
   getArchivalFacets: (state) => state.facets,
 };
 
@@ -33,20 +31,6 @@ const actions = {
         next:"http://localhost:8000/api/documents/?format=json&page=2",
         previous:null,
 
-        letterIndex: [
-          {
-            name: 'A',
-            missing: false
-          },
-          {
-            name: 'B',
-            missing: true
-          },
-          {
-            name: '0-9',
-            missing: false
-          }
-        ],
         facets: {
           creation_years: [1700, 2020],
           archival_level: [
@@ -73,7 +57,6 @@ const actions = {
     commit('setArchivalRecords', response.data.results);
     commit('setTotal', response.data.count);
     commit('setFacets', response.data.facets);
-    commit('setLetterIndex', response_placeholder.data.letterIndex);
   },
   async loadMoreArchivalRecords({ commit }) {
     const response = await Api.getUrl(state.loadMoreUrl);
@@ -89,7 +72,6 @@ const mutations = {
   setLoadMoreUrl: (state, nextUrl) => (state.loadMoreUrl = nextUrl),
   setFacets: (state, facets) => (state.facets = facets),
   setTotal: (state, count) => (state.total = count),
-  setLetterIndex: (state, letterIndex) => (state.letterIndex = letterIndex),
   setMoreArchivalRecords: (state, moreArchivalRecords) => moreArchivalRecords.forEach(element => state.archivalRecords.push(element))
 };
 
